@@ -100,3 +100,7 @@ you can enter the Api key and Route key into Swagger as below:
 
 This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
 
+### Features
+
+*	You can use your own **HttpClient** to hit the backend Api.
+*	You can completely create your own implementation to hit the backend Api.
