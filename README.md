@@ -31,7 +31,7 @@ In the solution, there are 2 back end Apis : Weather API and Stock API.
                         .AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
                         .AddRoute("types", new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                         .AddRoute("type", new RouteInfo { Path = "weatherforecast/types/", ResponseType = typeof(WeatherTypeResponse), HttpClientConfig = weatherApiClientConfig })
-                        .AddRoute("test", weatherService.GetTypes)
+                        .AddRoute("typescustom", weatherService.GetTypes)
                     .ToOrchestrator()
                 .AddApi("stockservice", "http://localhost:58352/")
                         .AddRoute("stocks", new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
