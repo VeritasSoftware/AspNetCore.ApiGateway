@@ -35,3 +35,7 @@ The Api Orchestration is set up as shown below.
         }
     }
 ```
+
+The Gateway Swagger appears as shown below:
+
+![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGateway.PNG)
