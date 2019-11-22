@@ -1,0 +1,12 @@
+language: csharp
+solution: ApiGateway.sln
+mono: none
+dist: xenial
+sudo: required
+dotnet: 3.0.0
+script:
+ - dotnet restore
+ - dotnet build
+global:
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    - DOTNET_CLI_TELEMETRY_OPTOUT=1
