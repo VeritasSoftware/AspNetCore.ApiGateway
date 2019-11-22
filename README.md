@@ -14,7 +14,7 @@ In the solution, there are 2 back end Apis : Weather API and Stock API.
 
 ## In your Gateway API project
 
-*	Create an Api Orchestration as shown below.
+*	Create an **Api Orchestration** as shown below.
 
 ```C#
     public static class ApiOrchestration
