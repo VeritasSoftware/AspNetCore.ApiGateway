@@ -3,7 +3,9 @@ solution: ApiGateway.sln
 mono: none
 dist: xenial
 sudo: required
-dotnet: 3.0
+dotnet: 3.0.100
+install:
+  - sudo apt-get install -qq dotnet-sdk-2.0.0
 script:
  - dotnet restore
  - dotnet build
