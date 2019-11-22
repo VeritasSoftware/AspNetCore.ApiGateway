@@ -103,4 +103,4 @@ This will hit the **weatherforecast/forecast** endpoint on the backend Weather A
 ### Features
 
 *	You can use your own **HttpClient** to hit the backend Api.
-*	You can completely create your own implementation to hit the backend Api.
+*	You can create your own implementation to hit the backend Api.
