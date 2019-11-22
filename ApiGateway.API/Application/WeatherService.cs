@@ -11,7 +11,7 @@ namespace ApiGateway.API
         /// If you want to use a custom HttpClient or HttpContent for your backend Api call, you can do this.
         /// </summary>
         /// <returns><see cref="HttpClientConfig"/></returns>
-        public HttpClientConfig GetClient()
+        public HttpClientConfig GetClientConfig()
         {
             return new HttpClientConfig()
             {

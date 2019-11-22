@@ -13,7 +13,7 @@ namespace ApiGateway.API
 
             var weatherService = serviceProvider.GetService<IWeatherService>();
 
-            var weatherApiClientConfig = weatherService.GetClient();
+            var weatherApiClientConfig = weatherService.GetClientConfig();
 
             apis.AddApi("weatherservice", "http://localhost:58262/")
                         .AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })

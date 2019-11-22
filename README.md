@@ -25,7 +25,7 @@ In the solution, there are 2 back end Apis : Weather API and Stock API.
 
             var weatherService = serviceProvider.GetService<IWeatherService>();
 
-            var weatherApiClientConfig = weatherService.GetClient();
+            var weatherApiClientConfig = weatherService.GetClientConfig();
 
             apis.AddApi("weatherservice", "http://localhost:58262/")
                         .AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
