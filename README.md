@@ -2,6 +2,8 @@
 
 ## Asp Net Core Api Gateway package.
 
+[![Build Status](https://travis-ci.com/VeritasSoftware/AspNetCore.ApiGateway.svg?branch=master)](https://travis-ci.com/VeritasSoftware/AspNetCore.ApiGateway)
+
 **The package:**
 
 *	Makes creating an Api Gateway a breeze!!
