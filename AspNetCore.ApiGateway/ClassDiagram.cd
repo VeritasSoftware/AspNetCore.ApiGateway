@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="AspNetCore.ApiGateway.Api">
+    <Position X="4" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Application\ApiOrchestrator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AspNetCore.ApiGateway.ApiOrchestrator">
+    <Position X="0.5" Y="2.25" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAEAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Application\ApiOrchestrator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AspNetCore.ApiGateway.HttpClientConfig">
+    <Position X="9.25" Y="4.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Application\Mediator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AspNetCore.ApiGateway.RouteInfo">
+    <Position X="5.5" Y="4.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAIAAAAAAACAAAAAAFAAAAAAAAAAAAA=</HashCode>
+      <FileName>Application\Mediator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AspNetCore.ApiGateway.Mediator" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6.25" Width="4.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAUAAAAAAAgIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Application\Mediator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="AspNetCore.ApiGateway.IApiOrchestrator">
+    <Position X="0.5" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Application\IApiOrchestrator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AspNetCore.ApiGateway.IMediator">
+    <Position X="0.5" Y="4.25" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAUAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Application\IMediator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway.API", "ApiGateway.API\ApiGateway.API.csproj", "{1C4974E5-6A62-4685-B5AC-3920F9813254}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApiGateway", "AspNetCore.ApiGateway\AspNetCore.ApiGateway.csproj", "{2B2E905B-E9A8-4B3C-9C76-4ABBF2058CB3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.API", "Weather.API\Weather.API.csproj", "{E41777CD-5CC1-4A4D-AEC5-CA2655858302}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.API", "Stock.API\Stock.API.csproj", "{F842D41F-0B22-49B7-81BB-900DFAEE187F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{09FF380F-5D8D-417E-B16A-ABB9109FE882}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend Apis", "Backend Apis", "{D4F82E65-703A-4A4E-AFDF-CF8E5638C922}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway Api", "Gateway Api", "{042DBA12-AE6F-43F3-8BC4-1204678F90D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53D0A45B-F986-4634-926C-380A86C6DC35}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C4974E5-6A62-4685-B5AC-3920F9813254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C4974E5-6A62-4685-B5AC-3920F9813254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C4974E5-6A62-4685-B5AC-3920F9813254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C4974E5-6A62-4685-B5AC-3920F9813254}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B2E905B-E9A8-4B3C-9C76-4ABBF2058CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B2E905B-E9A8-4B3C-9C76-4ABBF2058CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B2E905B-E9A8-4B3C-9C76-4ABBF2058CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B2E905B-E9A8-4B3C-9C76-4ABBF2058CB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E41777CD-5CC1-4A4D-AEC5-CA2655858302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E41777CD-5CC1-4A4D-AEC5-CA2655858302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E41777CD-5CC1-4A4D-AEC5-CA2655858302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E41777CD-5CC1-4A4D-AEC5-CA2655858302}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F842D41F-0B22-49B7-81BB-900DFAEE187F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F842D41F-0B22-49B7-81BB-900DFAEE187F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F842D41F-0B22-49B7-81BB-900DFAEE187F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F842D41F-0B22-49B7-81BB-900DFAEE187F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1C4974E5-6A62-4685-B5AC-3920F9813254} = {042DBA12-AE6F-43F3-8BC4-1204678F90D2}
+		{2B2E905B-E9A8-4B3C-9C76-4ABBF2058CB3} = {09FF380F-5D8D-417E-B16A-ABB9109FE882}
+		{E41777CD-5CC1-4A4D-AEC5-CA2655858302} = {D4F82E65-703A-4A4E-AFDF-CF8E5638C922}
+		{F842D41F-0B22-49B7-81BB-900DFAEE187F} = {D4F82E65-703A-4A4E-AFDF-CF8E5638C922}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D41EFF44-6827-41B7-9F6F-62057780D65C}
+	EndGlobalSection
+EndGlobal
