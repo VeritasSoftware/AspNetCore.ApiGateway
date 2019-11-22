@@ -8,11 +8,13 @@
 
 *	Makes creating an Api Gateway a breeze!!
 
-**Add a reference to the package and create an Api Orchestration...**
+**Add a reference to the package and...**
 
 In the solution, there are 2 back end Apis : Weather API and Stock API.
 
-The Api Orchestration is set up as shown below.
+##In your Gateway API
+
+*	Create an Api Orchestration as shown below.
 
 ```C#
     public static class ApiOrchestration
@@ -36,6 +38,54 @@ The Api Orchestration is set up as shown below.
                         .AddRoute("stock", new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) });
         }
     }
+```
+
+*	In Startup.cs
+
+```C#
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddTransient<IWeatherService, WeatherService>();
+
+            //Api gateway
+            services.AddApiGateway();
+
+            services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Api Gateway", Version = "v1" });
+            });
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api Gateway");
+            });
+
+            //Api gateway
+            app.UseApiGateway(orchestrator => ApiOrchestration.Create(orchestrator, app));
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
 ```
 
 The Gateway Swagger appears as shown below:
