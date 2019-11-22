@@ -39,3 +39,12 @@ The Api Orchestration is set up as shown below.
 The Gateway Swagger appears as shown below:
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGateway.PNG)
+
+To call the forecast route on the weather service,
+
+you can enter the Api key and Route key into Swagger as below:
+
+![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGatewayCall.PNG)
+
+This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
+
