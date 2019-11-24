@@ -43,6 +43,8 @@ In the solution, there are 2 back end Apis : **Weather API** and **Stock API**.
                                 .AddRoute("typescustom", weatherService.GetTypes)
                                 //Post
                                 .AddRoute("add", new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
+                                //Delete
+                                .AddRoute("remove", new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
                         .ToOrchestrator()
                         .AddApi("stockservice", "http://localhost:58352/")
                                 .AddRoute("stocks", new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
