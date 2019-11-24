@@ -6,7 +6,7 @@
 
 The microservices architecture uses an Api Gateway as shown below.
 
-![Architecture](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Architecture.PNG)
+![Architecture](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Architecture.png)
 
 **The package:**
 
