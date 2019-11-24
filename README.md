@@ -4,15 +4,20 @@
 
 [![Build Status](https://travis-ci.com/VeritasSoftware/AspNetCore.ApiGateway.svg?branch=master)](https://travis-ci.com/VeritasSoftware/AspNetCore.ApiGateway)
 
+The microservices architecture uses an Api Gateway as shown below.
+
+![Architecture](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Architecture.PNG)
+
 **The package:**
 
 *	Makes creating an Api Gateway a breeze!!
+*	Swagger support.
 
-**Add a reference to the package and...**
-
-In the solution, there are 2 back end Apis : Weather API and Stock API.
+In the solution, there are 2 back end Apis : **Weather API** and **Stock API**.
 
 ## In your Gateway API project
+
+**Add a reference to the package and...**
 
 *	Create an **Api Orchestration** as shown below.
 
@@ -32,7 +37,7 @@ In the solution, there are 2 back end Apis : Weather API and Stock API.
                                 .AddRoute("types", new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 .AddRoute("type", new RouteInfo { Path = "weatherforecast/types/", ResponseType = typeof(WeatherTypeResponse), HttpClientConfig = weatherApiClientConfig })
                                 .AddRoute("typescustom", weatherService.GetTypes)
-                            .ToOrchestrator()
+                        .ToOrchestrator()
                         .AddApi("stockservice", "http://localhost:58352/")
                                 .AddRoute("stocks", new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) });
