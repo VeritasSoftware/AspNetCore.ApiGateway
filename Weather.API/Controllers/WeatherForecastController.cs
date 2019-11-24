@@ -63,5 +63,18 @@ namespace Weather.API.Controllers
 
             return Summaries;
         }
+
+        [HttpDelete]
+        [Route("types/remove/{index}")]
+        public string[] DeleteWeatherTypes(int index)
+        {
+            var list = Summaries.ToList();
+
+            list.RemoveAt(index);
+
+            Summaries = list.ToArray();
+
+            return Summaries;
+        }
     }
 }

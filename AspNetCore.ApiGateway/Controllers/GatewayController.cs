@@ -74,6 +74,75 @@ namespace AspNetCore.ApiGateway.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("{api}/{key}")]
+        public async Task<IActionResult> Put(string api, string key, object request)
+        {
+            var apiInfo = _apiOrchestrator.GetApi(api);
+
+            var routeInfo = apiInfo.Mediator.GetRoute(key);
+
+            if (routeInfo.Exec != null)
+            {
+                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
+            }
+            else
+            {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                {
+                    HttpContent content = null;
+
+                    if (routeInfo.HttpClientConfig?.HttpContent != null)
+                    {
+                        content = routeInfo.HttpClientConfig.HttpContent();
+                    }
+                    else
+                    {
+                        content = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
+
+                        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    }
+
+                    //this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+
+                    var response = await client.PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}", content);
+
+                    response.EnsureSuccessStatusCode();
+
+                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
+                }
+            }
+        }
+
+        [HttpDelete]
+        [Route("{api}/{key}/{parameters}")]
+        public async Task<IActionResult> Delete(string api, string key, string parameters)
+        {
+            parameters = HttpUtility.UrlDecode(parameters);
+
+            var apiInfo = _apiOrchestrator.GetApi(api);
+
+            var routeInfo = apiInfo.Mediator.GetRoute(key);
+
+            if (routeInfo.Exec != null)
+            {
+                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
+            }
+            else
+            {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                {
+                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+
+                    var response = await client.DeleteAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+
+                    response.EnsureSuccessStatusCode();
+
+                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
+                }
+            }
+        }
+
         private async Task<IActionResult> Get(string apiKey, string key, string parameters = "")
         {
             parameters = HttpUtility.UrlDecode(parameters);
