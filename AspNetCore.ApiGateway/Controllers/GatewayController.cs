@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -34,12 +36,12 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpPost]
         [Route("{api}/{key}")]
-        public async Task<IActionResult> Post(string api, string key, [FromBody] object request)
+        public async Task<IActionResult> Post(string api, string key, object request)
         {
             var apiInfo = _apiOrchestrator.GetApi(api);
 
             var routeInfo = apiInfo.Mediator.GetRoute(key);
-
+            
             if (routeInfo.Exec != null)
             {
                 return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
@@ -56,16 +58,12 @@ namespace AspNetCore.ApiGateway.Controllers
                     }
                     else
                     {
-                        var myContent = JsonConvert.SerializeObject(request);
-
-                        var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-
-                        content = new ByteArrayContent(buffer);
+                        content = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
 
                         content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     }
 
-                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    //this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
                     
                     var response = await client.PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}", content);
 

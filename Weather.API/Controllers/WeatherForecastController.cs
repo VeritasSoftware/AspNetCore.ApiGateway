@@ -11,7 +11,7 @@ namespace Weather.API.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -49,6 +49,19 @@ namespace Weather.API.Controllers
         public WeatherTypeResponse GetWeatherTypes(int index)
         {
             return new WeatherTypeResponse { Type = Summaries[index] };
+        }
+
+        [HttpPost]
+        [Route("types/add")]
+        public string[] AddWeatherType([FromBody]AddWeatherTypeRequest weatherType)
+        {
+            var list = Summaries.ToList();
+            
+            list.Add(weatherType.WeatherType);
+
+            Summaries = list.ToArray();
+
+            return Summaries;
         }
     }
 }
