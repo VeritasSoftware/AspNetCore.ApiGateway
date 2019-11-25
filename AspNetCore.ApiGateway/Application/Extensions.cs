@@ -25,8 +25,13 @@ namespace AspNetCore.ApiGateway
         {
             foreach (var item in requestHeaders)
             {
-                if (!headers.Contains(item.Key))
-                    headers.Add(item.Key, item.Value.ToString());
+                try
+                {
+                    if (!headers.Contains(item.Key))
+                        headers.Add(item.Key, item.Value.ToString());
+                }
+                catch(Exception)
+                { }
             }
         }
     }

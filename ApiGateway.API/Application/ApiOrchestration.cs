@@ -26,6 +26,8 @@ namespace ApiGateway.API
                                 .AddRoute("typescustom", weatherService.GetTypes)
                                 //Post
                                 .AddRoute("add", new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
+                                //Put
+                                .AddRoute("update", new RouteInfo { Path = "weatherforecast/types/update", RequestType = typeof(UpdateWeatherTypeRequest), ResponseType = typeof(string[]) })
                                 //Delete
                                 .AddRoute("remove", new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
                         .ToOrchestrator()

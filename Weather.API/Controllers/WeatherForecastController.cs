@@ -64,9 +64,18 @@ namespace Weather.API.Controllers
             return Summaries;
         }
 
+        [HttpPut]
+        [Route("types/update")]
+        public string[] UpdateWeatherType([FromBody]UpdateWeatherTypeRequest weatherType)
+        {
+            Summaries[weatherType.Index] = weatherType.WeatherType;
+
+            return Summaries;
+        }
+
         [HttpDelete]
         [Route("types/remove/{index}")]
-        public string[] DeleteWeatherTypes(int index)
+        public string[] DeleteWeatherType(int index)
         {
             var list = Summaries.ToList();
 

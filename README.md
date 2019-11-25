@@ -43,6 +43,8 @@ In the solution, there are 2 back end Apis : **Weather API** and **Stock API**.
                                 .AddRoute("typescustom", weatherService.GetTypes)
                                 //Post
                                 .AddRoute("add", new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
+                                //Put
+                                .AddRoute("update", new RouteInfo { Path = "weatherforecast/types/update", RequestType = typeof(UpdateWeatherTypeRequest), ResponseType = typeof(string[]) })
                                 //Delete
                                 .AddRoute("remove", new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
                         .ToOrchestrator()
@@ -112,6 +114,10 @@ you can enter the Api key and Route key into Swagger as below:
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGatewayCall.PNG)
 
 This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
+
+You can check out how the Api Gateway supported Verbs are used below.
+
+### [Verbs Usage](README_VERBS.md)
 
 ### Features
 

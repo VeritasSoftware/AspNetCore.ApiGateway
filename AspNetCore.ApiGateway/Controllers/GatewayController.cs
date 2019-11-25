@@ -63,7 +63,7 @@ namespace AspNetCore.ApiGateway.Controllers
                         content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     }
 
-                    //this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
                     
                     var response = await client.PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}", content);
 
@@ -103,7 +103,7 @@ namespace AspNetCore.ApiGateway.Controllers
                         content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     }
 
-                    //this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
 
                     var response = await client.PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}", content);
 
