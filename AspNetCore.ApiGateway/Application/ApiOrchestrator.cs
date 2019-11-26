@@ -17,14 +17,14 @@ namespace AspNetCore.ApiGateway
         {
             var mediator = new Mediator(this);
 
-            apis.Add(apiKey, new ApiInfo() { BaseUrl = baseUrl, Mediator = mediator });
+            apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrl, Mediator = mediator });
 
             return mediator;
         }
 
         public ApiInfo GetApi(string apiKey)
         {
-            return apis[apiKey];
+            return apis[apiKey.ToLower()];
         }
 
     }

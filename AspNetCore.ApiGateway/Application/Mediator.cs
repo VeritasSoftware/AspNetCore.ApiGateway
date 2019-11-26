@@ -34,7 +34,7 @@ namespace AspNetCore.ApiGateway
 
         public IMediator AddRoute(string key, RouteInfo routeInfo)
         {
-            paths.Add(key, routeInfo);
+            paths.Add(key.ToLower(), routeInfo);
 
             return this;
         }
@@ -56,7 +56,7 @@ namespace AspNetCore.ApiGateway
 
         public RouteInfo GetRoute(string key)
         {
-            return paths[key];
+            return paths[key.ToLower()];
         }
 
     }
