@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,16 +14,20 @@ namespace AspNetCore.ApiGateway.Controllers
     public class GatewayController : ControllerBase
     {
         readonly IApiOrchestrator _apiOrchestrator;
-
-        public GatewayController(IApiOrchestrator apiOrchestrator)
+        readonly ILogger<GatewayController> _logger;
+            
+        public GatewayController(IApiOrchestrator apiOrchestrator, ILogger<GatewayController> logger)
         {
             _apiOrchestrator = apiOrchestrator;
+            _logger = logger;
         }
 
         [HttpGet]
         [Route("{api}/{key}")]
         public async Task<IActionResult> GetNoParams(string api, string key)
         {
+            _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}");
+
             return await this.Get(api, key);            
         }
 
@@ -30,6 +35,10 @@ namespace AspNetCore.ApiGateway.Controllers
         [Route("{api}/{key}/{parameters}")]
         public async Task<IActionResult> GetParams(string api, string key, string parameters)
         {
+            parameters = HttpUtility.UrlDecode(parameters);
+
+            _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}, parameters: {parameters}");
+
             return await this.Get(api, key, parameters);
         }
 
@@ -37,6 +46,8 @@ namespace AspNetCore.ApiGateway.Controllers
         [Route("{api}/{key}")]
         public async Task<IActionResult> Post(string api, string key, object request)
         {
+            _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}");
+
             var apiInfo = _apiOrchestrator.GetApi(api);
 
             var routeInfo = apiInfo.Mediator.GetRoute(key);
@@ -77,6 +88,8 @@ namespace AspNetCore.ApiGateway.Controllers
         [Route("{api}/{key}")]
         public async Task<IActionResult> Put(string api, string key, object request)
         {
+            _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}");
+
             var apiInfo = _apiOrchestrator.GetApi(api);
 
             var routeInfo = apiInfo.Mediator.GetRoute(key);
@@ -119,6 +132,8 @@ namespace AspNetCore.ApiGateway.Controllers
         {
             parameters = HttpUtility.UrlDecode(parameters);
 
+            _logger.LogInformation($"ApiGateway: Incoming DELETE request. api: {api}, key: {key}, parameters: {parameters}");
+
             var apiInfo = _apiOrchestrator.GetApi(api);
 
             var routeInfo = apiInfo.Mediator.GetRoute(key);
@@ -143,9 +158,7 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         private async Task<IActionResult> Get(string apiKey, string key, string parameters = "")
-        {
-            parameters = HttpUtility.UrlDecode(parameters);
-
+        {            
             var apiInfo = _apiOrchestrator.GetApi(apiKey);
 
             var routeInfo = apiInfo.Mediator.GetRoute(key);
