@@ -33,6 +33,10 @@ void Authorize(AuthorizationFilterContext context)
 
 ### Example
 
+In your Gateway API project,
+
+*	Create a service like below
+
 ```C#
     public class GetAuthorizationService : IGetGatewayAuthorization
     {
@@ -43,7 +47,7 @@ void Authorize(AuthorizationFilterContext context)
     }
 ```
 
-Wire it up for dependency injection in your Gateway API project's Startup.cs
+*	Wire it up for dependency injection in Startup.cs
 
 ```C#
 services.AddScoped<IGetGatewayAuthorization, GetAuthorizationService>();
