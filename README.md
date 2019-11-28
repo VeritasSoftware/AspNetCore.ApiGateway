@@ -11,6 +11,7 @@ The microservices architecture uses an Api Gateway as shown below.
 **The package:**
 
 *	Makes creating an Api Gateway a breeze!!
+*	Authorization support
 *	Swagger support.
 
 In the solution, there are 2 back end Apis : **Weather API** and **Stock API**.
@@ -118,6 +119,10 @@ This will hit the **weatherforecast/forecast** endpoint on the backend Weather A
 You can check out how the Api Gateway supported Verbs are used below.
 
 ### [Verbs Usage](README_VERBS.md)
+
+You can check out how the Api Gateway's endpoint Authorization support below.
+
+### [Authorization](README_Authorization.md)
 
 ### Features
 

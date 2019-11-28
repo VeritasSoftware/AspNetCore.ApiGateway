@@ -1,4 +1,6 @@
+using ApiGateway.API.Application.Authorization;
 using AspNetCore.ApiGateway;
+using AspNetCore.ApiGateway.Application.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,10 @@ namespace ApiGateway.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IWeatherService, WeatherService>();
+
+            //If you want to use the Api Gateway's Authorization, you can do this
+            services.AddScoped<IGetGatewayAuthorization, GetAuthorizationService>();
+            services.AddScoped<IGetWithParamsGatewayAuthorization, GetWithParamsAuthorizationService>();
 
             //Api gateway
             services.AddApiGateway();

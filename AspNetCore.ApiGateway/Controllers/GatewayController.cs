@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCore.ApiGateway.Application.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -24,6 +25,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpGet]
         [Route("{api}/{key}")]
+        [ServiceFilter(typeof(GatewayGetAuthorizeAttribute))]
         public async Task<IActionResult> GetNoParams(string api, string key)
         {
             _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}");
@@ -33,6 +35,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpGet]
         [Route("{api}/{key}/{parameters}")]
+        [ServiceFilter(typeof(GatewayGetWithParamsAuthorizeAttribute))]
         public async Task<IActionResult> GetParams(string api, string key, string parameters)
         {
             parameters = HttpUtility.UrlDecode(parameters);
@@ -44,6 +47,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpPost]
         [Route("{api}/{key}")]
+        [ServiceFilter(typeof(GatewayPostAuthorizeAttribute))]
         public async Task<IActionResult> Post(string api, string key, object request)
         {
             _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}");
@@ -86,6 +90,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpPut]
         [Route("{api}/{key}")]
+        [ServiceFilter(typeof(GatewayPutAuthorizeAttribute))]
         public async Task<IActionResult> Put(string api, string key, object request)
         {
             _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}");
@@ -128,6 +133,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpDelete]
         [Route("{api}/{key}/{parameters}")]
+        [ServiceFilter(typeof(GatewayDeleteAuthorizeAttribute))]
         public async Task<IActionResult> Delete(string api, string key, string parameters)
         {
             parameters = HttpUtility.UrlDecode(parameters);
