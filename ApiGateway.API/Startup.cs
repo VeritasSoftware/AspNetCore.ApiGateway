@@ -26,7 +26,6 @@ namespace ApiGateway.API
 
             //If you want to use the Api Gateway's Authorization, you can do this
             services.AddScoped<IGetGatewayAuthorization, GetAuthorizationService>();
-            services.AddScoped<IGetWithParamsGatewayAuthorization, GetWithParamsAuthorizationService>();
 
             //Api gateway
             services.AddApiGateway();

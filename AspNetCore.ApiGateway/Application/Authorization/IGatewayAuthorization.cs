@@ -11,10 +11,6 @@ namespace AspNetCore.ApiGateway.Authorization
     {
     }
 
-    public interface IGetWithParamsGatewayAuthorization : IGatewayAuthorization
-    {
-    }
-
     public interface IPostGatewayAuthorization : IGatewayAuthorization
     {
     }

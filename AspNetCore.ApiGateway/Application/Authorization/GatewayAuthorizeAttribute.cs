@@ -32,14 +32,6 @@ namespace AspNetCore.ApiGateway.Authorization
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    internal class GatewayGetWithParamsAuthorizeAttribute : GatewayAuthorizeAttribute
-    {
-        public GatewayGetWithParamsAuthorizeAttribute(IGetWithParamsGatewayAuthorization authorization = null) : base(authorization)
-        {
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     internal class GatewayPostAuthorizeAttribute : GatewayAuthorizeAttribute
     {
         public GatewayPostAuthorizeAttribute(IPostGatewayAuthorization authorization = null) : base(authorization)

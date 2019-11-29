@@ -14,10 +14,6 @@ void Authorize(AuthorizationFilterContext context)
 
 *	IGetGatewayAuthorization
 
-### GET with parameters
-
-*	IGetWithParamsGatewayAuthorization
-
 ### POST
 
 *	IPostGatewayAuthorization

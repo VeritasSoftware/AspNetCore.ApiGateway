@@ -25,7 +25,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpGet]
         [Route("{api}/{key}")]
-        [ServiceFilter(typeof(GatewayGetWithParamsAuthorizeAttribute))]
+        [ServiceFilter(typeof(GatewayGetAuthorizeAttribute))]
         public async Task<IActionResult> GetParams(string api, string key, string parameters = null)
         {
             if (parameters != null)

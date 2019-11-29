@@ -27,7 +27,6 @@ namespace AspNetCore.ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<GatewayGetAuthorizeAttribute>();
-            services.AddScoped<GatewayGetWithParamsAuthorizeAttribute>();
             services.AddScoped<GatewayPostAuthorizeAttribute>();
             services.AddScoped<GatewayPutAuthorizeAttribute>();
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();
