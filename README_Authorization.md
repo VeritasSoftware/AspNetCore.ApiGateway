@@ -4,10 +4,10 @@ The library provides interfaces your Gateway API can implement to hook into the 
 
 In your Gateway API project,
 
-you have to implement an interface method called **Authorize**.
+you have to implement an interface method called **AuthorizeAsync**.
 
 ```C#
-void Authorize(AuthorizationFilterContext context)
+Task AuthorizeAsync(AuthorizationFilterContext context)
 ```
 
 ### GET
@@ -36,7 +36,7 @@ In your Gateway API project,
 ```C#
     public class GetAuthorizationService : IGetGatewayAuthorization
     {
-        public void Authorize(AuthorizationFilterContext context)
+        public async Task AuthorizeAsync(AuthorizationFilterContext context)
         {
             //Put your authorization here
         }

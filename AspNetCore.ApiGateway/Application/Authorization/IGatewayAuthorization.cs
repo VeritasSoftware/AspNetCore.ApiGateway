@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway.Authorization
 {
     public interface IGatewayAuthorization
     {
-        void Authorize(AuthorizationFilterContext context);
+        Task AuthorizeAsync(AuthorizationFilterContext context);
     }
 
     public interface IGetGatewayAuthorization : IGatewayAuthorization

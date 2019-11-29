@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway.Authorization
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    internal abstract class GatewayAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter
+    internal abstract class GatewayAuthorizeAttribute : AuthorizeAttribute, IAsyncAuthorizationFilter
     {
         readonly IGatewayAuthorization _authorization;
 
@@ -14,11 +15,11 @@ namespace AspNetCore.ApiGateway.Authorization
             _authorization = authorization;
         }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             if (this._authorization != null)
             {
-                this._authorization.Authorize(context);
+                await this._authorization.AuthorizeAsync(context);
             }
         }
     }

@@ -123,11 +123,14 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         [HttpDelete]
-        [Route("{api}/{key}/{parameters}")]
+        [Route("{api}/{key}")]
         [ServiceFilter(typeof(GatewayDeleteAuthorizeAttribute))]
-        public async Task<IActionResult> Delete(string api, string key, string parameters)
+        public async Task<IActionResult> Delete(string api, string key, string parameters = null)
         {
-            parameters = HttpUtility.UrlDecode(parameters);
+            if (parameters != null)
+            {
+                parameters = HttpUtility.UrlDecode(parameters);
+            }
 
             _logger.LogInformation($"ApiGateway: Incoming DELETE request. api: {api}, key: {key}, parameters: {parameters}");
 
