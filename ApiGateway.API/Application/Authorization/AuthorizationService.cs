@@ -1,4 +1,4 @@
-﻿using AspNetCore.ApiGateway.Application.Authorization;
+﻿using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ApiGateway.API.Application.Authorization

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace AspNetCore.ApiGateway.Application.Authorization
+namespace AspNetCore.ApiGateway.Authorization
 {
     public interface IGatewayAuthorization
     {

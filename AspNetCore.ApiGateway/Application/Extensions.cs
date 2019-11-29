@@ -1,4 +1,4 @@
-﻿using AspNetCore.ApiGateway.Application.Authorization;
+﻿using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

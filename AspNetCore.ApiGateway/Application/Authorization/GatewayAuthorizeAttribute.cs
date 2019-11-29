@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 
-namespace AspNetCore.ApiGateway.Application.Authorization
+namespace AspNetCore.ApiGateway.Authorization
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     internal abstract class GatewayAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter

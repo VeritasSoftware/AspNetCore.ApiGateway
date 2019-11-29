@@ -1,4 +1,4 @@
-﻿using AspNetCore.ApiGateway.Application.Authorization;
+﻿using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
