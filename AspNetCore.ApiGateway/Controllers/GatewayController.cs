@@ -25,20 +25,11 @@ namespace AspNetCore.ApiGateway.Controllers
 
         [HttpGet]
         [Route("{api}/{key}")]
-        [ServiceFilter(typeof(GatewayGetAuthorizeAttribute))]
-        public async Task<IActionResult> GetNoParams(string api, string key)
-        {
-            _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}");
-
-            return await this.Get(api, key);            
-        }
-
-        [HttpGet]
-        [Route("{api}/{key}/{parameters}")]
         [ServiceFilter(typeof(GatewayGetWithParamsAuthorizeAttribute))]
-        public async Task<IActionResult> GetParams(string api, string key, string parameters)
+        public async Task<IActionResult> GetParams(string api, string key, string parameters = null)
         {
-            parameters = HttpUtility.UrlDecode(parameters);
+            if (parameters != null)
+                parameters = HttpUtility.UrlDecode(parameters);
 
             _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}, parameters: {parameters}");
 
