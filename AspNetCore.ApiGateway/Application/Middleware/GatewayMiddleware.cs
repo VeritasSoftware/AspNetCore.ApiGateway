@@ -29,10 +29,6 @@ namespace AspNetCore.ApiGateway
                         apiInfo = app.ApplicationServices.GetRequiredService<IApiOrchestrator>().GetApi(api.ToString());
 
                         routeInfo = apiInfo.Mediator.GetRoute(key.ToString());
-
-                        await next();
-
-                        return;
                     }
 
                     await next();
