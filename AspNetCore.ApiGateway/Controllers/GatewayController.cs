@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -43,10 +44,23 @@ namespace AspNetCore.ApiGateway.Controllers
         {
             _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}");
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
+            ApiInfo apiInfo = null;
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
-            
+            RouteInfo routeInfo = null;
+
+            try
+            {
+                apiInfo = _apiOrchestrator.GetApi(api);
+
+                routeInfo = apiInfo.Mediator.GetRoute(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                return NotFound();
+            }
+
             if (routeInfo.Exec != null)
             {
                 return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
@@ -86,9 +100,22 @@ namespace AspNetCore.ApiGateway.Controllers
         {
             _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}");
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
+            ApiInfo apiInfo = null;
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
+            RouteInfo routeInfo = null;
+
+            try
+            {
+                apiInfo = _apiOrchestrator.GetApi(api);
+
+                routeInfo = apiInfo.Mediator.GetRoute(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                return NotFound();
+            }
 
             if (routeInfo.Exec != null)
             {
@@ -134,9 +161,23 @@ namespace AspNetCore.ApiGateway.Controllers
 
             _logger.LogInformation($"ApiGateway: Incoming DELETE request. api: {api}, key: {key}, parameters: {parameters}");
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
+            ApiInfo apiInfo = null;
+
+            RouteInfo routeInfo = null;
+
+            try
+            {
+                apiInfo = _apiOrchestrator.GetApi(api);
+
+                routeInfo = apiInfo.Mediator.GetRoute(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                return NotFound();
+            }            
 
             if (routeInfo.Exec != null)
             {
@@ -157,11 +198,24 @@ namespace AspNetCore.ApiGateway.Controllers
             }
         }
 
-        private async Task<IActionResult> Get(string apiKey, string key, string parameters = "")
-        {            
-            var apiInfo = _apiOrchestrator.GetApi(apiKey);
+        private async Task<IActionResult> Get(string api, string key, string parameters = "")
+        {
+            ApiInfo apiInfo = null;
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
+            RouteInfo routeInfo = null;
+
+            try
+            {
+                apiInfo = _apiOrchestrator.GetApi(api);
+
+                routeInfo = apiInfo.Mediator.GetRoute(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                return NotFound();
+            }
 
             if (routeInfo.Exec != null)
             {
