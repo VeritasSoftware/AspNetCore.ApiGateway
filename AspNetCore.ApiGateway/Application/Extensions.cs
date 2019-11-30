@@ -24,6 +24,7 @@ namespace AspNetCore.ApiGateway
         {
             var serviceProvider = app.ApplicationServices;
             setApis(serviceProvider.GetService<IApiOrchestrator>());
+            app.UseGatewayMiddleware();
         }
 
         internal static void AddRequestHeaders (this IHeaderDictionary requestHeaders, HttpRequestHeaders headers)

@@ -44,22 +44,9 @@ namespace AspNetCore.ApiGateway.Controllers
         {
             _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}");
 
-            ApiInfo apiInfo = null;
+            var apiInfo = _apiOrchestrator.GetApi(api);
 
-            RouteInfo routeInfo = null;
-
-            try
-            {
-                apiInfo = _apiOrchestrator.GetApi(api);
-
-                routeInfo = apiInfo.Mediator.GetRoute(key);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-
-                return NotFound();
-            }
+            var routeInfo = apiInfo.Mediator.GetRoute(key);
 
             if (routeInfo.Exec != null)
             {
@@ -100,22 +87,9 @@ namespace AspNetCore.ApiGateway.Controllers
         {
             _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}");
 
-            ApiInfo apiInfo = null;
+            var apiInfo = _apiOrchestrator.GetApi(api);
 
-            RouteInfo routeInfo = null;
-
-            try
-            {
-                apiInfo = _apiOrchestrator.GetApi(api);
-
-                routeInfo = apiInfo.Mediator.GetRoute(key);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-
-                return NotFound();
-            }
+            var routeInfo = apiInfo.Mediator.GetRoute(key);
 
             if (routeInfo.Exec != null)
             {
@@ -161,23 +135,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
             _logger.LogInformation($"ApiGateway: Incoming DELETE request. api: {api}, key: {key}, parameters: {parameters}");
 
+            var apiInfo = _apiOrchestrator.GetApi(api);
 
-            ApiInfo apiInfo = null;
-
-            RouteInfo routeInfo = null;
-
-            try
-            {
-                apiInfo = _apiOrchestrator.GetApi(api);
-
-                routeInfo = apiInfo.Mediator.GetRoute(key);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-
-                return NotFound();
-            }            
+            var routeInfo = apiInfo.Mediator.GetRoute(key);
 
             if (routeInfo.Exec != null)
             {
@@ -200,22 +160,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
         private async Task<IActionResult> Get(string api, string key, string parameters = "")
         {
-            ApiInfo apiInfo = null;
+            var apiInfo = _apiOrchestrator.GetApi(api);
 
-            RouteInfo routeInfo = null;
-
-            try
-            {
-                apiInfo = _apiOrchestrator.GetApi(api);
-
-                routeInfo = apiInfo.Mediator.GetRoute(key);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-
-                return NotFound();
-            }
+            var routeInfo = apiInfo.Mediator.GetRoute(key);
 
             if (routeInfo.Exec != null)
             {
