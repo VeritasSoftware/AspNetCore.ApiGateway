@@ -16,6 +16,17 @@ The microservices architecture uses an Api Gateway as shown below.
 
 In the solution, there are 2 back end Apis : **Weather API** and **Stock API**.
 
+Your **Gateway API** exposes endpoints which are a **facade** over your backend API endpoints.
+
+*	GET
+*	POST
+*	PUT
+*	DELETE
+
+For eg. To make a GET call to the backend API, you would set up a GET call in you Gateway API's **Api Orchestrator**.
+
+Then, the client app would make a GET call to the Gateway API which would be passed on to the backend API.
+
 ## In your Gateway API project
 
 **Add a reference to the package and...**
