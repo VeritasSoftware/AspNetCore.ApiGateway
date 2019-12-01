@@ -14,16 +14,16 @@ The microservices architecture uses an Api Gateway as shown below.
 *	Authorization support
 *	Swagger support.
 
-In the solution, there are 2 back end Apis : **Weather API** and **Stock API**.
+In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API**.
 
-Your **Gateway API** exposes endpoints which are a **facade** over your backend API endpoints.
+### Your **Gateway API** exposes endpoints which are a **facade** over your backend API endpoints.
 
 *	GET
 *	POST
 *	PUT
 *	DELETE
 
-For eg. To make a GET call to the backend API, you would set up a GET call in you Gateway API's **Api Orchestrator**.
+For eg. To make a GET call to the backend API, you would set up an Api and a Route in your Gateway API's **Api Orchestrator**.
 
 Then, the client app would make a GET call to the Gateway API which would be passed on to the backend API.
 
