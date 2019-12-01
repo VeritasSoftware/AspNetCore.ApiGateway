@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Threading.Tasks;
 
@@ -19,7 +20,12 @@ namespace AspNetCore.ApiGateway.Authorization
         {
             if (this._authorization != null)
             {
-                await this._authorization.AuthorizeAsync(context);
+                var routeData = context.HttpContext.GetRouteData();
+
+                routeData.Values.TryGetValue("api", out var api);
+                routeData.Values.TryGetValue("key", out var key);
+
+                await this._authorization.AuthorizeAsync(context, api.ToString(), key.ToString());
             }
         }
     }

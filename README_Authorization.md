@@ -7,7 +7,7 @@ In your Gateway API project,
 you have to implement an interface method called **AuthorizeAsync**.
 
 ```C#
-Task AuthorizeAsync(AuthorizationFilterContext context)
+Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
 ```
 
 ### GET
@@ -36,7 +36,7 @@ In your Gateway API project,
 ```C#
     public class GetAuthorizationService : IGetGatewayAuthorization
     {
-        public async Task AuthorizeAsync(AuthorizationFilterContext context)
+        public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
         {
             //Put your authorization here
         }

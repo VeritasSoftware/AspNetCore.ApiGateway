@@ -5,7 +5,7 @@ namespace AspNetCore.ApiGateway.Authorization
 {
     public interface IGatewayAuthorization
     {
-        Task AuthorizeAsync(AuthorizationFilterContext context);
+        Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key);
     }
 
     public interface IGetGatewayAuthorization : IGatewayAuthorization
