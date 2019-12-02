@@ -27,14 +27,34 @@ namespace AspNetCore.ApiGateway.Controllers
         [HttpGet]
         [Route("{api}/{key}")]
         [ServiceFilter(typeof(GatewayGetAuthorizeAttribute))]
-        public async Task<IActionResult> GetParams(string api, string key, string parameters = null)
+        public async Task<IActionResult> Get(string api, string key, string parameters = null)
         {
             if (parameters != null)
                 parameters = HttpUtility.UrlDecode(parameters);
 
             _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}, parameters: {parameters}");
 
-            return await this.Get(api, key, parameters);
+            var apiInfo = _apiOrchestrator.GetApi(api);
+
+            var routeInfo = apiInfo.Mediator.GetRoute(key);
+
+            if (routeInfo.Exec != null)
+            {
+                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
+            }
+            else
+            {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                {
+                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+
+                    var response = await client.GetAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+
+                    response.EnsureSuccessStatusCode();
+
+                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
+                }
+            }
         }
 
         [HttpPost]
@@ -150,31 +170,6 @@ namespace AspNetCore.ApiGateway.Controllers
                     this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
 
                     var response = await client.DeleteAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
-
-                    response.EnsureSuccessStatusCode();
-
-                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
-                }
-            }
-        }
-
-        private async Task<IActionResult> Get(string api, string key, string parameters = "")
-        {
-            var apiInfo = _apiOrchestrator.GetApi(api);
-
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
-
-            if (routeInfo.Exec != null)
-            {
-                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
-            }
-            else
-            {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
-                {
-                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
-
-                    var response = await client.GetAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
                     response.EnsureSuccessStatusCode();
 
