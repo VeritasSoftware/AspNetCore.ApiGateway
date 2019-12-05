@@ -31,23 +31,7 @@ Then, the client app would make a GET call to the Gateway API which would make a
 
 Let us say you have a GET endpoint like this.
 
-```C#
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
-    {
-        .
-        .
-        [HttpGet]
-        [Route("forecast")]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            .
-            .
-        }
-
-    }
-```
+*	**HTTP GET - /weatherforecast/forecast**
 
 ## In your Gateway API project
 
