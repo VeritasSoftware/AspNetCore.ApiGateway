@@ -57,7 +57,7 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
 *	Create an **Api Orchestration** as shown below.
 
-<pre><code>
+```C#
     public static class ApiOrchestration
     {
         public static void Create(IApiOrchestrator orchestrator, IApplicationBuilder app)
@@ -70,7 +70,7 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
             orchestrator.AddApi("weatherservice", "http://localhost:58262/")
                                 //Get
-                                <b>.AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })</b>
+                                .AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
                                 //Get using custom HttpClient
                                 .AddRoute("types", new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get with param using custom HttpClient
@@ -89,7 +89,7 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
                                 .AddRoute("stock", new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) });
         }
     }
-</code></pre>
+```
 
 *	Hook up in Startup.cs
 
