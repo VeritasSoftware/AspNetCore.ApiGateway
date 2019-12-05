@@ -27,7 +27,31 @@ For eg. To make a GET call to the backend API, you would set up an Api and a Rou
 
 Then, the client app would make a GET call to the Gateway API which would make a GET call to the backend API using HttpClient.
 
+## In your Backend API project
+
+Let us say you have a GET endpoint like this.
+
+```C#
+    [ApiController]
+    [Route("[controller]")]
+    public class WeatherForecastController : ControllerBase
+    {
+        .
+        .
+        [HttpGet]
+        [Route("forecast")]
+        public IEnumerable<WeatherForecast> Get()
+        {
+            .
+            .
+        }
+
+    }
+```
+
 ## In your Gateway API project
+
+You add a Route for the backend GET call in the **Api Orchrestrator**.
 
 **Add a reference to the package and...**
 
@@ -46,7 +70,7 @@ Then, the client app would make a GET call to the Gateway API which would make a
 
             orchestrator.AddApi("weatherservice", "http://localhost:58262/")
                                 //Get
-                                .AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
+                                **.AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })**
                                 //Get using custom HttpClient
                                 .AddRoute("types", new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get with param using custom HttpClient
@@ -67,7 +91,7 @@ Then, the client app would make a GET call to the Gateway API which would make a
     }
 ```
 
-*	In Startup.cs
+*	Hook up in Startup.cs
 
 ```C#
         public void ConfigureServices(IServiceCollection services)
@@ -119,7 +143,7 @@ The Gateway Swagger appears as shown below:
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGateway.PNG)
 
-To call the forecast route on the weather service,
+To call the **forecast** Route on the **weather service** Api,
 
 you can enter the Api key and Route key into Swagger as below:
 
