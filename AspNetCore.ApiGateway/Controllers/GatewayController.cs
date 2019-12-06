@@ -36,7 +36,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
+            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
+
+            var routeInfo = gwRouteInfo.Route;
 
             if (routeInfo.Exec != null)
             {
@@ -66,7 +68,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
+            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
+
+            var routeInfo = gwRouteInfo.Route;
 
             if (routeInfo.Exec != null)
             {
@@ -109,7 +113,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
+            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
+
+            var routeInfo = gwRouteInfo.Route;
 
             if (routeInfo.Exec != null)
             {
@@ -157,7 +163,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
-            var routeInfo = apiInfo.Mediator.GetRoute(key);
+            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
+
+            var routeInfo = gwRouteInfo.Route;
 
             if (routeInfo.Exec != null)
             {

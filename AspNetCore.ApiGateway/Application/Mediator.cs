@@ -6,11 +6,26 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway
 {
+    public enum GatewayVerb
+    {
+        GET,
+        POST,
+        PUT,
+        DELETE
+    }
+
     public class HttpClientConfig
     {
         public Func<HttpClient> HttpClient { get; set; }
 
         public Func<HttpContent> HttpContent { get; set; }
+    }
+
+    public class GatewayRouteInfo
+    {
+        public GatewayVerb Verb { get; set; }
+
+        public RouteInfo Route { get; set; }
     }
 
     public class RouteInfo
@@ -26,25 +41,37 @@ namespace AspNetCore.ApiGateway
     public class Mediator : IMediator
     {
         readonly IApiOrchestrator _apiOrchestrator;
-        Dictionary<string, RouteInfo> paths = new Dictionary<string, RouteInfo>();
+        Dictionary<string, GatewayRouteInfo> paths = new Dictionary<string, GatewayRouteInfo>();
         public Mediator(IApiOrchestrator apiOrchestrator)
         {
             _apiOrchestrator = apiOrchestrator;
         }
 
-        public IMediator AddRoute(string key, RouteInfo routeInfo)
+        public IMediator AddRoute(string key, GatewayVerb verb, RouteInfo routeInfo)
         {
-            paths.Add(key.ToLower(), routeInfo);
+            var gatewayRouteInfo = new GatewayRouteInfo
+            {
+                Verb = verb,
+                Route = routeInfo
+            };
+
+            paths.Add(key.ToLower(), gatewayRouteInfo);
 
             return this;
         }
 
-        public IMediator AddRoute(string key, Func<ApiInfo, RouteInfo, HttpRequest, Task<object>> exec)
+        public IMediator AddRoute(string key, GatewayVerb verb, Func<ApiInfo, RouteInfo, HttpRequest, Task<object>> exec)
         {
-            paths.Add(key, new RouteInfo
-            {                
-                Exec = exec
-            });
+            var gatewayRouteInfo = new GatewayRouteInfo
+            {
+                Verb = verb,
+                Route = new RouteInfo
+                {
+                    Exec = exec
+                }
+            };
+
+            paths.Add(key.ToLower(), gatewayRouteInfo);
 
             return this;
         }
@@ -54,7 +81,7 @@ namespace AspNetCore.ApiGateway
             return _apiOrchestrator;
         }
 
-        public RouteInfo GetRoute(string key)
+        public GatewayRouteInfo GetRoute(string key)
         {
             return paths[key.ToLower()];
         }

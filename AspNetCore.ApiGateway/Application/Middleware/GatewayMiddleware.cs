@@ -13,7 +13,7 @@ namespace AspNetCore.ApiGateway
             app.Use(async (context, next) =>
             {
                 ApiInfo apiInfo = null;
-                RouteInfo routeInfo = null;
+                GatewayRouteInfo routeInfo = null;
 
                 try
                 {
@@ -29,6 +29,11 @@ namespace AspNetCore.ApiGateway
                         apiInfo = app.ApplicationServices.GetRequiredService<IApiOrchestrator>().GetApi(api.ToString());
 
                         routeInfo = apiInfo.Mediator.GetRoute(key.ToString());
+
+                        if (routeInfo.Verb.ToString() != context.Request.Method.ToUpper())
+                        {
+                            throw new Exception("Invalid verb");
+                        }
                     }
 
                     await next();

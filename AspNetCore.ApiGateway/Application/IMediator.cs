@@ -6,11 +6,11 @@ namespace AspNetCore.ApiGateway
 {
     public interface IMediator
     {
-        IMediator AddRoute(string key, RouteInfo routeInfo);
+        IMediator AddRoute(string key, GatewayVerb verb, RouteInfo routeInfo);
 
-        IMediator AddRoute(string key, Func<ApiInfo, RouteInfo, HttpRequest, Task<object>> exec);
+        IMediator AddRoute(string key, GatewayVerb verb, Func<ApiInfo, RouteInfo, HttpRequest, Task<object>> exec);
 
-        RouteInfo GetRoute(string key);
+        GatewayRouteInfo GetRoute(string key);
 
         IApiOrchestrator ToOrchestrator();
     }

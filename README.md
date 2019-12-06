@@ -52,25 +52,25 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
-            orchestrator.AddApi("weatherservice", "http://localhost:58262/")
+            orchestrator.AddApi("weatherservice", "http://localhost:63969/")
                                 //Get
-                                .AddRoute("forecast", new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
+                                .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
                                 //Get using custom HttpClient
-                                .AddRoute("types", new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
+                                .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get with param using custom HttpClient
-                                .AddRoute("type", new RouteInfo { Path = "weatherforecast/types/", ResponseType = typeof(WeatherTypeResponse), HttpClientConfig = weatherApiClientConfig })
+                                .AddRoute("type", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types/", ResponseType = typeof(WeatherTypeResponse), HttpClientConfig = weatherApiClientConfig })
                                 //Get using custom implementation
-                                .AddRoute("typescustom", weatherService.GetTypes)
+                                .AddRoute("typescustom", GatewayVerb.GET, weatherService.GetTypes)
                                 //Post
-                                .AddRoute("add", new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
+                                .AddRoute("add", GatewayVerb.POST, new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
                                 //Put
-                                .AddRoute("update", new RouteInfo { Path = "weatherforecast/types/update", RequestType = typeof(UpdateWeatherTypeRequest), ResponseType = typeof(string[]) })
+                                .AddRoute("update", GatewayVerb.PUT, new RouteInfo { Path = "weatherforecast/types/update", RequestType = typeof(UpdateWeatherTypeRequest), ResponseType = typeof(string[]) })
                                 //Delete
-                                .AddRoute("remove", new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
+                                .AddRoute("remove", GatewayVerb.DELETE, new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
                         .ToOrchestrator()
-                        .AddApi("stockservice", "http://localhost:58352/")
-                                .AddRoute("stocks", new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
-                                .AddRoute("stock", new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) });
+                        .AddApi("stockservice", "http://localhost:63967/")
+                                .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
+                                .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) });
         }
     }
 ```
