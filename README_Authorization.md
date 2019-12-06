@@ -39,6 +39,8 @@ In your Gateway API project,
         public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
         {
             //Put your authorization here
+
+            await Task.CompletedTask;
         }
     }
 ```
