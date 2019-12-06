@@ -39,7 +39,9 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
 **Add a reference to the package and...**
 
-*	Create an **Api Orchestration** as shown below.
+*	Create an **Api Orchestration**.
+	
+	You create an Api (weatherservice) and add a Route (forecast).
 
 ```C#
     public static class ApiOrchestration
