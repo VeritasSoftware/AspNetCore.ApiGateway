@@ -1,13 +1,26 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway
 {
     internal static class GatewayMiddlewareExtensions
     {
+        private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        {
+            var code = HttpStatusCode.InternalServerError; // 500 if unexpected            
+
+            var result = JsonConvert.SerializeObject(new { error = ex.InnerException.Message });
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)code;
+            await context.Response.WriteAsync(result);
+        }
+
         public static void UseGatewayMiddleware(this IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
@@ -34,15 +47,24 @@ namespace AspNetCore.ApiGateway
                         {
                             throw new Exception("Invalid verb");
                         }
-                    }
-
-                    await next();
+                    }                  
                 }
                 catch (Exception)
                 {
                     context.Response.StatusCode = StatusCodes.Status404NotFound;
 
                     await context.Response.CompleteAsync();
+
+                    return;
+                }
+
+                try
+                {
+                    await next();
+                }
+                catch(Exception ex)
+                {
+                    await HandleExceptionAsync(context, ex);
                 }
             });
         }
