@@ -76,9 +76,11 @@ namespace AspNetCore.ApiGateway
             return this;
         }
 
-        public IApiOrchestrator ToOrchestrator()
+        public IMediator AddApi(string apiKey, string baseUrl)
         {
-            return _apiOrchestrator;
+            _apiOrchestrator.AddApi(apiKey, baseUrl);
+
+            return _apiOrchestrator.GetApi(apiKey).Mediator;
         }
 
         public GatewayRouteInfo GetRoute(string key)

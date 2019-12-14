@@ -12,6 +12,6 @@ namespace AspNetCore.ApiGateway
 
         GatewayRouteInfo GetRoute(string key);
 
-        IApiOrchestrator ToOrchestrator();
+        IMediator AddApi(string apiKey, string baseUrl);
     }
 }

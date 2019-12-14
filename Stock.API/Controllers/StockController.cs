@@ -11,11 +11,6 @@ namespace Stock.API.Controllers
     [Route("[controller]")]
     public class StockController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private static readonly Dictionary<string, StockQuote> StockQuotes = new Dictionary<string, StockQuote>()
         {
             { "Microsoft", new StockQuote() { CompanyName = "Microsoft", CostPerShare = "300" } },
