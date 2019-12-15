@@ -5,22 +5,27 @@ namespace AspNetCore.ApiGateway.Authorization
 {
     public interface IGatewayAuthorization
     {
+        Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key, string verb);
+    }
+
+    public interface IGatewayVerbAuthorization
+    {
         Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key);
     }
 
-    public interface IGetGatewayAuthorization : IGatewayAuthorization
+    public interface IGetGatewayAuthorization : IGatewayVerbAuthorization
     {
     }
 
-    public interface IPostGatewayAuthorization : IGatewayAuthorization
+    public interface IPostGatewayAuthorization : IGatewayVerbAuthorization
     {
     }
 
-    public interface IPutGatewayAuthorization : IGatewayAuthorization
+    public interface IPutGatewayAuthorization : IGatewayVerbAuthorization
     {
     }
 
-    public interface IDeleteGatewayAuthorization : IGatewayAuthorization
+    public interface IDeleteGatewayAuthorization : IGatewayVerbAuthorization
     {
     }
 }

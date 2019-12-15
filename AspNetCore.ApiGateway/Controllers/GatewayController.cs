@@ -13,6 +13,7 @@ namespace AspNetCore.ApiGateway.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(GatewayAuthorizeAttribute))]
     public class GatewayController : ControllerBase
     {
         readonly IApiOrchestrator _apiOrchestrator;

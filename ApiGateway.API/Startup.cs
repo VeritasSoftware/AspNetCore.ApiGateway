@@ -25,8 +25,9 @@ namespace ApiGateway.API
             services.AddTransient<IWeatherService, WeatherService>();
 
             //If you want to use the Api Gateway's Authorization, you can do this
+            services.AddScoped<IGatewayAuthorization, AuthorizationService>();
             services.AddScoped<IGetGatewayAuthorization, GetAuthorizationService>();
-
+            
             //Api gateway
             services.AddApiGateway();
 
