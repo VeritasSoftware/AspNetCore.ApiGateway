@@ -144,7 +144,9 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 
 ### [Authorization](README_Authorization.md)
 
-### Features
+### Customizations
 
 *	You can use your own **HttpClient** to hit the backend Api.
 *	You can create your own implementation to hit the backend Api.
+
+### [Customizations](README_Customizations.md)
