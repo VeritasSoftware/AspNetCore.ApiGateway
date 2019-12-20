@@ -40,7 +40,13 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
     }
 ```
 
-They are then hooked up to **routes** in the **Api Orchestrator**.
+Wire up the WeatherService for injection.
+
+```C#
+	services.AddTransient<IWeatherService, WeatherService>();
+```
+
+Then, they are hooked up to **routes** in the **Api Orchestrator**.
 
 ```C#
     public static class ApiOrchestration
