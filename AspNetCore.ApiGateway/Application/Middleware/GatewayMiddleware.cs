@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -9,62 +8,70 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway
 {
-    internal static class GatewayMiddlewareExtensions
+    internal class GatewayMiddleware
     {
+        private readonly RequestDelegate _next;
+
+        public GatewayMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
         private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
-            var result = JsonConvert.SerializeObject(new { error = ex.InnerException?.Message??ex.Message });
+            var result = JsonConvert.SerializeObject(new { error = ex.InnerException?.Message ?? ex.Message });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             await context.Response.WriteAsync(result);
         }
 
-        public static void UseGatewayMiddleware(this IApplicationBuilder app)
+        public async Task Invoke(HttpContext context, IApiOrchestrator orchestrator, ILogger<GatewayMiddleware> logger)
         {
-            app.Use(async (context, next) =>
+            ApiInfo apiInfo = null;
+            GatewayRouteInfo routeInfo = null;
+
+            try
             {
-                ApiInfo apiInfo = null;
-                GatewayRouteInfo routeInfo = null;
+                var path = context.Request.Path.Value;
 
-                try
+                var segmentsMatch = Regex.Match(path, "^/?api/Gateway(/(?<api>.*?)/(?<key>.*?)(/.*?)?)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+                if (segmentsMatch.Success)
                 {
-                    var path = context.Request.Path.Value;
+                    var api = segmentsMatch.Groups["api"].Captures[0].Value;
+                    var key = segmentsMatch.Groups["key"].Captures[0].Value;
 
-                    var segmentsMatch = Regex.Match(path, "^/?api/Gateway(/(?<api>.*?)/(?<key>.*?)(/.*?)?)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                    apiInfo = orchestrator.GetApi(api.ToString());
 
-                    if (segmentsMatch.Success)
+                    routeInfo = apiInfo.Mediator.GetRoute(key.ToString());
+
+                    if (routeInfo.Verb.ToString() != context.Request.Method.ToUpper())
                     {
-                        var api = segmentsMatch.Groups["api"].Captures[0].Value;
-                        var key = segmentsMatch.Groups["key"].Captures[0].Value;
-
-                        apiInfo = app.ApplicationServices.GetRequiredService<IApiOrchestrator>().GetApi(api.ToString());
-
-                        routeInfo = apiInfo.Mediator.GetRoute(key.ToString());
-
-                        if (routeInfo.Verb.ToString() != context.Request.Method.ToUpper())
-                        {
-                            throw new Exception("Invalid verb");
-                        }
-                    }                  
+                        throw new Exception("Invalid verb");
+                    }
                 }
-                catch (Exception)
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Api Gateway Orchestration api/key error.");
 
-                    await context.Response.CompleteAsync();
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
 
-                    return;
-                }
+                await context.Response.CompleteAsync();
 
-                try
-                {
-                    await next();
-                }
-                catch(Exception ex)
-                {
-                    await HandleExceptionAsync(context, ex);
-                }
-            });
+                return;
+            }
+
+            try
+            {
+                await _next(context);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Api Gateway error.");
+
+                await HandleExceptionAsync(context, ex);
+            }
         }
     }
 }
