@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -32,6 +31,8 @@ namespace AspNetCore.ApiGateway.Controllers
         {
             if (parameters != null)
                 parameters = HttpUtility.UrlDecode(parameters);
+            else
+                parameters = string.Empty;
 
             _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}, parameters: {parameters}");
 
@@ -63,9 +64,14 @@ namespace AspNetCore.ApiGateway.Controllers
         [HttpPost]
         [Route("{api}/{key}")]
         [ServiceFilter(typeof(GatewayPostAuthorizeAttribute))]
-        public async Task<IActionResult> Post(string api, string key, object request)
-        {
-            _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}");
+        public async Task<IActionResult> Post(string api, string key, object request, string parameters = null)
+        {            
+            if (parameters != null)
+                parameters = HttpUtility.UrlDecode(parameters);
+            else
+                parameters = string.Empty;
+
+            _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}, parameters: {parameters}");
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
@@ -96,7 +102,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
                     
-                    var response = await client.PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}", content);
+                    var response = await client.PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
 
                     response.EnsureSuccessStatusCode();
 
@@ -108,9 +114,14 @@ namespace AspNetCore.ApiGateway.Controllers
         [HttpPut]
         [Route("{api}/{key}")]
         [ServiceFilter(typeof(GatewayPutAuthorizeAttribute))]
-        public async Task<IActionResult> Put(string api, string key, object request)
-        {
-            _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}");
+        public async Task<IActionResult> Put(string api, string key, object request, string parameters = null)
+        {            
+            if (parameters != null)
+                parameters = HttpUtility.UrlDecode(parameters);
+            else
+                parameters = string.Empty;
+
+            _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}, parameters: {parameters}");
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
@@ -141,7 +152,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
 
-                    var response = await client.PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}", content);
+                    var response = await client.PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
 
                     response.EnsureSuccessStatusCode();
 
@@ -159,6 +170,8 @@ namespace AspNetCore.ApiGateway.Controllers
             {
                 parameters = HttpUtility.UrlDecode(parameters);
             }
+            else
+                parameters = string.Empty;
 
             _logger.LogInformation($"ApiGateway: Incoming DELETE request. api: {api}, key: {key}, parameters: {parameters}");
 
