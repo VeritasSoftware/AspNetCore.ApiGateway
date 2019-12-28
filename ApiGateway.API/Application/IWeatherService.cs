@@ -7,6 +7,6 @@ namespace ApiGateway.API
     public interface IWeatherService
     {
         HttpClientConfig GetClientConfig();
-        Task<object> GetTypes(ApiInfo apiInfo, RouteInfo routeInfo, HttpRequest request);
+        Task<object> GetTypes(ApiInfo apiInfo, HttpRequest request);
     }
 }

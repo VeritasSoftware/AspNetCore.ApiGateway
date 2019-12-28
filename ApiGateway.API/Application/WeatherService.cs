@@ -1,5 +1,6 @@
 ﻿using AspNetCore.ApiGateway;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -23,15 +24,19 @@ namespace ApiGateway.API
         /// If you want to completely customize your backend Api call, you can do this
         /// </summary>
         /// <param name="apiInfo">The api info</param>
-        /// <param name="routeInfo">The route info</param>
         /// <param name="request">The gateway's incoming request</param>
         /// <returns></returns>
-        public async Task<object> GetTypes(ApiInfo apiInfo, RouteInfo routeInfo, HttpRequest request)
+        public async Task<object> GetTypes(ApiInfo apiInfo, HttpRequest request)
         {
-            return await Task.FromResult(new[]
-                                    {
-                                        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-                                    });
+            //Create your own implementation to hit the backend.
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{apiInfo.BaseUrl}weatherforecast/forecast");
+
+                response.EnsureSuccessStatusCode();
+
+                return JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace AspNetCore.ApiGateway
     {
         IMediator AddRoute(string key, GatewayVerb verb, RouteInfo routeInfo);
 
-        IMediator AddRoute(string key, GatewayVerb verb, Func<ApiInfo, RouteInfo, HttpRequest, Task<object>> exec);
+        IMediator AddRoute(string key, GatewayVerb verb, Func<ApiInfo, HttpRequest, Task<object>> exec);
 
         GatewayRouteInfo GetRoute(string key);
 

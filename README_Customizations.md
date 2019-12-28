@@ -26,16 +26,15 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
             };
         }
 
-        /// <summary>
+         /// <summary>
         /// If you want to completely customize your backend Api call, you can do this
         /// </summary>
         /// <param name="apiInfo">The api info</param>
-        /// <param name="routeInfo">The route info</param>
         /// <param name="request">The gateway's incoming request</param>
         /// <returns></returns>
-        public async Task<object> GetTypes(ApiInfo apiInfo, RouteInfo routeInfo, HttpRequest request)
+        public async Task<object> GetTypes(ApiInfo apiInfo, HttpRequest request)
         {
-			//Create your own implementation to hit the back end Api.
+            //Create your own implementation to hit the backend Api.
         }
     }
 ```

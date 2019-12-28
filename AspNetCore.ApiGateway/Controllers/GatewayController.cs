@@ -44,7 +44,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             if (routeInfo.Exec != null)
             {
-                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
+                return Ok(await routeInfo.Exec(apiInfo, this.Request));
             }
             else
             {
@@ -81,7 +81,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             if (routeInfo.Exec != null)
             {
-                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
+                return Ok(await routeInfo.Exec(apiInfo, this.Request));
             }
             else
             {
@@ -131,7 +131,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             if (routeInfo.Exec != null)
             {
-                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
+                return Ok(await routeInfo.Exec(apiInfo, this.Request));
             }
             else
             {
@@ -183,7 +183,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             if (routeInfo.Exec != null)
             {
-                return Ok(await routeInfo.Exec(apiInfo, routeInfo, this.Request));
+                return Ok(await routeInfo.Exec(apiInfo, this.Request));
             }
             else
             {

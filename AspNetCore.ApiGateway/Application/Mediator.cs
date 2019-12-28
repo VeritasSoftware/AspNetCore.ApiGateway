@@ -33,7 +33,7 @@ namespace AspNetCore.ApiGateway
         public string Path { get; set; }
         public Type ResponseType { get; set; }
         public Type RequestType { get; set; }
-        public Func<ApiInfo, RouteInfo, HttpRequest, Task<object>> Exec { get; set; }
+        public Func<ApiInfo, HttpRequest, Task<object>> Exec { get; set; }
         public HttpClientConfig HttpClientConfig { get; set; }
     }
 
@@ -60,7 +60,7 @@ namespace AspNetCore.ApiGateway
             return this;
         }
 
-        public IMediator AddRoute(string key, GatewayVerb verb, Func<ApiInfo, RouteInfo, HttpRequest, Task<object>> exec)
+        public IMediator AddRoute(string key, GatewayVerb verb, Func<ApiInfo, HttpRequest, Task<object>> exec)
         {
             var gatewayRouteInfo = new GatewayRouteInfo
             {
