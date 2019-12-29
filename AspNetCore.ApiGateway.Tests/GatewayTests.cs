@@ -7,6 +7,11 @@ using Xunit;
 using GatewayAPI = ApiGateway.API;
 using WeatherAPI = Weather.API;
 using StockAPI = Stock.API;
+using System.Net.Http;
+using System;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Linq;
 
 namespace AspNetCore.ApiGateway.Tests
 {
@@ -107,7 +112,90 @@ namespace AspNetCore.ApiGateway.Tests
 
             var weatherType = JsonConvert.DeserializeObject<WeatherAPI.WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
 
-            Assert.True(weatherType.Type == "Cool");
+            Assert.NotNull(weatherType);
+            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+        }
+
+        [Fact]
+        public async Task Test_Post_Pass()
+        {
+            var client = _apiInit.GatewayAPI.CreateClient();
+
+            //Gateway API url with Api key and Route key
+            var gatewayUrl = "http://localhost/api/Gateway/weatherservice/add";
+
+            GatewayAPI.AddWeatherTypeRequest request = new GatewayAPI.AddWeatherTypeRequest
+            {
+                WeatherType = "Windy"
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var httprequest = new HttpRequestMessage
+            {
+                RequestUri = new Uri(gatewayUrl),
+                Content = content,
+                Method = HttpMethod.Post
+            };
+
+            var response = await client.SendAsync(httprequest);
+
+            response.EnsureSuccessStatusCode();
+
+            var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
+
+            Assert.True(weatherTypes.Last() == "Windy");
+        }
+
+        [Fact]
+        public async Task Test_Put_Pass()
+        {
+            var client = _apiInit.GatewayAPI.CreateClient();
+
+            //Gateway API url with Api key and Route key
+            var gatewayUrl = "http://localhost/api/Gateway/weatherservice/update";
+
+            GatewayAPI.UpdateWeatherTypeRequest request = new GatewayAPI.UpdateWeatherTypeRequest
+            {
+                WeatherType = "Coooooooool",
+                Index = 3
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var httprequest = new HttpRequestMessage
+            {
+                RequestUri = new Uri(gatewayUrl),
+                Content = content,
+                Method = HttpMethod.Put
+            };
+
+            var response = await client.SendAsync(httprequest);
+
+            response.EnsureSuccessStatusCode();
+
+            var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
+
+            Assert.True(weatherTypes[3] == "Coooooooool");
+        }
+
+        [Fact]
+        public async Task Test_Delete_Pass()
+        {
+            var client = _apiInit.GatewayAPI.CreateClient();
+
+            //Gateway API url with Api key, Route key and Param
+            var gatewayUrl = "http://localhost/api/Gateway/weatherservice/remove?parameters=0";
+
+            var response = await client.DeleteAsync(gatewayUrl);
+
+            response.EnsureSuccessStatusCode();
+
+            var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
+
+            Assert.DoesNotContain(weatherTypes, x => x == "Freezing");
         }
 
         [Fact]
