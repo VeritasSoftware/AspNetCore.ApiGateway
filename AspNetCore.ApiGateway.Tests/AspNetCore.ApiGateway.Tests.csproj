@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiGateway.API\ApiGateway.API.csproj" />
+    <ProjectReference Include="..\Stock.API\Stock.API.csproj" />
     <ProjectReference Include="..\Weather.API\Weather.API.csproj" />
   </ItemGroup>
 
