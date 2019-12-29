@@ -33,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Update.PNG = Update.PNG
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D128641-6505-45C2-8385-8675F9A53370}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.ApiGateway.Tests", "AspNetCore.ApiGateway.Tests\AspNetCore.ApiGateway.Tests.csproj", "{59B619C4-69D6-4582-B91E-1936C124A42F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,10 @@ Global
 		{F842D41F-0B22-49B7-81BB-900DFAEE187F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F842D41F-0B22-49B7-81BB-900DFAEE187F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F842D41F-0B22-49B7-81BB-900DFAEE187F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B619C4-69D6-4582-B91E-1936C124A42F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B619C4-69D6-4582-B91E-1936C124A42F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B619C4-69D6-4582-B91E-1936C124A42F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B619C4-69D6-4582-B91E-1936C124A42F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +72,7 @@ Global
 		{2B2E905B-E9A8-4B3C-9C76-4ABBF2058CB3} = {09FF380F-5D8D-417E-B16A-ABB9109FE882}
 		{E41777CD-5CC1-4A4D-AEC5-CA2655858302} = {D4F82E65-703A-4A4E-AFDF-CF8E5638C922}
 		{F842D41F-0B22-49B7-81BB-900DFAEE187F} = {D4F82E65-703A-4A4E-AFDF-CF8E5638C922}
+		{59B619C4-69D6-4582-B91E-1936C124A42F} = {9D128641-6505-45C2-8385-8675F9A53370}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D41EFF44-6827-41B7-9F6F-62057780D65C}
