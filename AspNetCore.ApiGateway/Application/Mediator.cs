@@ -89,7 +89,7 @@ namespace AspNetCore.ApiGateway
             return paths[key.ToLower()];
         }
 
-        public IList<string> RouteKeys => paths.Keys.ToList();
+        public IEnumerable<Route> RouteKeys => paths.Select(x => new Route { Key = x.Key, Verb = x.Value.Verb.ToString() });
     }
 
 }

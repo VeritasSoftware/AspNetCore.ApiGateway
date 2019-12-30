@@ -6,6 +6,13 @@ namespace AspNetCore.ApiGateway.Tests
     {
         public string Api { get; set; }
 
-        public IList<string> RouteKeys { get; set; }
+        public IEnumerable<Route> RouteKeys { get; set; }
+    }
+
+    public class Route
+    {
+        public string Key { get; set; }
+
+        public string Verb { get; set; }
     }
 }
