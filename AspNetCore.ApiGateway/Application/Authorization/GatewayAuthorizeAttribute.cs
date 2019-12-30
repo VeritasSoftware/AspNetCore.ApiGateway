@@ -25,7 +25,7 @@ namespace AspNetCore.ApiGateway.Authorization
                 routeData.Values.TryGetValue("api", out var api);
                 routeData.Values.TryGetValue("key", out var key);
 
-                await this._authorization.AuthorizeAsync(context, api.ToString(), key.ToString(), context.HttpContext.Request.Method);
+                await this._authorization.AuthorizeAsync(context, api?.ToString(), key?.ToString(), context.HttpContext.Request.Method);
             }
         }
     }
@@ -49,7 +49,7 @@ namespace AspNetCore.ApiGateway.Authorization
                 routeData.Values.TryGetValue("api", out var api);
                 routeData.Values.TryGetValue("key", out var key);
 
-                await this._authorization.AuthorizeAsync(context, api.ToString(), key.ToString());
+                await this._authorization.AuthorizeAsync(context, api?.ToString(), key?.ToString());
             }
         }
     }
@@ -58,6 +58,14 @@ namespace AspNetCore.ApiGateway.Authorization
     internal class GatewayGetAuthorizeAttribute : GatewayVerbAuthorizeAttribute
     {
         public GatewayGetAuthorizeAttribute(IGetGatewayAuthorization authorization = null) : base(authorization)
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    internal class GatewayGetOrchestrationAuthorizeAttribute : GatewayVerbAuthorizeAttribute
+    {
+        public GatewayGetOrchestrationAuthorizeAttribute(IGetOrchestrationGatewayAuthorization authorization = null) : base(authorization)
         {
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway
@@ -13,5 +14,7 @@ namespace AspNetCore.ApiGateway
         GatewayRouteInfo GetRoute(string key);
 
         IMediator AddApi(string apiKey, string baseUrl);
+
+        IList<string> RouteKeys { get; }
     }
 }

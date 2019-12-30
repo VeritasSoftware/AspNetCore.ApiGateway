@@ -59,6 +59,9 @@ Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
 
 *	IDeleteGatewayAuthorization
 
+### GET Orchestration
+
+*	IGetOrchestrationGatewayAuthorization
 
 ### Example
 

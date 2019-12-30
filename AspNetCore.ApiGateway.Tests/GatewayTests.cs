@@ -223,5 +223,22 @@ namespace AspNetCore.ApiGateway.Tests
 
             Assert.True(response.StatusCode == HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Test_GetOrchestration_Pass()
+        {
+            var client = _apiInit.GatewayAPI.CreateClient();
+
+            //Gateway API Orchestration url
+            var gatewayUrl = "http://localhost/api/Gateway/orchestration";
+
+            var response = await client.GetAsync(gatewayUrl);
+
+            response.EnsureSuccessStatusCode();
+
+            var orchestration = JsonConvert.DeserializeObject<Orchestration[]>(await response.Content.ReadAsStringAsync());
+
+            Assert.True(orchestration.Length > 0);
+        }
     }
 }

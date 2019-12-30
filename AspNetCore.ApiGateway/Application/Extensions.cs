@@ -16,6 +16,7 @@ namespace AspNetCore.ApiGateway
             services.AddTransient<IApiOrchestrator>(x => apis);
             services.AddScoped<GatewayAuthorizeAttribute>();
             services.AddScoped<GatewayGetAuthorizeAttribute>();
+            services.AddScoped<GatewayGetOrchestrationAuthorizeAttribute>();
             services.AddScoped<GatewayPostAuthorizeAttribute>();
             services.AddScoped<GatewayPutAuthorizeAttribute>();
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AspNetCore.ApiGateway
 {
@@ -27,5 +28,10 @@ namespace AspNetCore.ApiGateway
             return apis[apiKey.ToLower()];
         }
 
+        public IEnumerable<Orchestration> Orchestration => apis?.Select(x => new Orchestration
+        {
+            Api = x.Key,
+            RouteKeys = x.Value.Mediator.RouteKeys
+        });
     }
 }

@@ -23,7 +23,7 @@ In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API
 *	PUT
 *	DELETE
 
-For eg. To make a GET call to the backend API, you would set up an Api and a Route in your Gateway API's **Api Orchestrator**.
+For eg. To make a GET call to the backend API, you would set up an Api and a GET Route in your Gateway API's **Api Orchestrator**.
 
 Then, the client app would make a GET call to the Gateway API which would make a GET call to the backend API using HttpClient.
 

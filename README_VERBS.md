@@ -17,3 +17,7 @@
 ### DELETE
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Delete.PNG)
+
+### GET Orchestration
+
+![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Orchestration.PNG)

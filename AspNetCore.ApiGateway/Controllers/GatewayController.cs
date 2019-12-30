@@ -199,5 +199,13 @@ namespace AspNetCore.ApiGateway.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("orchestration")]
+        [ServiceFilter(typeof(GatewayGetOrchestrationAuthorizeAttribute))]
+        public async Task<IActionResult> GetOrchestration()
+        {
+            return Ok(await Task.FromResult(_apiOrchestrator.Orchestration));
+        }
     }
 }
