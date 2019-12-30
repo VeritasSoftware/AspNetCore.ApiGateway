@@ -14,5 +14,9 @@ namespace AspNetCore.ApiGateway.Tests
         public string Key { get; set; }
 
         public string Verb { get; set; }
+
+        public string Request { get; set; }
+
+        public string Response { get; set; }
     }
 }

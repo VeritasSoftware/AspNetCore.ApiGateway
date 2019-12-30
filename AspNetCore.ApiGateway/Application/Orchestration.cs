@@ -14,5 +14,9 @@ namespace AspNetCore.ApiGateway
         public string Key { get; set; }
 
         public string Verb { get; set; }
+
+        public string Request { get; set; }
+
+        public string Response { get; set; }
     }
 }

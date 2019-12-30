@@ -31,7 +31,7 @@ namespace AspNetCore.ApiGateway
         public IEnumerable<Orchestration> Orchestration => apis?.Select(x => new Orchestration
         {
             Api = x.Key,
-            Routes = x.Value.Mediator.RouteKeys
+            Routes = x.Value.Mediator.Routes
         });
     }
 }

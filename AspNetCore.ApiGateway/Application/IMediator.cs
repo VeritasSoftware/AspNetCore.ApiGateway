@@ -15,6 +15,6 @@ namespace AspNetCore.ApiGateway
 
         IMediator AddApi(string apiKey, string baseUrl);
 
-        IEnumerable<Route> RouteKeys { get; }
+        IEnumerable<Route> Routes { get; }
     }
 }

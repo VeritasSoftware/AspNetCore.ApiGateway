@@ -1,4 +1,5 @@
 ﻿using AspNetCore.ApiGateway.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -203,6 +204,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [HttpGet]
         [Route("orchestration")]
         [ServiceFilter(typeof(GatewayGetOrchestrationAuthorizeAttribute))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Orchestration))]
         public async Task<IActionResult> GetOrchestration()
         {
             return Ok(await Task.FromResult(_apiOrchestrator.Orchestration));
