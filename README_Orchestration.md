@@ -13,11 +13,11 @@ This way, client developers can get information about your Gateway's Api Orchest
 The Api Orchestration returned has:
 
 *	All Api Keys and their Route Keys,
-*	the Request and Response Json Schema of each Route (if specified).
+*	The Request and Response Json Schema of each Route (if specified).
 
 The response is like below:
 
-```C#
+```json
 [
   {
     "api": "weatherservice",

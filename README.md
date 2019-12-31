@@ -153,6 +153,6 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 
 ### Viewing your Gateway's Api Orchestration
 
-You can view your Gateway's Api Orchestration by calling the **GET api/Gateway/orchestration** endpoint.
+Your Gateway's Api Orchestration is published by **GET api/Gateway/orchestration** endpoint.
 
 ### [Viewing Api Orchestration](README_Orchestration.md)
