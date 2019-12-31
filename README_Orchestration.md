@@ -1,6 +1,10 @@
 ### Viewing your Gateway's Api Orchestration
 
-You can call below endpoint in **Swagger** to view your Api Orchestration.
+Your Gateway's Api Orchestration is published by **GET api/Gateway/orchestration** endpoint. 
+
+You can call the endpoint in **Swagger** to view your Api Orchestration.
+
+This way, client developers can get information about your Gateway's Api Orchestration.
 
 ### GET Orchestration
 
@@ -13,7 +17,7 @@ The Api Orchestration returned has:
 
 The response is like below:
 
-```
+```C#
 [
   {
     "api": "weatherservice",
