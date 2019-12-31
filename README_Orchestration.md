@@ -1,6 +1,6 @@
 ### Viewing your Gateway's Api Orchestration
 
-Your Gateway's Api Orchestration is published by **GET api/Gateway/orchestration** endpoint. 
+Your Gateway's Api Orchestration is published by **GET /api/Gateway/orchestration** endpoint. 
 
 You can call the endpoint in **Swagger** to view your Api Orchestration.
 
@@ -10,7 +10,13 @@ You can call the endpoint in **Swagger** to view your Api Orchestration.
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Orchestration.PNG)
 
-The Api Orchestration returned has:
+**Note:**
+
+You can secure this endpoint by implementing interface **IGetOrchestrationGatewayAuthorization** in your Gateway API project.
+
+Please see **Authorization** section for more information on how to do this.
+
+The Api Orchestration returned by the endpoint has:
 
 *	All Api Keys and their Route Keys,
 *	The Request and Response Json Schema of each Route (if specified).
