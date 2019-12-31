@@ -4,7 +4,7 @@ Your Gateway's Api Orchestration is published by **GET api/Gateway/orchestration
 
 You can call the endpoint in **Swagger** to view your Api Orchestration.
 
-**This way, client developers can get information to make calls to your Gateway API.**
+**Client developers can use this information to make calls to your Gateway API.**
 
 ### GET Orchestration
 
