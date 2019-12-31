@@ -20,6 +20,8 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayPostAuthorizeAttribute>();
             services.AddScoped<GatewayPutAuthorizeAttribute>();
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();
+
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         public static void UseApiGateway(this IApplicationBuilder app, Action<IApiOrchestrator> setApis)

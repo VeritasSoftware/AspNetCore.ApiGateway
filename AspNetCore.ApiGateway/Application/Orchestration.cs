@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NJsonSchema;
+using System.Collections.Generic;
 
 namespace AspNetCore.ApiGateway
 {
@@ -15,8 +16,8 @@ namespace AspNetCore.ApiGateway
 
         public string Verb { get; set; }
 
-        public string Request { get; set; }
+        public JsonSchema RequestJsonSchema { get; set; }
 
-        public string Response { get; set; }
+        public JsonSchema ResponseJsonSchema { get; set; }
     }
 }
