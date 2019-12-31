@@ -150,3 +150,9 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 *	You can create your own implementation to hit the backend Api.
 
 ### [Customizations](README_Customizations.md)
+
+### Viewing your Gateway's Api Orchestration
+
+You can view your Gateway's Api Orchestration by calling the **GET api/Gateway/orchestration** endpoint.
+
+### [Viewing Api Orchestration](README_Orchestration.md)

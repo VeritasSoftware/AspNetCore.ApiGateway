@@ -29,13 +29,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		README_Authorization.md = README_Authorization.md
 		README_Customizations.md = README_Customizations.md
+		README_Orchestration.md = README_Orchestration.md
 		README_VERBS.md = README_VERBS.md
 		Update.PNG = Update.PNG
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D128641-6505-45C2-8385-8675F9A53370}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.ApiGateway.Tests", "AspNetCore.ApiGateway.Tests\AspNetCore.ApiGateway.Tests.csproj", "{59B619C4-69D6-4582-B91E-1936C124A42F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApiGateway.Tests", "AspNetCore.ApiGateway.Tests\AspNetCore.ApiGateway.Tests.csproj", "{59B619C4-69D6-4582-B91E-1936C124A42F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
