@@ -64,7 +64,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var forecasts = JsonConvert.DeserializeObject<WeatherAPI.WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+            var forecasts = JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(forecasts.Length > 0);
         }
@@ -82,7 +82,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var forecasts = JsonConvert.DeserializeObject<WeatherAPI.WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+            var forecasts = JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(forecasts.Length > 0);
 
@@ -93,7 +93,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var stockQuotes = JsonConvert.DeserializeObject<StockAPI.StockQuote[]>(await response.Content.ReadAsStringAsync());
+            var stockQuotes = JsonConvert.DeserializeObject<StockQuote[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(stockQuotes.Length > 0);
         }
@@ -110,7 +110,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var weatherType = JsonConvert.DeserializeObject<WeatherAPI.WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
+            var weatherType = JsonConvert.DeserializeObject<WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
 
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
@@ -124,7 +124,7 @@ namespace AspNetCore.ApiGateway.Tests
             //Gateway API url with Api key and Route key
             var gatewayUrl = "http://localhost/api/Gateway/weatherservice/add";
 
-            GatewayAPI.AddWeatherTypeRequest request = new GatewayAPI.AddWeatherTypeRequest
+            AddWeatherTypeRequest request = new AddWeatherTypeRequest
             {
                 WeatherType = "Windy"
             };
@@ -156,7 +156,7 @@ namespace AspNetCore.ApiGateway.Tests
             //Gateway API url with Api key and Route key
             var gatewayUrl = "http://localhost/api/Gateway/weatherservice/update";
 
-            GatewayAPI.UpdateWeatherTypeRequest request = new GatewayAPI.UpdateWeatherTypeRequest
+            UpdateWeatherTypeRequest request = new UpdateWeatherTypeRequest
             {
                 WeatherType = "Coooooooool",
                 Index = 3
