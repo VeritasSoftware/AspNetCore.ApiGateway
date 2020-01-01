@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -205,9 +208,19 @@ namespace AspNetCore.ApiGateway.Controllers
         [Route("orchestration")]
         [ServiceFilter(typeof(GatewayGetOrchestrationAuthorizeAttribute))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Orchestration))]
-        public async Task<IActionResult> GetOrchestration()
+        public async Task<IActionResult> GetOrchestration(string api = null, string key =  null)
         {
-            return Ok(await Task.FromResult(_apiOrchestrator.Orchestration));
+            return Ok(await Task.FromResult(string.IsNullOrEmpty(api) ? _apiOrchestrator.Orchestration 
+                                            : (string.IsNullOrEmpty(key)
+                                            ? _apiOrchestrator.Orchestration?.Where(x => string.Compare(api.Trim(), x.Api, StringComparison.InvariantCultureIgnoreCase) == 0)
+                                            : _apiOrchestrator.Orchestration?.Where(x => string.Compare(api.Trim(), x.Api, StringComparison.InvariantCultureIgnoreCase) == 0)
+                                                                             .Select(x => 
+                                                                             {
+                                                                                 var routes = new List<Route>(x.Routes);
+                                                                                 routes.RemoveAll(y => string.Compare(key.Trim(), y.Key, StringComparison.InvariantCultureIgnoreCase) != 0);
+                                                                                 x.Routes = routes;
+                                                                                 return x;
+                                                                             }))));
         }
     }
 }
