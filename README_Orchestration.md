@@ -15,15 +15,18 @@ You can filter by Api Key. This way you can get all the information on an Api.
 Eg.
 **/api/Gateway/orchestration?api=weatherservice**
 
-You can filter by Api Key and Route Key. This way you can get all information of a Route.
+You can filter by Api Key and Route Key. This way you can get all information on a Route.
 
 Eg.
 **/api/Gateway/orchestration?api=weatherservice&key=forecast**
 
+The filtering supports partial match.
+
 **Note:**
 
 You can secure this endpoint by implementing interface **IGetOrchestrationGatewayAuthorization** in your Gateway API project.
-Please see **Authorization** section for more information on how to do this.
+
+Please see [**Authorization**](README_Authorization.md) section for more information on how to do this.
 
 The Api Orchestration returned by the endpoint has:
 

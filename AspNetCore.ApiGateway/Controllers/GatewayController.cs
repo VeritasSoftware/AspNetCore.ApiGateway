@@ -208,19 +208,24 @@ namespace AspNetCore.ApiGateway.Controllers
         [Route("orchestration")]
         [ServiceFilter(typeof(GatewayGetOrchestrationAuthorizeAttribute))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Orchestration))]
-        public async Task<IActionResult> GetOrchestration(string api = null, string key =  null)
+        public async Task<IActionResult> GetOrchestration(string api = null, string key = null)
         {
-            return Ok(await Task.FromResult(string.IsNullOrEmpty(api) ? _apiOrchestrator.Orchestration 
-                                            : (string.IsNullOrEmpty(key)
+            return Ok(await Task.FromResult(string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key) ? _apiOrchestrator.Orchestration
+                                            : (!string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key)
                                             ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
+                                            : (string.IsNullOrEmpty(api) && !string.IsNullOrEmpty(key)
+                                            ? _apiOrchestrator.Orchestration?.Where(x => x.Routes.Any(y => y.Key.Contains(key.Trim())))
+                                                                             .Select(x => SelectRoutes(x, key))                                            
                                             : _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
-                                                                             .Select(x => 
-                                                                             {
-                                                                                 var routes = new List<Route>(x.Routes);
-                                                                                 routes.RemoveAll(y => !y.Key.Contains(key.Trim()));
-                                                                                 x.Routes = routes;
-                                                                                 return x;
-                                                                             }))));
+                                                                             .Select(x => SelectRoutes(x, key))))));
+        }
+
+        private Orchestration SelectRoutes(Orchestration orchestration, string key)
+        {
+            var routes = new List<Route>(orchestration.Routes);
+            routes.RemoveAll(y => !y.Key.Contains(key.Trim()));
+            orchestration.Routes = routes;
+            return orchestration;
         }
     }
 }
