@@ -212,12 +212,12 @@ namespace AspNetCore.ApiGateway.Controllers
         {
             return Ok(await Task.FromResult(string.IsNullOrEmpty(api) ? _apiOrchestrator.Orchestration 
                                             : (string.IsNullOrEmpty(key)
-                                            ? _apiOrchestrator.Orchestration?.Where(x => string.Compare(api.Trim(), x.Api, StringComparison.InvariantCultureIgnoreCase) == 0)
-                                            : _apiOrchestrator.Orchestration?.Where(x => string.Compare(api.Trim(), x.Api, StringComparison.InvariantCultureIgnoreCase) == 0)
+                                            ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
+                                            : _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
                                                                              .Select(x => 
                                                                              {
                                                                                  var routes = new List<Route>(x.Routes);
-                                                                                 routes.RemoveAll(y => string.Compare(key.Trim(), y.Key, StringComparison.InvariantCultureIgnoreCase) != 0);
+                                                                                 routes.RemoveAll(y => !y.Key.Contains(key.Trim()));
                                                                                  x.Routes = routes;
                                                                                  return x;
                                                                              }))));
