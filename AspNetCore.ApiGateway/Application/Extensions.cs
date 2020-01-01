@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Net.Http.Headers;
 
 namespace AspNetCore.ApiGateway
@@ -44,5 +45,12 @@ namespace AspNetCore.ApiGateway
                 { }
             }
         }
+
+        internal static Orchestration FilterRoutes(this Orchestration orchestration, string key)
+        {
+            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim()));            
+            return orchestration;
+        }
+
     }
 }

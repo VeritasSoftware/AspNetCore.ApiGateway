@@ -215,17 +215,9 @@ namespace AspNetCore.ApiGateway.Controllers
                                             ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
                                             : (string.IsNullOrEmpty(api) && !string.IsNullOrEmpty(key)
                                             ? _apiOrchestrator.Orchestration?.Where(x => x.Routes.Any(y => y.Key.Contains(key.Trim())))
-                                                                             .Select(x => SelectRoutes(x, key))                                            
+                                                                             .Select(x => x.FilterRoutes(key))
                                             : _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
-                                                                             .Select(x => SelectRoutes(x, key))))));
-        }
-
-        private Orchestration SelectRoutes(Orchestration orchestration, string key)
-        {
-            var routes = new List<Route>(orchestration.Routes);
-            routes.RemoveAll(y => !y.Key.Contains(key.Trim()));
-            orchestration.Routes = routes;
-            return orchestration;
+                                                                             .Select(x => x.FilterRoutes(key))))));
         }
     }
 }
