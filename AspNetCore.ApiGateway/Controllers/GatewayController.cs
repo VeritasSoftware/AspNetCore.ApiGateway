@@ -210,7 +210,11 @@ namespace AspNetCore.ApiGateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Orchestration))]
         public async Task<IActionResult> GetOrchestration(string api = null, string key = null)
         {
-            return Ok(await Task.FromResult(string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key) ? _apiOrchestrator.Orchestration
+            api = api?.ToLower();
+            key = key?.ToLower();
+
+            return Ok(await Task.FromResult(string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key) 
+                                            ? _apiOrchestrator.Orchestration
                                             : (!string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key)
                                             ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
                                             : (string.IsNullOrEmpty(api) && !string.IsNullOrEmpty(key)
