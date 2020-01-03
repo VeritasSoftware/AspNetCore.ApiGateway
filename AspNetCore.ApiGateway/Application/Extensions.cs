@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -50,6 +51,27 @@ namespace AspNetCore.ApiGateway
         {
             orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim()));            
             return orchestration;
+        }
+
+        internal static string ToUtcLongDateTime(this DateTime dateTime)
+        {
+            return dateTime.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+        }
+
+        internal static void LogApiInfo(this ILogger<ApiGatewayLog> logger, string api, string key, string parameters, object request = null)
+        {
+            if (request != null)
+                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}, parameters: {parameters}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+            else
+                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+        }
+
+        internal static void LogApiInfo(this ILogger<ApiGatewayLog> logger, string url, bool beforeBackendCall = true)
+        {
+            if (beforeBackendCall)
+                logger.LogInformation($"ApiGateway: Calling back end. Url: {url}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+            else
+                logger.LogInformation($"ApiGateway: Finished calling back end. Url: {url}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
         }
 
     }
