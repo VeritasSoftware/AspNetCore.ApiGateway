@@ -159,6 +159,6 @@ Your Gateway's Api Orchestration is published by **GET /api/Gateway/orchestratio
 
 ### Logging
 
-The Api Gateway uses **ILogger<ApiGatewayLog>** to create logs. 
+The Api Gateway uses **ILogger\<ApiGatewayLog>** to create logs. 
 
 In your Gateway API project, this can be used to tap into the these logs.
