@@ -156,3 +156,9 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 Your Gateway's Api Orchestration is published by **GET /api/Gateway/orchestration** endpoint.
 
 ### [Viewing Api Orchestration](README_Orchestration.md)
+
+### Logging
+
+The Api Gateway uses **ILogger<ApiGatewayLog>** to create logs. 
+
+In your Gateway API project, this can be used to tap into the these logs.

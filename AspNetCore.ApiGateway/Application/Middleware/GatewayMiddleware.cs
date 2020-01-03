@@ -25,7 +25,7 @@ namespace AspNetCore.ApiGateway
             await context.Response.WriteAsync(result);
         }
 
-        public async Task Invoke(HttpContext context, IApiOrchestrator orchestrator, ILogger<GatewayMiddleware> logger)
+        public async Task Invoke(HttpContext context, IApiOrchestrator orchestrator, ILogger<ApiGatewayLog> logger)
         {
             ApiInfo apiInfo = null;
             GatewayRouteInfo routeInfo = null;

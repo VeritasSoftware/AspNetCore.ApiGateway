@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -20,9 +19,9 @@ namespace AspNetCore.ApiGateway.Controllers
     public class GatewayController : ControllerBase
     {
         readonly IApiOrchestrator _apiOrchestrator;
-        readonly ILogger<GatewayController> _logger;
+        readonly ILogger<ApiGatewayLog> _logger;
             
-        public GatewayController(IApiOrchestrator apiOrchestrator, ILogger<GatewayController> logger)
+        public GatewayController(IApiOrchestrator apiOrchestrator, ILogger<ApiGatewayLog> logger)
         {
             _apiOrchestrator = apiOrchestrator;
             _logger = logger;
@@ -38,7 +37,7 @@ namespace AspNetCore.ApiGateway.Controllers
             else
                 parameters = string.Empty;
 
-            _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}, parameters: {parameters}");
+            _logger.LogInformation($"ApiGateway: Incoming GET request. api: {api}, key: {key}, parameters: {parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
@@ -56,9 +55,13 @@ namespace AspNetCore.ApiGateway.Controllers
                 {
                     this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
 
+                    _logger.LogInformation($"ApiGateway: Calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
+
                     var response = await client.GetAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
                     response.EnsureSuccessStatusCode();
+
+                    _logger.LogInformation($"ApiGateway: Finished calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
                     return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
                 }
@@ -75,7 +78,7 @@ namespace AspNetCore.ApiGateway.Controllers
             else
                 parameters = string.Empty;
 
-            _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}, parameters: {parameters}");
+            _logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {request.ToString()}, parameters: {parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
@@ -105,8 +108,12 @@ namespace AspNetCore.ApiGateway.Controllers
                     }
 
                     this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
-                    
+
+                    _logger.LogInformation($"ApiGateway: Calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
+
                     var response = await client.PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+
+                    _logger.LogInformation($"ApiGateway: Finished calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
                     response.EnsureSuccessStatusCode();
 
@@ -125,7 +132,7 @@ namespace AspNetCore.ApiGateway.Controllers
             else
                 parameters = string.Empty;
 
-            _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}, parameters: {parameters}");
+            _logger.LogInformation($"ApiGateway: Incoming PUT request. api: {api}, key: {key}, object: {request.ToString()}, parameters: {parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
@@ -156,7 +163,11 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
 
+                    _logger.LogInformation($"ApiGateway: Calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
+
                     var response = await client.PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+
+                    _logger.LogInformation($"ApiGateway: Finished calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
                     response.EnsureSuccessStatusCode();
 
@@ -177,7 +188,7 @@ namespace AspNetCore.ApiGateway.Controllers
             else
                 parameters = string.Empty;
 
-            _logger.LogInformation($"ApiGateway: Incoming DELETE request. api: {api}, key: {key}, parameters: {parameters}");
+            _logger.LogInformation($"ApiGateway: Incoming DELETE request. api: {api}, key: {key}, parameters: {parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
             var apiInfo = _apiOrchestrator.GetApi(api);
 
@@ -195,7 +206,11 @@ namespace AspNetCore.ApiGateway.Controllers
                 {
                     this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
 
+                    _logger.LogInformation($"ApiGateway: Calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
+
                     var response = await client.DeleteAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+
+                    _logger.LogInformation($"ApiGateway: Finished calling back end. Url: {apiInfo.BaseUrl}{routeInfo.Path}{parameters}, UtcTime: {DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss.fff tt") }");
 
                     response.EnsureSuccessStatusCode();
 
