@@ -63,7 +63,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
-                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
+                    return Ok(routeInfo.ResponseType != null
+                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
+                        : await response.Content.ReadAsStringAsync());
                 }
             }
         }
@@ -117,7 +119,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     response.EnsureSuccessStatusCode();
 
-                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
+                    return Ok(routeInfo.ResponseType != null
+                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
+                        : await response.Content.ReadAsStringAsync());
                 }
             }
         }
@@ -171,7 +175,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     response.EnsureSuccessStatusCode();
 
-                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
+                    return Ok(routeInfo.ResponseType != null
+                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
+                        : await response.Content.ReadAsStringAsync());
                 }
             }
         }
@@ -214,7 +220,9 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     response.EnsureSuccessStatusCode();
 
-                    return Ok(JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType));
+                    return Ok(routeInfo.ResponseType != null
+                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
+                        : await response.Content.ReadAsStringAsync());
                 }
             }
         }
