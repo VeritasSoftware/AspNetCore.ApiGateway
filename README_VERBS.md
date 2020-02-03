@@ -14,6 +14,10 @@
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Update.PNG)
 
+### PATCH
+
+![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Patch.PNG)
+
 ### DELETE
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Delete.PNG)

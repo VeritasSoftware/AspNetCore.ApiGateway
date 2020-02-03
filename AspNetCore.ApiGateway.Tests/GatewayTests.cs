@@ -12,6 +12,7 @@ using System;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace AspNetCore.ApiGateway.Tests
 {
@@ -179,6 +180,36 @@ namespace AspNetCore.ApiGateway.Tests
             var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(weatherTypes[3] == "Coooooooool");
+        }        
+
+        [Fact]
+        public async Task Test_Patch_Pass()
+        {
+            var client = _apiInit.GatewayAPI.CreateClient();
+
+            //Gateway API url with Api key and Route key
+            var gatewayUrl = "http://localhost/api/Gateway/weatherservice/patch";            
+
+            JsonPatchDocument<WeatherForecast> jsonPatch = new JsonPatchDocument<WeatherForecast>();
+            jsonPatch.Add(x => x.TemperatureC, 35);
+
+            var content = new StringContent(JsonConvert.SerializeObject(jsonPatch), Encoding.UTF8, "application/json-patch+json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
+
+            var httprequest = new HttpRequestMessage
+            {
+                RequestUri = new Uri(gatewayUrl),
+                Content = content,
+                Method = HttpMethod.Patch
+            };
+
+            var response = await client.SendAsync(httprequest);
+
+            response.EnsureSuccessStatusCode();
+
+            var weatherForecast = JsonConvert.DeserializeObject<WeatherForecast>(await response.Content.ReadAsStringAsync());
+
+            Assert.True(weatherForecast.TemperatureC == 35);
         }
 
         [Fact]

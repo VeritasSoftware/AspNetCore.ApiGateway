@@ -166,6 +166,36 @@ The response is like below:
         }
       },
       {
+        "key": "patch",
+        "verb": "PATCH",
+        "requestJsonSchema": null,
+        "responseJsonSchema": {
+          "title": "WeatherForecast",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Date": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "TemperatureC": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "TemperatureF": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "Summary": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      {
         "key": "remove",
         "verb": "DELETE",
         "requestJsonSchema": null,

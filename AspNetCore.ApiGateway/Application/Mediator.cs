@@ -13,6 +13,7 @@ namespace AspNetCore.ApiGateway
         GET,
         POST,
         PUT,
+        PATCH,
         DELETE
     }
 

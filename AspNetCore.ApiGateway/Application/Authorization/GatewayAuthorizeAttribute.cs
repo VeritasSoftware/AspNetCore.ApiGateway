@@ -86,6 +86,13 @@ namespace AspNetCore.ApiGateway.Authorization
         }
     }
 
+    internal class GatewayPatchAuthorizeAttribute : GatewayVerbAuthorizeAttribute
+    {
+        public GatewayPatchAuthorizeAttribute(IPatchGatewayAuthorization authorization = null) : base(authorization)
+        {
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     internal class GatewayDeleteAuthorizeAttribute : GatewayVerbAuthorizeAttribute
     {

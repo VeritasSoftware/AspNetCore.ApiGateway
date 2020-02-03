@@ -1,9 +1,9 @@
 ﻿using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -170,6 +170,62 @@ namespace AspNetCore.ApiGateway.Controllers
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
                     var response = await client.PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+
+                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
+
+                    response.EnsureSuccessStatusCode();
+
+                    return Ok(routeInfo.ResponseType != null
+                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
+                        : await response.Content.ReadAsStringAsync());
+                }
+            }
+        }
+
+        [HttpPatch]
+        [Route("{api}/{key}")]
+        [ServiceFilter(typeof(GatewayPatchAuthorizeAttribute))]
+        public async Task<IActionResult> Patch(string api, string key, [FromBody] JsonPatchDocument<object> patch, string parameters = null)
+        {
+            if (parameters != null)
+                parameters = HttpUtility.UrlDecode(parameters);
+            else
+                parameters = string.Empty;
+
+            _logger.LogApiInfo(api, key, parameters, patch.ToString());
+
+            var apiInfo = _apiOrchestrator.GetApi(api);
+
+            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
+
+            var routeInfo = gwRouteInfo.Route;
+
+            if (routeInfo.Exec != null)
+            {
+                return Ok(await routeInfo.Exec(apiInfo, this.Request));
+            }
+            else
+            {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                {
+                    HttpContent content = null;
+
+                    if (routeInfo.HttpClientConfig?.HttpContent != null)
+                    {
+                        content = routeInfo.HttpClientConfig.HttpContent();
+                    }
+                    else
+                    {
+                        var p = JsonConvert.SerializeObject(patch);
+
+                        content = new StringContent(p, Encoding.UTF8, "application/json-patch+json");
+                    }
+
+                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+
+                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+
+                    var response = await client.PatchAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 

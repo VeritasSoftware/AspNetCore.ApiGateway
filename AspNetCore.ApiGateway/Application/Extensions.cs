@@ -21,6 +21,7 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayGetOrchestrationAuthorizeAttribute>();
             services.AddScoped<GatewayPostAuthorizeAttribute>();
             services.AddScoped<GatewayPutAuthorizeAttribute>();
+            services.AddScoped<GatewayPatchAuthorizeAttribute>();
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();
 
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

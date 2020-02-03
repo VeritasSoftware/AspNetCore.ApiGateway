@@ -55,6 +55,10 @@ Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
 
 *	IPutGatewayAuthorization
 
+### PATCH
+
+*	IPatchGatewayAuthorization
+
 ### DELETE
 
 *	IDeleteGatewayAuthorization

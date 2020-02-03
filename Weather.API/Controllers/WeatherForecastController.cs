@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Weather.API.Controllers
 {
@@ -18,9 +18,18 @@ namespace Weather.API.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
+        static Random rng = new Random();
+
+        private readonly WeatherForecast now = new WeatherForecast
+        {
+            Date = DateTime.Now,
+            TemperatureC = rng.Next(-20, 55),
+            Summary = Summaries[rng.Next(Summaries.Length)]
+        };
+
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
-            _logger = logger;
+            _logger = logger;            
         }
 
         [HttpGet]
@@ -85,5 +94,22 @@ namespace Weather.API.Controllers
 
             return Summaries;
         }
+
+        [HttpPatch]
+        [Route("forecast/patch")]
+        public IActionResult Test([FromBody] JsonPatchDocument<WeatherForecast> patch)
+        {
+            if (patch != null)
+            {                
+                patch.ApplyTo(now);
+
+                return Ok(now);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
     }
 }

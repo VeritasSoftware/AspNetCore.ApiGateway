@@ -29,6 +29,10 @@ namespace AspNetCore.ApiGateway.Authorization
     {
     }
 
+    public interface IPatchGatewayAuthorization : IGatewayVerbAuthorization
+    {
+    }
+
     public interface IDeleteGatewayAuthorization : IGatewayVerbAuthorization
     {
     }
