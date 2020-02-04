@@ -2,6 +2,10 @@
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGatewayCall.PNG)
 
+### HEAD
+
+![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/HEAD.PNG)
+
 ### GET with Params
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/GETWithParams.PNG)

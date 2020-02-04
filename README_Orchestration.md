@@ -78,6 +78,12 @@ The response is like below:
         }
       },
       {
+        "key": "forecasthead",
+        "verb": "HEAD",
+        "requestJsonSchema": null,
+        "responseJsonSchema": null
+      },
+      {
         "key": "types",
         "verb": "GET",
         "requestJsonSchema": null,

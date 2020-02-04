@@ -19,6 +19,7 @@ In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API
 ### Your **Gateway API** exposes endpoints which are a **facade** over your backend API endpoints.
 
 *	GET
+*   HEAD
 *	POST
 *	PUT
 *   PATCH
@@ -63,6 +64,8 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
                                 //Get
                                 .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
+                                //Head
+                                .AddRoute("forecasthead", GatewayVerb.HEAD, new RouteInfo { Path = "weatherforecast/forecast" })
                                 //Get using custom HttpClient
                                 .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get with param using custom HttpClient

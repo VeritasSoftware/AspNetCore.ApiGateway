@@ -43,9 +43,9 @@ services.AddApiGateway();
 Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
 ```
 
-### GET
+### GET / HEAD
 
-*	IGetGatewayAuthorization
+*	IGetOrHeadGatewayAuthorization
 
 ### POST
 
@@ -74,7 +74,7 @@ In your Gateway API project,
 *	Create a service like below
 
 ```C#
-    public class GetAuthorizationService : IGetGatewayAuthorization
+    public class GetAuthorizationService : IGetOrHeadGatewayAuthorization
     {
         public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
         {
@@ -88,7 +88,7 @@ In your Gateway API project,
 *	Wire it up for dependency injection in Startup.cs
 
 ```C#
-services.AddScoped<IGetGatewayAuthorization, GetAuthorizationService>();
+services.AddScoped<IGetOrHeadGatewayAuthorization, GetAuthorizationService>();
 .
 .
 services.AddApiGateway();

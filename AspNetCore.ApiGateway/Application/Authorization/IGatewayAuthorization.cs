@@ -13,7 +13,7 @@ namespace AspNetCore.ApiGateway.Authorization
         Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key);
     }
 
-    public interface IGetGatewayAuthorization : IGatewayVerbAuthorization
+    public interface IGetOrHeadGatewayAuthorization : IGatewayVerbAuthorization
     {
     }
 

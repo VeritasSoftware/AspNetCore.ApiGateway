@@ -27,9 +27,9 @@ namespace AspNetCore.ApiGateway.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGetOrHead]
         [Route("{api}/{key}")]
-        [ServiceFilter(typeof(GatewayGetAuthorizeAttribute))]
+        [ServiceFilter(typeof(GatewayGetOrHeadAuthorizeAttribute))]
         public async Task<IActionResult> Get(string api, string key, string parameters = null)
         {
             if (parameters != null)

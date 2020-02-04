@@ -55,9 +55,9 @@ namespace AspNetCore.ApiGateway.Authorization
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    internal class GatewayGetAuthorizeAttribute : GatewayVerbAuthorizeAttribute
+    internal class GatewayGetOrHeadAuthorizeAttribute : GatewayVerbAuthorizeAttribute
     {
-        public GatewayGetAuthorizeAttribute(IGetGatewayAuthorization authorization = null) : base(authorization)
+        public GatewayGetOrHeadAuthorizeAttribute(IGetOrHeadGatewayAuthorization authorization = null) : base(authorization)
         {
         }
     }

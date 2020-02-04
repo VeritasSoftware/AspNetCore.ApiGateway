@@ -11,6 +11,7 @@ namespace AspNetCore.ApiGateway
     public enum GatewayVerb
     {
         GET,
+        HEAD,
         POST,
         PUT,
         PATCH,

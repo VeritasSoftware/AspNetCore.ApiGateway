@@ -18,6 +18,8 @@ namespace ApiGateway.API
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
                                 //Get
                                 .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
+                                //Head
+                                .AddRoute("forecasthead", GatewayVerb.HEAD, new RouteInfo { Path = "weatherforecast/forecast" })
                                 //Get using custom HttpClient
                                 .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get with param using custom HttpClient

@@ -14,7 +14,7 @@ namespace ApiGateway.API.Application.Authorization
         }
     }
 
-    public class GetAuthorizationService : IGetGatewayAuthorization
+    public class GetAuthorizationService : IGetOrHeadGatewayAuthorization
     {
         public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
         {
