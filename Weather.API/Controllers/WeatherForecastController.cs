@@ -97,7 +97,7 @@ namespace Weather.API.Controllers
 
         [HttpPatch]
         [Route("forecast/patch")]
-        public IActionResult Test([FromBody] JsonPatchDocument<WeatherForecast> patch)
+        public IActionResult Patch([FromBody] JsonPatchDocument<WeatherForecast> patch)
         {
             if (patch != null)
             {                
