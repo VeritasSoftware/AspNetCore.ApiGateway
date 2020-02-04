@@ -24,7 +24,7 @@ In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API
 *   PATCH
 *	DELETE
 
-<img src="https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/FacadeDesignPattern.PNG" style="margin:auto;" alt="API Gateway Facade" height="636px" width="600px" >
+<img src="https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/FacadeDesignPattern.PNG" style="margin:auto;" alt="API Gateway Facade" height="530px" width="500px" >
 
 For eg. To make a GET call to the backend API, you would set up an Api and a GET Route in your Gateway API's **Api Orchestrator**.
 
