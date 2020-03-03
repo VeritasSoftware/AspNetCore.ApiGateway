@@ -4,6 +4,15 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <Description>Framework to help build your own Api Gateway. Out of the box simple Gateway facade. Authorization, Swagger, Logging support.</Description>
+    <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
+    <PackageTags>AspNetCore.ApiGateway Api Gateway asp net core 3 library framework facade freeware swagger authorization</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>Shantanu</Authors>
+    <Company>Veritas Software</Company>
   </PropertyGroup>
 
   <ItemGroup>
