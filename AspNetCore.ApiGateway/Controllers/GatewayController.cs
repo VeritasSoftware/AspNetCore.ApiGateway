@@ -20,11 +20,14 @@ namespace AspNetCore.ApiGateway.Controllers
     {
         readonly IApiOrchestrator _apiOrchestrator;
         readonly ILogger<ApiGatewayLog> _logger;
-            
-        public GatewayController(IApiOrchestrator apiOrchestrator, ILogger<ApiGatewayLog> logger)
+        readonly IHttpService _httpService;
+
+
+        public GatewayController(IApiOrchestrator apiOrchestrator, ILogger<ApiGatewayLog> logger, IHttpService httpService)
         {
             _apiOrchestrator = apiOrchestrator;
             _logger = logger;
+            _httpService = httpService;
         }
 
         [HttpGetOrHead]
@@ -51,13 +54,13 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
                 {
-                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await client.GetAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+                    var response = await (client??_httpService.Client).GetAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
                     response.EnsureSuccessStatusCode();
 
@@ -94,7 +97,7 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
                 {
                     HttpContent content = null;
 
@@ -109,11 +112,11 @@ namespace AspNetCore.ApiGateway.Controllers
                         content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     }
 
-                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await client.PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+                    var response = await (client ?? _httpService.Client).PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
@@ -150,7 +153,7 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
                 {
                     HttpContent content = null;
 
@@ -165,11 +168,11 @@ namespace AspNetCore.ApiGateway.Controllers
                         content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     }
 
-                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await client.PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+                    var response = await (client ?? _httpService.Client).PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
@@ -206,7 +209,7 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
                 {
                     HttpContent content = null;
 
@@ -221,11 +224,11 @@ namespace AspNetCore.ApiGateway.Controllers
                         content = new StringContent(p, Encoding.UTF8, "application/json-patch+json");
                     }
 
-                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await client.PatchAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+                    var response = await (client ?? _httpService.Client).PatchAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
@@ -264,13 +267,13 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? new HttpClient())
+                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
                 {
-                    this.Request.Headers?.AddRequestHeaders(client.DefaultRequestHeaders);
+                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await client.DeleteAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+                    var response = await (client ?? _httpService.Client).DeleteAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
