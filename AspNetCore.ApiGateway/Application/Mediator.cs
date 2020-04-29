@@ -24,7 +24,7 @@ namespace AspNetCore.ApiGateway
 
         public Func<HttpContent> HttpContent { get; set; }
 
-        public Action<HttpClient> CustomizeDefaultHttpClient { get; set; }
+        public Action<HttpClient, HttpRequest> CustomizeDefaultHttpClient { get; set; }
     }
 
     public class GatewayRouteInfo

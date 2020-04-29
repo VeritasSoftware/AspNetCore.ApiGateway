@@ -60,7 +60,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     if (client == null)
                     {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
                     }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
@@ -121,7 +121,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     if (client == null)
                     {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
                     }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
@@ -182,7 +182,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     if (client == null)
                     {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
                     }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
@@ -243,7 +243,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     if (client == null)
                     {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
                     }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
@@ -293,7 +293,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     if (client == null)
                     {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
                     }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
