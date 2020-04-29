@@ -161,6 +161,7 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 
 ### Customizations
 
+*   You can customize the default **HttpClient** which the endpoints use to hit the backend api.
 *	You can use your own **HttpClient** to hit the backend Api.
 *	You can create your own implementation to hit the backend Api.
 

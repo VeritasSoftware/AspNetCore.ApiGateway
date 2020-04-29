@@ -54,9 +54,14 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
-                {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient())
+                {                    
                     this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
+
+                    if (client == null)
+                    {
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                    }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
@@ -97,8 +102,8 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
-                {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient())
+                {                    
                     HttpContent content = null;
 
                     if (routeInfo.HttpClientConfig?.HttpContent != null)
@@ -113,6 +118,11 @@ namespace AspNetCore.ApiGateway.Controllers
                     }
 
                     this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
+
+                    if (client == null)
+                    {
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                    }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
@@ -153,8 +163,8 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
-                {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient())
+                {                    
                     HttpContent content = null;
 
                     if (routeInfo.HttpClientConfig?.HttpContent != null)
@@ -169,6 +179,11 @@ namespace AspNetCore.ApiGateway.Controllers
                     }
 
                     this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
+
+                    if (client == null)
+                    {
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                    }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
@@ -209,8 +224,8 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
-                {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient())
+                {                    
                     HttpContent content = null;
 
                     if (routeInfo.HttpClientConfig?.HttpContent != null)
@@ -225,6 +240,11 @@ namespace AspNetCore.ApiGateway.Controllers
                     }
 
                     this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
+
+                    if (client == null)
+                    {
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                    }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
@@ -267,9 +287,14 @@ namespace AspNetCore.ApiGateway.Controllers
             }
             else
             {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient() ?? null)
-                {
+                using (var client = routeInfo.HttpClientConfig?.HttpClient())
+                {                    
                     this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
+
+                    if (client == null)
+                    {
+                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client);
+                    }
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 

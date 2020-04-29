@@ -4,6 +4,7 @@ You may want to customize your calls to the back end Apis.
 
 The library provides hooks to
 
+*   Customize the default HttpClient which the endpoints use to hit the backend api.
 *	Use your own **HttpClient**.
 *	Use your own custom implementation of the back end Api call.
 
@@ -15,18 +16,24 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
     public class WeatherService : IWeatherService
     {
         /// <summary>
-        /// If you want to use a custom HttpClient or HttpContent for your backend Api call, you can do this.
+        /// If you want to customize the default HttpClient or
+        /// use your own custom HttpClient or HttpContent 
+        /// to hit the backend Api call, you can do this.
         /// </summary>
         /// <returns><see cref="HttpClientConfig"/></returns>
         public HttpClientConfig GetClientConfig()
         {
             return new HttpClientConfig()
             {
+                //customize the default HttpClient. eg. add a header.
+                CustomizeDefaultHttpClient = httpClient => httpClient.DefaultRequestHeaders.Add("My header", "My header value"), 
+                //OR
+                //your own custom HttpClient
                 HttpClient = () => new HttpClient()
             };
         }
 
-         /// <summary>
+        /// <summary>
         /// If you want to completely customize your backend Api call, you can do this
         /// </summary>
         /// <param name="apiInfo">The api info</param>
@@ -34,7 +41,15 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
         /// <returns></returns>
         public async Task<object> GetTypes(ApiInfo apiInfo, HttpRequest request)
         {
-            //Create your own implementation to hit the backend Api.
+            //Create your own implementation to hit the backend.
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{apiInfo.BaseUrl}weatherforecast/forecast");
+
+                response.EnsureSuccessStatusCode();
+
+                return JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+            }
         }
     }
 ```
@@ -59,7 +74,7 @@ Then, they are hooked up to **routes** in the **Api Orchestrator**.
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")                                
-                                //Get using custom HttpClient
+                                //Get using customize default HttpClient or your own custom HttpClient
                                 .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get using custom implementation
                                 .AddRoute("typescustom", GatewayVerb.GET, weatherService.GetTypes);

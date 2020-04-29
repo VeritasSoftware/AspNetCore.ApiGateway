@@ -9,13 +9,19 @@ namespace ApiGateway.API
     public class WeatherService : IWeatherService
     {
         /// <summary>
-        /// If you want to use a custom HttpClient or HttpContent for your backend Api call, you can do this.
+        /// If you want to customize the default HttpClient or
+        /// use your own custom HttpClient or HttpContent 
+        /// to hit the backend Api call, you can do this.
         /// </summary>
         /// <returns><see cref="HttpClientConfig"/></returns>
         public HttpClientConfig GetClientConfig()
         {
             return new HttpClientConfig()
             {
+                //customize the default HttpClient. eg. add a header.
+                CustomizeDefaultHttpClient = httpClient => httpClient.DefaultRequestHeaders.Add("My header", "My header value"), 
+                //OR
+                //your own custom HttpClient
                 HttpClient = () => new HttpClient()
             };
         }
