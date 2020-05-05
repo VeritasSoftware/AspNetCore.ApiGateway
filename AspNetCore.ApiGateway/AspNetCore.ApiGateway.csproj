@@ -13,6 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Improvement to re-use httpclient to call backend api.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
