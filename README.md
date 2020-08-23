@@ -10,7 +10,7 @@
 
 The microservices architecture uses an Api Gateway as shown below.
 
-![Architecture](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Architecture.png)
+![Architecture](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/Architecture.png)
 
 **The package:**
 
@@ -32,7 +32,7 @@ In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API
 <div>
 
 </div>
-<img src="https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/FacadeDesignPattern.PNG" style="width:60%;height:auto;max-width:500px;" alt="API Gateway Facade" >
+<img src="https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/FacadeDesignPattern.PNG" style="width:60%;height:auto;max-width:500px;" alt="API Gateway Facade" >
 
 For eg. To make a GET call to the backend API, you would set up an Api and a GET Route in your Gateway API's **Api Orchestrator**.
 
@@ -141,23 +141,23 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
 The Gateway Swagger appears as shown below:
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGateway.PNG)
+![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/ApiGateway.PNG)
 
 To call the **forecast** Route on the **weather service** Api,
 
 you can enter the Api key and Route key into Swagger as below:
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/ApiGatewayCall.PNG)
+![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/ApiGatewayCall.PNG)
 
 This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
 
 You can check out how the Api Gateway supported Verbs are used below.
 
-### [Verbs Usage](README_VERBS.md)
+### [Verbs Usage](Docs/README_VERBS.md)
 
 You can check out how the Api Gateway's endpoint Authorization support below.
 
-### [Authorization](README_Authorization.md)
+### [Authorization](Docs/README_Authorization.md)
 
 ### Customizations
 
@@ -165,13 +165,13 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 *	You can use your own **HttpClient** to hit the backend Api.
 *	You can create your own implementation to hit the backend Api.
 
-### [Customizations](README_Customizations.md)
+### [Customizations](Docs/README_Customizations.md)
 
 ### Viewing your Gateway's Api Orchestration
 
 Your Gateway's Api Orchestration is published by **GET /api/Gateway/orchestration** endpoint.
 
-### [Viewing Api Orchestration](README_Orchestration.md)
+### [Viewing Api Orchestration](Docs/README_Orchestration.md)
 
 ### Logging
 
