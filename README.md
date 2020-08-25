@@ -17,6 +17,7 @@ The microservices architecture uses an Api Gateway as shown below.
 *	Makes creating an Api Gateway a breeze!!
 *	Authorization support
 *	Swagger support.
+*   Load balancing support.
 
 In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API**.
 
@@ -166,6 +167,10 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 *	You can create your own implementation to hit the backend Api.
 
 ### [Customizations](Docs/README_Customizations.md)
+
+### Load Balancing
+
+### [Load Balancing](Docs/README_LoadBalancing.md)
 
 ### Viewing your Gateway's Api Orchestration
 

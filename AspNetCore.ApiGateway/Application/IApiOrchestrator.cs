@@ -4,7 +4,7 @@ namespace AspNetCore.ApiGateway
 {
     public interface IApiOrchestrator
     {
-        IMediator AddApi(string apiKey, string baseUrl);
+        IMediator AddApi(string apiKey, params string[] baseUrl);
 
         ApiInfo GetApi(string apiKey);
 

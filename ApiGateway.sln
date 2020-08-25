@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		Docs\README_Authorization.md = Docs\README_Authorization.md
 		Docs\README_Customizations.md = Docs\README_Customizations.md
+		Docs\README_LoadBalancing.md = Docs\README_LoadBalancing.md
 		Docs\README_Orchestration.md = Docs\README_Orchestration.md
 		Docs\README_VERBS.md = Docs\README_VERBS.md
 		Docs\Update.PNG = Docs\Update.PNG

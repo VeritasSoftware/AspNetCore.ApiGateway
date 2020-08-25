@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AspNetCore.ApiGateway
@@ -14,18 +15,33 @@ namespace AspNetCore.ApiGateway
     {
         Dictionary<string, ApiInfo> apis = new Dictionary<string, ApiInfo>();
 
-        public IMediator AddApi(string apiKey, string baseUrl)
+        Dictionary<string, string[]> apiUrls = new Dictionary<string, string[]>();
+
+        public IMediator AddApi(string apiKey, params string[] baseUrls)
         {
             var mediator = new Mediator(this);
 
-            apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrl, Mediator = mediator });
+            apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
+
+            apiUrls.Add(apiKey.ToLower(), baseUrls);
 
             return mediator;
         }
 
         public ApiInfo GetApi(string apiKey)
         {
-            return apis[apiKey.ToLower()];
+            var apiInfo = apis[apiKey.ToLower()];
+
+            var baseUrls = apiUrls[apiKey.ToLower()];
+
+            if (baseUrls.Count() > 1)
+            {                
+                var random = new Random();
+                var selected = random.Next(0, baseUrls.Count() - 1);
+                apiInfo.BaseUrl = baseUrls[selected];
+            }
+
+            return apiInfo;
         }
 
         public IEnumerable<Orchestration> Orchestration => apis?.Select(x => new Orchestration
