@@ -34,11 +34,11 @@ namespace AspNetCore.ApiGateway
 
             var baseUrls = apiUrls[apiKey.ToLower()];
 
+            //if more than 1 base url is specified
+            //get the load balancing base url based on Random selection
             if (baseUrls.Count() > 1)
-            {                
-                var random = new Random();
-                var selected = random.Next(0, baseUrls.Count() - 1);
-                apiInfo.BaseUrl = baseUrls[selected];
+            {
+                apiInfo.BaseUrl = this.GetLoadBalancingUrl(baseUrls);
             }
 
             return apiInfo;
@@ -49,5 +49,12 @@ namespace AspNetCore.ApiGateway
             Api = x.Key,
             Routes = x.Value.Mediator.Routes
         });
+
+        private string GetLoadBalancingUrl(string[] baseUrls)
+        {
+            var random = new Random();
+            var selected = random.Next(0, baseUrls.Count() - 1);
+            return baseUrls[selected];
+        }
     }
 }
