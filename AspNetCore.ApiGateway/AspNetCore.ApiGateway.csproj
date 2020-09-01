@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <Description>Framework to help build your own Api Gateway. Out of the box simple Gateway facade. Authorization, Swagger, Logging support.</Description>
+    <Description>Framework to help build your own Api Gateway. Out of the box simple Gateway facade. Authorization, Swagger, Logging, Load balancing support.</Description>
     <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
     <PackageTags>AspNetCore.ApiGateway Api Gateway asp net core 3 library framework facade freeware swagger authorization</PackageTags>
@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>Improvement to re-use httpclient to call backend api.</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Added load balancing support. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
