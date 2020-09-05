@@ -1,6 +1,7 @@
 ﻿using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -10,10 +11,22 @@ using System.Net.Http.Headers;
 
 namespace AspNetCore.ApiGateway
 {
+    public class Options
+    {
+        public bool UseResponseCaching { get; set; }
+        public ApiGatewayResponseCacheSettings ResponseCacheSettings { get; set; }
+    }
+
     public static class Extensions
     {
-        public static void AddApiGateway(this IServiceCollection services)
+        static Options Options { get; set; }
+
+        public static void AddApiGateway(this IServiceCollection services, Action<Options> options = null)
         {
+            Options = new Options();
+
+            options?.Invoke(Options);
+
             var apis = new ApiOrchestrator();
             
             services.AddTransient<IApiOrchestrator>(x => apis);
@@ -26,13 +39,37 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();
             services.AddHttpClient<IHttpService, HttpService>();
 
-            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            if (Options != null)
+            {
+                if (Options.UseResponseCaching && Options.ResponseCacheSettings != null)
+                {
+                    services.AddResponseCaching();
+
+                    services.AddMvc(o => o.Filters.Add(new ResponseCacheAttribute 
+                    { 
+                        NoStore = Options.ResponseCacheSettings.NoStore, 
+                        Location = Options.ResponseCacheSettings.Location,
+                        Duration = Options.ResponseCacheSettings.Duration,
+                        VaryByHeader = Options.ResponseCacheSettings.VaryByHeader,
+                        VaryByQueryKeys = Options.ResponseCacheSettings.VaryByQueryKeys
+                    }));
+                }
+            }
+
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);            
         }
 
         public static void UseApiGateway(this IApplicationBuilder app, Action<IApiOrchestrator> setApis)
         {
             var serviceProvider = app.ApplicationServices;
             setApis(serviceProvider.GetService<IApiOrchestrator>());
+            if (Options != null)
+            {
+                if (Options.UseResponseCaching)
+                {
+                    app.UseResponseCaching();
+                }
+            }
             app.UseMiddleware<GatewayMiddleware>();
         }
 

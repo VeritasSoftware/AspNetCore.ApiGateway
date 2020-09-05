@@ -3,6 +3,7 @@ using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,7 +30,15 @@ namespace ApiGateway.API
             services.AddScoped<IGetOrHeadGatewayAuthorization, GetAuthorizationService>();
             
             //Api gateway
-            services.AddApiGateway();
+            services.AddApiGateway(options =>
+            {
+                options.UseResponseCaching = true;
+                options.ResponseCacheSettings = new ApiGatewayResponseCacheSettings
+                {
+                    Duration = 120,
+                    Location = ResponseCacheLocation.Any
+                };
+            });
 
             services.AddControllers();
 
