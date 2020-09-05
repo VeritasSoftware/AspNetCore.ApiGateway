@@ -11,19 +11,13 @@ using System.Net.Http.Headers;
 
 namespace AspNetCore.ApiGateway
 {
-    public class Options
-    {
-        public bool UseResponseCaching { get; set; }
-        public ApiGatewayResponseCacheSettings ResponseCacheSettings { get; set; }
-    }
-
     public static class Extensions
     {
-        static Options Options { get; set; }
+        static ApiGatewayOptions Options { get; set; }
 
-        public static void AddApiGateway(this IServiceCollection services, Action<Options> options = null)
+        public static void AddApiGateway(this IServiceCollection services, Action<ApiGatewayOptions> options = null)
         {
-            Options = new Options();
+            Options = new ApiGatewayOptions();
 
             options?.Invoke(Options);
 
