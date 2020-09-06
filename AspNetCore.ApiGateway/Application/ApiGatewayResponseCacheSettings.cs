@@ -4,6 +4,8 @@ namespace AspNetCore.ApiGateway
 {
     public class ApiGatewayResponseCacheSettings
     {
+        //     Gets or sets the value of the cache profile name.
+        public string CacheProfileName { get; set; }
         //     Gets or sets the duration in seconds for which the response is cached. This sets
         //     "max-age" in "Cache-control" header.
         public int Duration { get; set; }
