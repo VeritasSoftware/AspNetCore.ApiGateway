@@ -45,7 +45,8 @@ namespace AspNetCore.ApiGateway
                         Location = Options.ResponseCacheSettings.Location,
                         Duration = Options.ResponseCacheSettings.Duration,
                         VaryByHeader = Options.ResponseCacheSettings.VaryByHeader,
-                        VaryByQueryKeys = Options.ResponseCacheSettings.VaryByQueryKeys
+                        VaryByQueryKeys = Options.ResponseCacheSettings.VaryByQueryKeys,
+                        CacheProfileName = Options.ResponseCacheSettings.CacheProfileName
                     }));
                 }
             }
