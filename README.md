@@ -19,7 +19,7 @@ The microservices architecture uses an Api Gateway as shown below.
 *	Swagger support
 *   Load balancing support
 *   Response caching support
-*   Web Sockets support
+*   Web sockets support
 
 In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API**.
 
