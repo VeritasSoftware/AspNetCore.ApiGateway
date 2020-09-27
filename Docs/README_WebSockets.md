@@ -25,6 +25,8 @@ The Gateway provides a **POST** endpoint for accepting requests for downstream H
 
 You can pass the data in the body of this post request.
 
+You can pass a max of 10 objects in the request.
+
 In Swagger, you would call this endpoint as below:
 
 ![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/WebSockets.PNG)

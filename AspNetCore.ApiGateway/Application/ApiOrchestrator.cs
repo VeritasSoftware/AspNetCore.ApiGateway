@@ -47,7 +47,7 @@ namespace AspNetCore.ApiGateway
 
             var cb = new HubConnectionBuilder();
 
-            var conn = connectionBuilder(cb);
+            var conn = connectionBuilder(cb);            
 
             hubs.Add(apiKey.ToLower(), new HubInfo() { Mediator = mediator, Connection = conn });
 

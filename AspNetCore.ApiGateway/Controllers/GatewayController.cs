@@ -153,9 +153,46 @@ namespace AspNetCore.ApiGateway.Controllers
 
             var connection = hubInfo.Connection;
 
-            await connection.StartAsync();
+            if (connection.State != HubConnectionState.Connected)
+            {
+                await connection.StartAsync();
+            }            
 
-            await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request);
+            var paramCount = request.Count();
+
+            switch(paramCount)
+            {
+                case 1:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0]);
+                    break;
+                case 2:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1]);
+                    break;
+                case 3:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2]);
+                    break;
+                case 4:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2], request[3]);
+                    break;
+                case 5:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2], request[3], request[4]);
+                    break;
+                case 6:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2], request[3], request[4], request[5]);
+                    break;
+                case 7:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2], request[3], request[4], request[5], request[6]);
+                    break;
+                case 8:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2], request[3], request[4], request[5], request[6], request[7]);
+                    break;
+                case 9:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2], request[3], request[4], request[5], request[6], request[7], request[8]);
+                    break;
+                case 10:
+                    await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request[0], request[1], request[2], request[3], request[4], request[5], request[6], request[7], request[8], request[9]);
+                    break;
+            }
         }
 
         [HttpPut]
