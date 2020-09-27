@@ -81,7 +81,11 @@ namespace AspNetCore.ApiGateway
         {
             Api = x.Key,
             Routes = x.Value.Mediator.Routes
-        });
+        }).Union(hubs?.Select(x => new Orchestration
+        {
+            Api = x.Key,
+            Routes = x.Value.Mediator.Routes
+        }));
 
         private string GetLoadBalancingUrl(string[] baseUrls)
         {

@@ -273,6 +273,17 @@ The response is like below:
         }
       }
     ]
+  },
+  {
+    "api": "chatservice",
+    "routes": [
+      {
+        "key": "room",
+        "verb": "POST",
+        "requestJsonSchema": null,
+        "responseJsonSchema": null
+      }
+    ]
   }
 ]
 ```

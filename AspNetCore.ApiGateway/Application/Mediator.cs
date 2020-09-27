@@ -87,6 +87,11 @@ namespace AspNetCore.ApiGateway
             return paths[key.ToLower()];
         }
 
+        public IEnumerable<Route> Routes => paths.Select(x => new Route
+        {
+            Key = x.Key,
+            Verb = x.Value?.Verb.ToString(),
+        });
     }
 
     public class Mediator : IMediator
