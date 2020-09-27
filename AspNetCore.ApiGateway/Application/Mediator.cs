@@ -54,19 +54,26 @@ namespace AspNetCore.ApiGateway
 
     public class HubMediator : IHubMediator
     {
-        private readonly IApiOrchestrator _orchestrator;
+        private readonly IApiOrchestrator _apiOrchestrator;
         Dictionary<string, GatewayRouteInfo> paths = new Dictionary<string, GatewayRouteInfo>();
 
-        public HubMediator(IApiOrchestrator orchestrator)
+        public HubMediator(IApiOrchestrator apiOrchestrator)
         {
-            _orchestrator = orchestrator;
+            _apiOrchestrator = apiOrchestrator;
         }
 
         public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder)
         {
-            _orchestrator.AddHub(apiKey, connectionBuilder);
+            _apiOrchestrator.AddHub(apiKey, connectionBuilder);
 
             return this;
+        }
+
+        public IMediator AddApi(string apiKey, params string[] baseUrls)
+        {
+            _apiOrchestrator.AddApi(apiKey, baseUrls);
+
+            return _apiOrchestrator.GetApi(apiKey).Mediator;
         }
 
         public IHubMediator AddRoute(string key, HubRouteInfo routeInfo)

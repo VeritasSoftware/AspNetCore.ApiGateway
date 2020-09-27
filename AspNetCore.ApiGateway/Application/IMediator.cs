@@ -8,6 +8,8 @@ namespace AspNetCore.ApiGateway
 {
     public interface IHubMediator
     {
+        IMediator AddApi(string apiKey, params string[] baseUrls);
+
         IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder);
 
         IHubMediator AddRoute(string key, HubRouteInfo routeInfo);
