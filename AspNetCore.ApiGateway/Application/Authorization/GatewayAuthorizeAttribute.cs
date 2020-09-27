@@ -79,6 +79,14 @@ namespace AspNetCore.ApiGateway.Authorization
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    internal class GatewayHubPostAuthorizeAttribute : GatewayVerbAuthorizeAttribute
+    {
+        public GatewayHubPostAuthorizeAttribute(IHubPostGatewayAuthorization authorization = null) : base(authorization)
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     internal class GatewayPutAuthorizeAttribute : GatewayVerbAuthorizeAttribute
     {
         public GatewayPutAuthorizeAttribute(IPutGatewayAuthorization authorization = null) : base(authorization)

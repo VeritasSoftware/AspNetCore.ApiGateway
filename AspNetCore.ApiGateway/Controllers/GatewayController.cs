@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Linq;
@@ -137,6 +138,24 @@ namespace AspNetCore.ApiGateway.Controllers
                         : await response.Content.ReadAsStringAsync());
                 }
             }
+        }
+
+        [HttpPost]
+        [Route("hub/{api}/{key}")]
+        [ServiceFilter(typeof(GatewayHubPostAuthorizeAttribute))]
+        public async Task PostHub(string api, string key, params object[] request)
+        {
+            _logger.LogApiInfo(api, key, "", request);
+
+            var hubInfo = _apiOrchestrator.GetHub(api);
+
+            var gwRouteInfo = hubInfo.Mediator.GetRoute(key);           
+
+            var connection = hubInfo.Connection;
+
+            await connection.StartAsync();
+
+            await connection.InvokeAsync(gwRouteInfo.HubRoute.InvokeMethod, request);
         }
 
         [HttpPut]

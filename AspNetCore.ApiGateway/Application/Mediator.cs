@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR.Client;
 using NJsonSchema;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace AspNetCore.ApiGateway
         public GatewayVerb Verb { get; set; }
 
         public RouteInfo Route { get; set; }
+
+        public HubRouteInfo HubRoute { get; set; }
     }
 
     public class RouteInfo
@@ -43,6 +46,48 @@ namespace AspNetCore.ApiGateway
         public HttpClientConfig HttpClientConfig { get; set; }
     }
 
+    public class HubRouteInfo
+    {
+        public string InvokeMethod { get; set; }
+    }
+
+
+    public class HubMediator : IHubMediator
+    {
+        private readonly IApiOrchestrator _orchestrator;
+        Dictionary<string, GatewayRouteInfo> paths = new Dictionary<string, GatewayRouteInfo>();
+
+        public HubMediator(IApiOrchestrator orchestrator)
+        {
+            _orchestrator = orchestrator;
+        }
+
+        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder)
+        {
+            _orchestrator.AddHub(apiKey, connectionBuilder);
+
+            return this;
+        }
+
+        public IHubMediator AddRoute(string key, HubRouteInfo routeInfo)
+        {
+            var gatewayRouteInfo = new GatewayRouteInfo
+            {
+                Verb = GatewayVerb.POST,
+                HubRoute = routeInfo
+            };
+
+            paths.Add(key.ToLower(), gatewayRouteInfo);
+
+            return this;
+        }
+
+        public GatewayRouteInfo GetRoute(string key)
+        {
+            return paths[key.ToLower()];
+        }
+
+    }
 
     public class Mediator : IMediator
     {
@@ -82,9 +127,9 @@ namespace AspNetCore.ApiGateway
             return this;
         }
 
-        public IMediator AddApi(string apiKey, string baseUrl)
+        public IMediator AddApi(string apiKey, params string[] baseUrls)
         {
-            _apiOrchestrator.AddApi(apiKey, baseUrl);
+            _apiOrchestrator.AddApi(apiKey, baseUrls);
 
             return _apiOrchestrator.GetApi(apiKey).Mediator;
         }
@@ -112,6 +157,12 @@ namespace AspNetCore.ApiGateway
 
             return JsonSchema.FromType(type);
         }
+
+        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder)
+        {
+            return _apiOrchestrator.AddHub(apiKey, connectionBuilder);
+        }
+
         #endregion
     }
 

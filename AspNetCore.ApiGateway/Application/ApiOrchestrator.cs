@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,9 +13,20 @@ namespace AspNetCore.ApiGateway
         public Mediator Mediator { get; set; }
     }
 
+    public class HubInfo
+    {
+        public string BaseUrl { get; set; }
+
+        public HubMediator Mediator { get; set; }
+
+        public HubConnection Connection { get; set; }
+    }
+
     public class ApiOrchestrator : IApiOrchestrator
     {
         Dictionary<string, ApiInfo> apis = new Dictionary<string, ApiInfo>();
+
+        Dictionary<string, HubInfo> hubs = new Dictionary<string, HubInfo>();
 
         Dictionary<string, string[]> apiUrls = new Dictionary<string, string[]>();
 
@@ -24,6 +37,19 @@ namespace AspNetCore.ApiGateway
             apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
 
             apiUrls.Add(apiKey.ToLower(), baseUrls);
+
+            return mediator;
+        }
+
+        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder)
+        {
+            var mediator = new HubMediator(this);
+
+            var cb = new HubConnectionBuilder();
+
+            var conn = connectionBuilder(cb);
+
+            hubs.Add(apiKey.ToLower(), new HubInfo() { Mediator = mediator, Connection = conn });
 
             return mediator;
         }
@@ -40,6 +66,13 @@ namespace AspNetCore.ApiGateway
             {
                 apiInfo.BaseUrl = this.GetLoadBalancingUrl(baseUrls);
             }
+
+            return apiInfo;
+        }
+
+        public HubInfo GetHub(string apiKey)
+        {
+            var apiInfo = hubs[apiKey.ToLower()];
 
             return apiInfo;
         }

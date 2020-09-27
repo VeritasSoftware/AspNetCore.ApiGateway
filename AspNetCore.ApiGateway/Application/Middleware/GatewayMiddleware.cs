@@ -28,13 +28,14 @@ namespace AspNetCore.ApiGateway
         public async Task Invoke(HttpContext context, IApiOrchestrator orchestrator, ILogger<ApiGatewayLog> logger)
         {
             ApiInfo apiInfo = null;
+            HubInfo hubInfo = null;
             GatewayRouteInfo routeInfo = null;
 
             try
             {
                 var path = context.Request.Path.Value;
 
-                var segmentsMatch = Regex.Match(path, "^/?api/Gateway(/(?!orchestration)(?<api>.*?)/(?<key>.*?)(/.*?)?)?$", 
+                var segmentsMatch = Regex.Match(path, "^/?api/Gateway(/(?!orchestration)(hub/)?(?<api>.*?)/(?<key>.*?)(/.*?)?)?$", 
                                                     RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 if (segmentsMatch.Success)
@@ -42,9 +43,18 @@ namespace AspNetCore.ApiGateway
                     var api = segmentsMatch.Groups["api"].Captures[0].Value;
                     var key = segmentsMatch.Groups["key"].Captures[0].Value;
 
-                    apiInfo = orchestrator.GetApi(api.ToString());
+                    if (path.ToLower().Contains("api/gateway/hub"))
+                    {
+                        hubInfo = orchestrator.GetHub(api);
 
-                    routeInfo = apiInfo.Mediator.GetRoute(key.ToString());
+                        routeInfo = hubInfo.Mediator.GetRoute(key);
+                    }
+                    else
+                    {
+                        apiInfo = orchestrator.GetApi(api.ToString());
+
+                        routeInfo = apiInfo.Mediator.GetRoute(key.ToString());
+                    }                    
 
                     if (routeInfo.Verb.ToString() != context.Request.Method.ToUpper())
                     {

@@ -28,6 +28,7 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayGetOrHeadAuthorizeAttribute>();
             services.AddScoped<GatewayGetOrchestrationAuthorizeAttribute>();
             services.AddScoped<GatewayPostAuthorizeAttribute>();
+            services.AddScoped<GatewayHubPostAuthorizeAttribute>();
             services.AddScoped<GatewayPutAuthorizeAttribute>();
             services.AddScoped<GatewayPatchAuthorizeAttribute>();
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();

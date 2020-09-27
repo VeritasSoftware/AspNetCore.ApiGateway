@@ -25,6 +25,10 @@ namespace AspNetCore.ApiGateway.Authorization
     {
     }
 
+    public interface IHubPostGatewayAuthorization : IGatewayVerbAuthorization
+    {
+    }
+
     public interface IPutGatewayAuthorization : IGatewayVerbAuthorization
     {
     }

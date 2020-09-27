@@ -19,6 +19,7 @@ The microservices architecture uses an Api Gateway as shown below.
 *	Swagger support
 *   Load balancing support
 *   Response caching support
+*   Web Sockets support
 
 In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API**.
 
@@ -88,7 +89,14 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
                                 .AddRoute("remove", GatewayVerb.DELETE, new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
                         .AddApi("stockservice", "http://localhost:63967/")
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
-                                .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) });
+                                .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })                                
+                        .AddHub("chatservice", BuildHubConnection)
+                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage" });
+        }
+
+        private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
+        {
+            return builder.WithUrl("http://localhost:53353/ChatHub").Build();
         }
     }
 ```
@@ -176,6 +184,10 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 ### Response Caching
 
 ### [Response Caching](Docs/README_ResponseCaching.md)
+
+### Web Sockets
+
+### [Web Sockets](Docs/README_WebSockets.md)
 
 ### Viewing your Gateway's Api Orchestration
 
