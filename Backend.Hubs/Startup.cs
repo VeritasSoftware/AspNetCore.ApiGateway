@@ -22,7 +22,7 @@ namespace Backend.Hubs
                 builder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("http://localhost:44360");
+                    .AllowAnyOrigin();
             }));
             services.AddSignalR();            
         }
