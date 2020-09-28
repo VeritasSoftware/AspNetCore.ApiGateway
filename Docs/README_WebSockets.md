@@ -2,6 +2,8 @@
 
 The Api Gateway supports calling downstream Web Sockets.
 
+## Downstream Hub
+
 Let us say, you have a downstream ChatHub:
 
 ```C#
@@ -13,6 +15,8 @@ public class ChatHub : Hub
     }
 }
 ```
+
+## Your Gateway API
 
 You talk to this Hub, set up a Hub and Route in your Gateway API's **Api Orchestrator**.
 
@@ -78,14 +82,16 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
-In you Api Orchestration, provide the Url to the Gateway Hub:
+In your Api Orchestration, provide the Url to the Gateway Hub:
 
 ```C#
 orchestrator.StartGatewayHub = true;
 orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 ```
 
-Then, in your **Client**:
+## Client
+
+In your **Client**.
 
 ```C#
 var conn = new HubConnectionBuilder()

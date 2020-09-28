@@ -81,3 +81,12 @@ Then, they are hooked up to **routes** in the **Api Orchestrator**.
         }
     }
 ```
+
+
+## Request aggregation
+
+Your Api Gateway gets one incoming request.
+
+Then, you can make multiple calls to back end, downstream Apis and aggregate their responses.
+
+You can do this in the **custom implementation**.

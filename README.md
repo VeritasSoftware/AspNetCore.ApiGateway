@@ -15,11 +15,16 @@ The microservices architecture uses an Api Gateway as shown below.
 **The package:**
 
 *	Makes creating an Api Gateway a breeze!!
-*	Authorization support
-*	Swagger support
-*   Load balancing support
-*   Response caching support
-*   Web sockets support
+
+## Features
+
+*	Swagger
+*	Authorization
+*   Load balancing
+*   Response caching
+*   Web sockets
+*   Request aggregation
+*   Logging
 
 In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API**.
 
@@ -68,6 +73,7 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
+            orchestrator.StartGatewayHub = true;
             orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
@@ -178,6 +184,8 @@ You can check out how the Api Gateway's endpoint Authorization support below.
 *   You can customize the default **HttpClient** which the endpoints use to hit the backend api.
 *	You can use your own **HttpClient** to hit the backend Api.
 *	You can create your own implementation to hit the backend Api.
+
+For **Request aggregation**, see this section.
 
 ### [Customizations](Docs/README_Customizations.md)
 
