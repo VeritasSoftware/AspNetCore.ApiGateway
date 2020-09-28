@@ -1,7 +1,9 @@
 ﻿using AspNetCore.ApiGateway.Authorization;
+using AspNetCore.ApiGateway.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -58,7 +60,8 @@ namespace AspNetCore.ApiGateway
         public static void UseApiGateway(this IApplicationBuilder app, Action<IApiOrchestrator> setApis)
         {
             var serviceProvider = app.ApplicationServices;
-            setApis(serviceProvider.GetService<IApiOrchestrator>());
+            var apiOrchestrator = serviceProvider.GetService<IApiOrchestrator>();
+            setApis(apiOrchestrator);
             if (Options != null)
             {
                 if (Options.UseResponseCaching)
@@ -67,6 +70,30 @@ namespace AspNetCore.ApiGateway
                 }
             }
             app.UseMiddleware<GatewayMiddleware>();
+
+            apiOrchestrator.Hubs.ToList().ForEach(async hub =>
+            {
+                var connection = hub.Value.Connection;
+
+                connection.StartAsync().Wait();
+
+                var gatewayConn = new HubConnectionBuilder()
+                                    .WithUrl(apiOrchestrator.GatewayHubUrl)
+                                    .AddNewtonsoftJsonProtocol()
+                                    .Build();
+
+                await gatewayConn.StartAsync();
+
+                hub.Value.Mediator.Paths.ToList().ForEach(path =>
+                {
+                    var route = hub.Value.Mediator.GetRoute(path.Key).HubRoute;
+
+                    connection.On(route.ReceiveMethod, route.ReceiveParameterTypes, async (arg1, arg2) =>
+                    {
+                        await gatewayConn.InvokeAsync("Receive", route, arg1, arg2);
+                    }, new object());
+                });
+            });
         }
 
         internal static void AddRequestHeaders (this IHeaderDictionary requestHeaders, HttpRequestHeaders headers)

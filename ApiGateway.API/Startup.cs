@@ -1,6 +1,7 @@
 using ApiGateway.API.Application.Authorization;
 using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Authorization;
+using AspNetCore.ApiGateway.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +24,14 @@ namespace ApiGateway.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR().AddNewtonsoftJsonProtocol();
+
             services.AddTransient<IWeatherService, WeatherService>();
 
             //If you want to use the Api Gateway's Authorization, you can do this
             services.AddScoped<IGatewayAuthorization, AuthorizationService>();
-            services.AddScoped<IGetOrHeadGatewayAuthorization, GetAuthorizationService>();
-            
+            services.AddScoped<IGetOrHeadGatewayAuthorization, GetAuthorizationService>();            
+
             //Api gateway
             services.AddApiGateway(options =>
             {
@@ -45,7 +48,7 @@ namespace ApiGateway.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Api Gateway", Version = "v1" });
-            });
+            });            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -73,6 +76,7 @@ namespace ApiGateway.API
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<GatewayHub>("/gatewayhub");
                 endpoints.MapControllers();
             });
         }

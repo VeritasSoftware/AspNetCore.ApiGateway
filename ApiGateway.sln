@@ -49,7 +49,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D128641
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApiGateway.Tests", "AspNetCore.ApiGateway.Tests\AspNetCore.ApiGateway.Tests.csproj", "{59B619C4-69D6-4582-B91E-1936C124A42F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Hubs", "Backend.Hubs\Backend.Hubs.csproj", "{EA7A3C5B-99ED-4869-AA0B-C9271FA10488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Hubs", "Backend.Hubs\Backend.Hubs.csproj", "{EA7A3C5B-99ED-4869-AA0B-C9271FA10488}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hub.Client", "Hub.Client\Hub.Client.csproj", "{CC231CB2-C4C6-40E4-8588-1F6570D6AFEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{EA7A3C5B-99ED-4869-AA0B-C9271FA10488}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA7A3C5B-99ED-4869-AA0B-C9271FA10488}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA7A3C5B-99ED-4869-AA0B-C9271FA10488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC231CB2-C4C6-40E4-8588-1F6570D6AFEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC231CB2-C4C6-40E4-8588-1F6570D6AFEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC231CB2-C4C6-40E4-8588-1F6570D6AFEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC231CB2-C4C6-40E4-8588-1F6570D6AFEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

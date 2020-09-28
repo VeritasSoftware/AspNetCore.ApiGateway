@@ -17,6 +17,8 @@ namespace AspNetCore.ApiGateway
         GatewayRouteInfo GetRoute(string key);
 
         IEnumerable<Route> Routes { get; }
+
+        Dictionary<string, GatewayRouteInfo> Paths { get; }
     }
 
     public interface IMediator

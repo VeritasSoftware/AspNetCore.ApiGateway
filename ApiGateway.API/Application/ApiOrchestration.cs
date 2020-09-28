@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 
 namespace ApiGateway.API
@@ -15,6 +16,8 @@ namespace ApiGateway.API
             var weatherService = serviceProvider.GetService<IWeatherService>();
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
+
+            orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
                                 //Get
@@ -39,7 +42,7 @@ namespace ApiGateway.API
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })                                
                         .AddHub("chatservice", BuildHubConnection)
-                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage" });
+                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
         }
 
         private static HubConnection BuildHubConnection(HubConnectionBuilder builder)

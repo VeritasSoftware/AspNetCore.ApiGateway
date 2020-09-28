@@ -68,6 +68,8 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
+            orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
+
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
                                 //Get
                                 .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
@@ -91,12 +93,14 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })                                
                         .AddHub("chatservice", BuildHubConnection)
-                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage" });
+                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
         }
 
         private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
         {
-            return builder.WithUrl("http://localhost:53353/ChatHub").Build();
+            return builder.WithUrl("https://localhost:44339/chathub")
+                          .AddNewtonsoftJsonProtocol()
+                          .Build();
         }
     }
 ```

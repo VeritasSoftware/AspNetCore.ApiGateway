@@ -49,6 +49,8 @@ namespace AspNetCore.ApiGateway
     public class HubRouteInfo
     {
         public string InvokeMethod { get; set; }
+        public string ReceiveMethod { get; set; }
+        public Type[] ReceiveParameterTypes { get; set; }
     }
 
 
@@ -56,6 +58,8 @@ namespace AspNetCore.ApiGateway
     {
         private readonly IApiOrchestrator _apiOrchestrator;
         Dictionary<string, GatewayRouteInfo> paths = new Dictionary<string, GatewayRouteInfo>();
+
+        public Dictionary<string, GatewayRouteInfo> Paths => paths;
 
         public HubMediator(IApiOrchestrator apiOrchestrator)
         {

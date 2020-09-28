@@ -30,6 +30,10 @@ namespace AspNetCore.ApiGateway
 
         Dictionary<string, string[]> apiUrls = new Dictionary<string, string[]>();
 
+        public Dictionary<string, HubInfo> Hubs => hubs;
+
+        public string GatewayHubUrl { get; set; }
+
         public IMediator AddApi(string apiKey, params string[] baseUrls)
         {
             var mediator = new Mediator(this);

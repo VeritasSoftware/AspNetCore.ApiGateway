@@ -15,5 +15,9 @@ namespace AspNetCore.ApiGateway
         HubInfo GetHub(string apiKey);
 
         IEnumerable<Orchestration> Orchestration { get; }
+
+        Dictionary<string, HubInfo> Hubs { get; }
+
+        string GatewayHubUrl { get; set; }
     }
 }
