@@ -24,6 +24,7 @@ namespace ApiGateway.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Hook up GatewayHub using SignalR
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             {
                 builder
@@ -85,6 +86,7 @@ namespace ApiGateway.API
 
             app.UseEndpoints(endpoints =>
             {
+                //GatewayHub endpoint
                 endpoints.MapHub<GatewayHub>("/gatewayhub");
                 endpoints.MapControllers();
             });

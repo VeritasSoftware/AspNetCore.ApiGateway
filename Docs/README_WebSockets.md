@@ -38,7 +38,8 @@ private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
 In this you set up the **Connection** to the downstream Web Sockets using the **Asp Net Core SignalR Client**.
 
 The **InvokeMethod** is the method that is called in the downstream Hub.
-The **ReceiveMethod** is the method that will receive the response.
+
+The **ReceiveMethod** is the method that will receive the notification from the Hub.
 
 The Gateway provides a **POST** endpoint for accepting requests for downstream Hubs.
 
@@ -57,6 +58,7 @@ To hook up the GatewayHub, in your Gateway API project Startup.cs:
 ```C#
 public void ConfigureServices(IServiceCollection services)
 {
+    //Hook up GatewayHub using SignalR
     services.AddSignalR().AddNewtonsoftJsonProtocol();          
 
     //Api gateway
@@ -76,6 +78,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     .
     app.UseEndpoints(endpoints =>
     {
+        //GatewayHub endpoint
         endpoints.MapHub<GatewayHub>("/gatewayhub");
         endpoints.MapControllers();
     });
@@ -99,7 +102,7 @@ orchestrator.StartGatewayHub = false;
 
 ## Client
 
-In your **Client**.
+In your **Client**, connect to the GatewayHub and subscribe to **ReceiveMessage**.
 
 ```C#
 var conn = new HubConnectionBuilder()
