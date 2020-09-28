@@ -13,7 +13,9 @@ orchestrator.AddHub("chatservice", BuildHubConnection)
 ```C#
 private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
 {
-    return builder.WithUrl("http://localhost:53353/ChatHub").Build();
+    return builder.WithUrl("http://localhost:53353/ChatHub")
+                  .AddNewtonsoftJsonProtocol()
+                  .Build();
 }
 ```
 

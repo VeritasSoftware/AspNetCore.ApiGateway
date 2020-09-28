@@ -44,7 +44,9 @@ namespace ApiGateway.API
 
         private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
         {
-            return builder.WithUrl("https://localhost:44339/chathub").Build();
+            return builder.WithUrl("https://localhost:44339/chathub")
+                          .AddNewtonsoftJsonProtocol()
+                          .Build();
         }
     }
 }
