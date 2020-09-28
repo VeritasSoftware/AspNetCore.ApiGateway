@@ -24,6 +24,13 @@ namespace ApiGateway.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowAnyOrigin();
+            }));
             services.AddSignalR().AddNewtonsoftJsonProtocol();
 
             services.AddTransient<IWeatherService, WeatherService>();
@@ -57,6 +64,8 @@ namespace ApiGateway.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseSwagger();
 

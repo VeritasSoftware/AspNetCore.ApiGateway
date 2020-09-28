@@ -33,6 +33,7 @@ namespace AspNetCore.ApiGateway
         public Dictionary<string, HubInfo> Hubs => hubs;
 
         public string GatewayHubUrl { get; set; }
+        public bool StartGatewayHub { get; set; }
 
         public IMediator AddApi(string apiKey, params string[] baseUrls)
         {

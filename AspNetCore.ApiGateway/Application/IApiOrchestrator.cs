@@ -19,5 +19,7 @@ namespace AspNetCore.ApiGateway
         Dictionary<string, HubInfo> Hubs { get; }
 
         string GatewayHubUrl { get; set; }
+
+        public bool StartGatewayHub { get; set; }
     }
 }

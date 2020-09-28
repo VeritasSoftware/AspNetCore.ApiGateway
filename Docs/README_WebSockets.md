@@ -81,6 +81,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 In you Api Orchestration, provide the Url to the Gateway Hub:
 
 ```C#
+orchestrator.StartGatewayHub = true;
 orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 ```
 
@@ -98,4 +99,12 @@ conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, 
 {
     //receive your data here
 }, new object());
+```
+
+**Note**
+
+You can turn off the GatewayHub by
+
+```C#
+orchestrator.StartGatewayHub = false;
 ```

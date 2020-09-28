@@ -71,29 +71,32 @@ namespace AspNetCore.ApiGateway
             }
             app.UseMiddleware<GatewayMiddleware>();
 
-            apiOrchestrator.Hubs.ToList().ForEach(async hub =>
+            if (apiOrchestrator.StartGatewayHub)
             {
-                var connection = hub.Value.Connection;
-
-                connection.StartAsync().Wait();
-
-                var gatewayConn = new HubConnectionBuilder()
-                                    .WithUrl(apiOrchestrator.GatewayHubUrl)
-                                    .AddNewtonsoftJsonProtocol()
-                                    .Build();
-
-                await gatewayConn.StartAsync();
-
-                hub.Value.Mediator.Paths.ToList().ForEach(path =>
+                apiOrchestrator.Hubs.ToList().ForEach(async hub =>
                 {
-                    var route = hub.Value.Mediator.GetRoute(path.Key).HubRoute;
+                    var connection = hub.Value.Connection;
 
-                    connection.On(route.ReceiveMethod, route.ReceiveParameterTypes, async (arg1, arg2) =>
+                    await connection.StartAsync();
+
+                    var gatewayConn = new HubConnectionBuilder()
+                                        .WithUrl(apiOrchestrator.GatewayHubUrl)
+                                        .AddNewtonsoftJsonProtocol()
+                                        .Build();
+
+                    await gatewayConn.StartAsync();
+
+                    hub.Value.Mediator.Paths.ToList().ForEach(path =>
                     {
-                        await gatewayConn.InvokeAsync("Receive", route, arg1, arg2);
-                    }, new object());
+                        var route = hub.Value.Mediator.GetRoute(path.Key).HubRoute;
+
+                        connection.On(route.ReceiveMethod, route.ReceiveParameterTypes, async (arg1, arg2) =>
+                        {
+                            await gatewayConn.InvokeAsync("Receive", route, arg1, arg2);
+                        }, new object());
+                    });
                 });
-            });
+            }            
         }
 
         internal static void AddRequestHeaders (this IHeaderDictionary requestHeaders, HttpRequestHeaders headers)
