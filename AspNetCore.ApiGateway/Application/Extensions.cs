@@ -71,6 +71,11 @@ namespace AspNetCore.ApiGateway
             }
             app.UseMiddleware<GatewayMiddleware>();
 
+            app.UseHubs(apiOrchestrator);            
+        }
+
+        internal static void UseHubs(this IApplicationBuilder app, IApiOrchestrator apiOrchestrator)
+        {
             if (apiOrchestrator.StartGatewayHub)
             {
                 var gatewayConn = new HubConnectionBuilder()
@@ -97,7 +102,7 @@ namespace AspNetCore.ApiGateway
                         }, new object());
                     });
                 });
-            }            
+            }
         }
 
         internal static void AddRequestHeaders (this IHeaderDictionary requestHeaders, HttpRequestHeaders headers)
