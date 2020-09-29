@@ -73,18 +73,19 @@ namespace AspNetCore.ApiGateway
 
             if (apiOrchestrator.StartGatewayHub)
             {
+                var gatewayConn = new HubConnectionBuilder()
+                    .WithUrl(apiOrchestrator.GatewayHubUrl)
+                    .WithAutomaticReconnect()
+                    .AddNewtonsoftJsonProtocol()
+                    .Build();
+
+                gatewayConn.StartAsync().ConfigureAwait(false);
+
                 apiOrchestrator.Hubs.ToList().ForEach(async hub =>
                 {
                     var connection = hub.Value.Connection;
 
                     await connection.StartAsync();
-
-                    var gatewayConn = new HubConnectionBuilder()
-                                        .WithUrl(apiOrchestrator.GatewayHubUrl)
-                                        .AddNewtonsoftJsonProtocol()
-                                        .Build();
-
-                    await gatewayConn.StartAsync();
 
                     hub.Value.Mediator.Paths.ToList().ForEach(path =>
                     {
