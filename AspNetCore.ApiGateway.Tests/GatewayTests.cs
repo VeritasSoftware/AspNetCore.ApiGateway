@@ -24,13 +24,13 @@ namespace AspNetCore.ApiGateway.Tests
         {
             IWebHostBuilder weatherAPI = new WebHostBuilder()
                                      .UseStartup<WeatherAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 63969));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44365, lo => lo.UseHttps()));
 
             weatherAPI.Start();
 
             IWebHostBuilder stockAPI = new WebHostBuilder()
                                      .UseStartup<StockAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 63967));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44305, lo => lo.UseHttps()));
 
             stockAPI.Start();
 

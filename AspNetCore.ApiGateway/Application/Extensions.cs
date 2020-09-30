@@ -36,23 +36,7 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();
             services.AddHttpClient<IHttpService, HttpService>();
 
-            if (Options != null)
-            {
-                if (Options.UseResponseCaching && Options.ResponseCacheSettings != null)
-                {
-                    services.AddResponseCaching();
-
-                    services.AddMvc(o => o.Filters.Add(new ResponseCacheAttribute 
-                    { 
-                        NoStore = Options.ResponseCacheSettings.NoStore, 
-                        Location = Options.ResponseCacheSettings.Location,
-                        Duration = Options.ResponseCacheSettings.Duration,
-                        VaryByHeader = Options.ResponseCacheSettings.VaryByHeader,
-                        VaryByQueryKeys = Options.ResponseCacheSettings.VaryByQueryKeys,
-                        CacheProfileName = Options.ResponseCacheSettings.CacheProfileName
-                    }));
-                }
-            }
+            services.AddApiGatewayResponseCaching();
 
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);            
         }
@@ -72,6 +56,27 @@ namespace AspNetCore.ApiGateway
             app.UseMiddleware<GatewayMiddleware>();
 
             app.UseHubs(apiOrchestrator);            
+        }
+
+        internal static void AddApiGatewayResponseCaching(this IServiceCollection services)
+        {
+            if (Options != null)
+            {
+                if (Options.UseResponseCaching && Options.ResponseCacheSettings != null)
+                {
+                    services.AddResponseCaching();
+
+                    services.AddMvc(o => o.Filters.Add(new ResponseCacheAttribute
+                    {
+                        NoStore = Options.ResponseCacheSettings.NoStore,
+                        Location = Options.ResponseCacheSettings.Location,
+                        Duration = Options.ResponseCacheSettings.Duration,
+                        VaryByHeader = Options.ResponseCacheSettings.VaryByHeader,
+                        VaryByQueryKeys = Options.ResponseCacheSettings.VaryByQueryKeys,
+                        CacheProfileName = Options.ResponseCacheSettings.CacheProfileName
+                    }));
+                }
+            }
         }
 
         internal static void UseHubs(this IApplicationBuilder app, IApiOrchestrator apiOrchestrator)
