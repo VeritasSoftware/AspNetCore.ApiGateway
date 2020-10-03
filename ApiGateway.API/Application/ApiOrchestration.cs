@@ -17,7 +17,7 @@ namespace ApiGateway.API
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
-            orchestrator.StartGatewayHub = false;
+            orchestrator.StartGatewayHub = true;
             orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
@@ -42,7 +42,7 @@ namespace ApiGateway.API
                         .AddApi("stockservice", "http://localhost:63967/")
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })                                
-                        .AddHub("chatservice", BuildHubConnection)
+                        .AddHub("chatservice", BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
                                 .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
         }
 

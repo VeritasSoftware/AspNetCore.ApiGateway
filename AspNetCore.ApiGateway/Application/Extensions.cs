@@ -1,5 +1,5 @@
-﻿using AspNetCore.ApiGateway.Authorization;
-using AspNetCore.ApiGateway.Hubs;
+﻿using AspNetCore.ApiGateway.Application;
+using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -103,7 +103,7 @@ namespace AspNetCore.ApiGateway
 
                         connection.On(route.ReceiveMethod, route.ReceiveParameterTypes, async (arg1, arg2) =>
                         {
-                            await gatewayConn.InvokeAsync("Receive", route, arg1, arg2);
+                            await gatewayConn.InvokeAsync("Receive", new HubReceiveAuth { Hub = hub.Key, ReceiveKey = hub.Value.ReceiveKey }, route, arg1, arg2);
                         }, new object());
                     });
                 });
@@ -111,7 +111,7 @@ namespace AspNetCore.ApiGateway
         }
 
         internal static void AddRequestHeaders (this IHeaderDictionary requestHeaders, HttpRequestHeaders headers)
-        {
+        { 
             foreach (var item in requestHeaders)
             {
                 try

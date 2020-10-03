@@ -10,7 +10,7 @@ namespace AspNetCore.ApiGateway
     {
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
-        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder);
+        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
 
         IHubMediator AddRoute(string key, HubRouteInfo routeInfo);
 
@@ -31,7 +31,7 @@ namespace AspNetCore.ApiGateway
 
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
-        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder);
+        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
 
         IEnumerable<Route> Routes { get; }
     }

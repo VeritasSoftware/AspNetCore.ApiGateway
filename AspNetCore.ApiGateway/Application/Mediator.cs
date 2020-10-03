@@ -66,9 +66,9 @@ namespace AspNetCore.ApiGateway
             _apiOrchestrator = apiOrchestrator;
         }
 
-        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder)
+        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null)
         {
-            _apiOrchestrator.AddHub(apiKey, connectionBuilder);
+            _apiOrchestrator.AddHub(apiKey, connectionBuilder, receiveKey);
 
             return this;
         }
@@ -174,9 +174,9 @@ namespace AspNetCore.ApiGateway
             return JsonSchema.FromType(type);
         }
 
-        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder)
+        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null)
         {
-            return _apiOrchestrator.AddHub(apiKey, connectionBuilder);
+            return _apiOrchestrator.AddHub(apiKey, connectionBuilder, receiveKey);
         }
 
         #endregion

@@ -8,7 +8,7 @@ namespace AspNetCore.ApiGateway
     {
         IMediator AddApi(string apiKey, params string[] baseUrl);
 
-        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder);
+        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
 
         ApiInfo GetApi(string apiKey);
 

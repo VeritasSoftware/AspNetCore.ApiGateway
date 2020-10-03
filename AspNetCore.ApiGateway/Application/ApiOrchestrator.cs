@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace AspNetCore.ApiGateway
-{
+{    
     public class ApiInfo
     {
         public string BaseUrl { get; set; }
@@ -20,6 +20,8 @@ namespace AspNetCore.ApiGateway
         public HubMediator Mediator { get; set; }
 
         public HubConnection Connection { get; set; }
+
+        public string ReceiveKey { get; set; }
     }
 
     public class ApiOrchestrator : IApiOrchestrator
@@ -46,7 +48,7 @@ namespace AspNetCore.ApiGateway
             return mediator;
         }
 
-        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder)
+        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null)
         {
             var mediator = new HubMediator(this);
 
@@ -54,7 +56,7 @@ namespace AspNetCore.ApiGateway
 
             var conn = connectionBuilder(cb);            
 
-            hubs.Add(apiKey.ToLower(), new HubInfo() { Mediator = mediator, Connection = conn });
+            hubs.Add(apiKey.ToLower(), new HubInfo() { Mediator = mediator, Connection = conn, ReceiveKey = receiveKey });
 
             return mediator;
         }

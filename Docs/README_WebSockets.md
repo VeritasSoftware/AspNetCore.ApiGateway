@@ -21,10 +21,12 @@ public class ChatHub : Hub
 You talk to this Hub, set up a Hub and Route in your Gateway API's **Api Orchestrator**.
 
 ```C#
-orchestrator.AddHub("chatservice", BuildHubConnection)
+orchestrator.AddHub("chatservice", BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
                     .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
 
 ```
+
+The **ReceiveKey** (eg. Guid) is to be specified if you want to receive notifications from the downstream hub.
 
 ```C#
 private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
@@ -99,6 +101,16 @@ You can turn off the GatewayHub by
 ```C#
 orchestrator.StartGatewayHub = false;
 ```
+
+## Security
+
+You can secure the POST endpoint by implementing interface **IHubPostGatewayAuthorization**.
+
+Please see section [Authorization](/Docs/README.Authorization) to learn how to do this.
+
+Also, if you are going to receive notifications from the downstream Hub,
+
+you have to specify the **ReceiveKey**.
 
 ## Client
 
