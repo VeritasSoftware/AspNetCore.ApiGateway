@@ -106,7 +106,7 @@ orchestrator.StartGatewayHub = false;
 
 You can secure the POST endpoint by implementing interface **IHubPostGatewayAuthorization**.
 
-Please see section [Authorization](/Docs/README.Authorization) to learn how to do this.
+Please see section [Authorization](/Docs/README_Authorization.md) to learn how to do this.
 
 Also, if you are going to receive notifications from the downstream Hub,
 
