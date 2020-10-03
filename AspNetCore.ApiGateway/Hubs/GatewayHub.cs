@@ -18,7 +18,7 @@ namespace AspNetCore.ApiGateway.Hubs
             var hubRouteInfo = _apiOrchestrator.GetHub(auth.Hub);
             var receiveKey = hubRouteInfo.ReceiveKey;
 
-            if (!string.IsNullOrEmpty(auth.ReceiveKey) && string.Compare(receiveKey, auth.ReceiveKey) == 0)
+            if (!string.IsNullOrEmpty(auth.ReceiveKey) && !string.IsNullOrEmpty(receiveKey) && string.Compare(receiveKey, auth.ReceiveKey) == 0)
             {
                 await base.Clients.All.SendAsync(route.ReceiveMethod, arg1, arg2);
             }            
