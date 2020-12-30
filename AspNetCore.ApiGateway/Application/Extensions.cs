@@ -1,4 +1,5 @@
 ﻿using AspNetCore.ApiGateway.Application;
+using AspNetCore.ApiGateway.Application.ActionFilters;
 using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,17 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayPutAuthorizeAttribute>();
             services.AddScoped<GatewayPatchAuthorizeAttribute>();
             services.AddScoped<GatewayDeleteAuthorizeAttribute>();
+
+            //Action Filters
+            services.AddScoped<GatewayAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayGetOrHeadAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayGetOrchestrationAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayPostAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayHubPostAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayPutAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayPatchAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayDeleteAsyncActionFilterAttribute>();
+
             services.AddHttpClient<IHttpService, HttpService>();
 
             services.AddApiGatewayResponseCaching();

@@ -1,5 +1,7 @@
+using ApiGateway.API.Application.ActionFilters;
 using ApiGateway.API.Application.Authorization;
 using AspNetCore.ApiGateway;
+using AspNetCore.ApiGateway.Application.ActionFilters;
 using AspNetCore.ApiGateway.Authorization;
 using AspNetCore.ApiGateway.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -38,12 +40,17 @@ namespace ApiGateway.API
 
             //If you want to use the Api Gateway's Authorization, you can do this
             services.AddScoped<IGatewayAuthorization, AuthorizationService>();
-            services.AddScoped<IGetOrHeadGatewayAuthorization, GetAuthorizationService>();            
+            services.AddScoped<IGetOrHeadGatewayAuthorization, GetAuthorizationService>();
+
+            //Action filters
+            services.AddScoped<IGatewayActionFilter, ValidationActionFilterService>();
+            services.AddScoped<IPostGatewayActionFilter, PostValidationActionFilterService>();
+
 
             //Api gateway
             services.AddApiGateway(options =>
             {
-                options.UseResponseCaching = true;
+                options.UseResponseCaching = false;
                 options.ResponseCacheSettings = new ApiGatewayResponseCacheSettings
                 {
                     Duration = 120,
