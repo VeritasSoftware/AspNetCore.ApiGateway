@@ -7,43 +7,6 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway.Application.ActionFilters
 {
-    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    //public class GatewayActionFilterAttribute : Attribute, IActionFilter
-    //{
-    //    readonly IGatewayActionFilter _gatewayActionFilter;
-
-    //    public GatewayActionFilterAttribute(IGatewayActionFilter gatewayActionFilter = null)
-    //    {
-    //        _gatewayActionFilter = gatewayActionFilter;
-    //    }
-
-    //    public void OnActionExecuted(ActionExecutedContext context)
-    //    {
-    //        if (_gatewayActionFilter != null)
-    //        {
-    //            var routeData = context.HttpContext.GetRouteData();
-
-    //            routeData.Values.TryGetValue("api", out var api);
-    //            routeData.Values.TryGetValue("key", out var key);
-
-    //            _gatewayActionFilter.OnActionExecuted(context, api?.ToString(), key?.ToString(), context.HttpContext.Request.Method);
-    //        }
-    //    }
-
-    //    public void OnActionExecuting(ActionExecutingContext context)
-    //    {
-    //        if (_gatewayActionFilter != null)
-    //        {
-    //            var routeData = context.HttpContext.GetRouteData();
-
-    //            routeData.Values.TryGetValue("api", out var api);
-    //            routeData.Values.TryGetValue("key", out var key);
-
-    //            _gatewayActionFilter.OnActionExecuting(context, api?.ToString(), key?.ToString(), context.HttpContext.Request.Method);
-    //        }
-    //    }
-    //}
-
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     internal class GatewayAsyncActionFilterAttribute : Attribute, IAsyncActionFilter
     {

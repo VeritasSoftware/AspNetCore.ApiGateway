@@ -27,24 +27,9 @@ namespace AspNetCore.ApiGateway
             var apis = new ApiOrchestrator();
             
             services.AddTransient<IApiOrchestrator>(x => apis);
-            services.AddScoped<GatewayAuthorizeAttribute>();
-            services.AddScoped<GatewayGetOrHeadAuthorizeAttribute>();
-            services.AddScoped<GatewayGetOrchestrationAuthorizeAttribute>();
-            services.AddScoped<GatewayPostAuthorizeAttribute>();
-            services.AddScoped<GatewayHubPostAuthorizeAttribute>();
-            services.AddScoped<GatewayPutAuthorizeAttribute>();
-            services.AddScoped<GatewayPatchAuthorizeAttribute>();
-            services.AddScoped<GatewayDeleteAuthorizeAttribute>();
 
-            //Action Filters
-            services.AddScoped<GatewayAsyncActionFilterAttribute>();
-            services.AddScoped<GatewayGetOrHeadAsyncActionFilterAttribute>();
-            services.AddScoped<GatewayGetOrchestrationAsyncActionFilterAttribute>();
-            services.AddScoped<GatewayPostAsyncActionFilterAttribute>();
-            services.AddScoped<GatewayHubPostAsyncActionFilterAttribute>();
-            services.AddScoped<GatewayPutAsyncActionFilterAttribute>();
-            services.AddScoped<GatewayPatchAsyncActionFilterAttribute>();
-            services.AddScoped<GatewayDeleteAsyncActionFilterAttribute>();
+            services.AddAuthorizationFilters()
+                    .AddActionFilters();
 
             services.AddHttpClient<IHttpService, HttpService>();
 
@@ -68,6 +53,34 @@ namespace AspNetCore.ApiGateway
             app.UseMiddleware<GatewayMiddleware>();
 
             app.UseHubs(apiOrchestrator);            
+        }
+
+        internal static IServiceCollection AddAuthorizationFilters(this IServiceCollection services)
+        {
+            services.AddScoped<GatewayAuthorizeAttribute>();
+            services.AddScoped<GatewayGetOrHeadAuthorizeAttribute>();
+            services.AddScoped<GatewayGetOrchestrationAuthorizeAttribute>();
+            services.AddScoped<GatewayPostAuthorizeAttribute>();
+            services.AddScoped<GatewayHubPostAuthorizeAttribute>();
+            services.AddScoped<GatewayPutAuthorizeAttribute>();
+            services.AddScoped<GatewayPatchAuthorizeAttribute>();
+            services.AddScoped<GatewayDeleteAuthorizeAttribute>();
+
+            return services;
+        }
+
+        internal static IServiceCollection AddActionFilters(this IServiceCollection services)
+        {
+            services.AddScoped<GatewayAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayGetOrHeadAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayGetOrchestrationAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayPostAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayHubPostAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayPutAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayPatchAsyncActionFilterAttribute>();
+            services.AddScoped<GatewayDeleteAsyncActionFilterAttribute>();
+
+            return services;
         }
 
         internal static void AddApiGatewayResponseCaching(this IServiceCollection services)
