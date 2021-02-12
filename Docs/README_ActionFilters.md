@@ -2,7 +2,7 @@
 
 The library provides interfaces your Gateway API can implement to hook into the endpoint action filters.
 
-Here you can do things like validation, logging etc, if you want.
+Here you can do things like **validation**, **rate limiting**, **logging** etc, if you want.
 
 In your Gateway API project,
 
