@@ -2,6 +2,7 @@ using ApiGateway.API.Application.ActionFilters;
 using ApiGateway.API.Application.Authorization;
 using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Application.ActionFilters;
+using AspNetCore.ApiGateway.Application.ExceptionFilters;
 using AspNetCore.ApiGateway.Authorization;
 using AspNetCore.ApiGateway.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +47,9 @@ namespace ApiGateway.API
             services.AddScoped<IGatewayActionFilter, ValidationActionFilterService>();
             services.AddScoped<IPostGatewayActionFilter, PostValidationActionFilterService>();
 
+            //Exception filters
+            services.AddScoped<IGatewayExceptionFilter, ExceptionFilterService>();
+            services.AddScoped<IPostGatewayExceptionFilter, PostExceptionFilterService>();
 
             //Api gateway
             services.AddApiGateway(options =>

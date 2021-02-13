@@ -20,7 +20,7 @@ The microservices architecture uses an Api Gateway as shown below.
 
 *	Swagger
 *	Authorization
-*   Action filters
+*   Filters - Action, Exception
 *   Load balancing
 *   Response caching
 *   Web sockets
@@ -209,6 +209,10 @@ For **Request aggregation**, see this section.
 ### Action Filters
 
 ### [Action Filters](Docs/README_ActionFilters.md)
+
+### Exception Filters
+
+### [Exception Filters](Docs/README_ExceptionFilters.md)
 
 ### Viewing your Gateway's Api Orchestration
 
