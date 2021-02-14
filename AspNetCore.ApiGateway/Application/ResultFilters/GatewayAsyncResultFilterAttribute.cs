@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Threading.Tasks;
@@ -26,6 +27,11 @@ namespace AspNetCore.ApiGateway.Application.ResultFilters
 
                 await _gatewayResultFilter.OnResultExecutionAsync(context, api?.ToString(), key?.ToString(), context.HttpContext.Request.Method);
             }
+
+            if (!(context.Result is EmptyResult))
+            {
+                await next();
+            }
         }
     }
 
@@ -49,6 +55,11 @@ namespace AspNetCore.ApiGateway.Application.ResultFilters
                 routeData.Values.TryGetValue("key", out var key);
 
                 await _gatewayResultFilter.OnResultExecutionAsync(context, api?.ToString(), key?.ToString());
+            }
+
+            if (!(context.Result is EmptyResult))
+            {
+                await next();
             }
         }
     }

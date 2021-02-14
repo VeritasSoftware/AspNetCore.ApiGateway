@@ -1,5 +1,6 @@
 ﻿using AspNetCore.ApiGateway.Application.ActionFilters;
 using AspNetCore.ApiGateway.Application.ExceptionFilters;
+using AspNetCore.ApiGateway.Application.ResultFilters;
 using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
@@ -21,6 +22,7 @@ namespace AspNetCore.ApiGateway.Controllers
     [ServiceFilter(typeof(GatewayAuthorizeAttribute))]
     [ServiceFilter(typeof(GatewayAsyncActionFilterAttribute))]
     [ServiceFilter(typeof(GatewayAsyncExceptionFilterAttribute))]
+    [ServiceFilter(typeof(GatewayAsyncResultFilterAttribute))]
     public class GatewayController : ControllerBase
     {
         readonly IApiOrchestrator _apiOrchestrator;
@@ -40,6 +42,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayGetOrHeadAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncExceptionFilterAttribute))]
+        [ServiceFilter(typeof(GatewayGetOrHeadAsyncResultFilterAttribute))]
         public async Task<IActionResult> Get(string api, string key, string parameters = null)
         {
             if (parameters != null)
@@ -90,6 +93,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayPostAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayPostAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPostAsyncExceptionFilterAttribute))]
+        [ServiceFilter(typeof(GatewayPostAsyncResultFilterAttribute))]
         public async Task<IActionResult> Post(string api, string key, object request, string parameters = null)
         {            
             if (parameters != null)
@@ -153,6 +157,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayHubPostAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayHubPostAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayHubPostAsyncExceptionFilterAttribute))]
+        [ServiceFilter(typeof(GatewayHubPostAsyncResultFilterAttribute))]
         public async Task PostHub(string api, string key, params object[] request)
         {
             _logger.LogApiInfo(api, key, "", request);
@@ -210,6 +215,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayPutAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayPutAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPutAsyncExceptionFilterAttribute))]
+        [ServiceFilter(typeof(GatewayPutAsyncResultFilterAttribute))]
         public async Task<IActionResult> Put(string api, string key, object request, string parameters = null)
         {            
             if (parameters != null)
@@ -273,6 +279,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayPatchAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayPatchAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPatchAsyncExceptionFilterAttribute))]
+        [ServiceFilter(typeof(GatewayPatchAsyncResultFilterAttribute))]
         public async Task<IActionResult> Patch(string api, string key, [FromBody] JsonPatchDocument<object> patch, string parameters = null)
         {
             if (parameters != null)
@@ -336,6 +343,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayDeleteAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayDeleteAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayDeleteAsyncExceptionFilterAttribute))]
+        [ServiceFilter(typeof(GatewayDeleteAsyncResultFilterAttribute))]
         public async Task<IActionResult> Delete(string api, string key, string parameters = null)
         {
             if (parameters != null)
@@ -388,6 +396,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayGetOrchestrationAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayGetOrchestrationAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrchestrationAsyncExceptionFilterAttribute))]
+        [ServiceFilter(typeof(GatewayGetOrchestrationAsyncResultFilterAttribute))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Orchestration))]
         public async Task<IActionResult> GetOrchestration(string api = null, string key = null)
         {
