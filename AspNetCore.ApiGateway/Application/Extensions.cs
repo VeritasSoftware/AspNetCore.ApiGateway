@@ -1,6 +1,7 @@
 ﻿using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Application.ActionFilters;
 using AspNetCore.ApiGateway.Application.ExceptionFilters;
+using AspNetCore.ApiGateway.Application.ResultFilters;
 using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +32,8 @@ namespace AspNetCore.ApiGateway
 
             services.AddAuthorizationFilters()
                     .AddActionFilters()
-                    .AddExceptionFilters();
+                    .AddExceptionFilters()
+                    .AddResultFilters();
 
             services.AddHttpClient<IHttpService, HttpService>();
 
@@ -95,6 +97,20 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayPutAsyncExceptionFilterAttribute>();
             services.AddScoped<GatewayPatchAsyncExceptionFilterAttribute>();
             services.AddScoped<GatewayDeleteAsyncExceptionFilterAttribute>();
+
+            return services;
+        }
+
+        internal static IServiceCollection AddResultFilters(this IServiceCollection services)
+        {
+            services.AddScoped<GatewayAsyncResultFilterAttribute>();
+            services.AddScoped<GatewayGetOrHeadAsyncResultFilterAttribute>();
+            services.AddScoped<GatewayGetOrchestrationAsyncResultFilterAttribute>();
+            services.AddScoped<GatewayPostAsyncResultFilterAttribute>();
+            services.AddScoped<GatewayHubPostAsyncResultFilterAttribute>();
+            services.AddScoped<GatewayPutAsyncResultFilterAttribute>();
+            services.AddScoped<GatewayPatchAsyncResultFilterAttribute>();
+            services.AddScoped<GatewayDeleteAsyncResultFilterAttribute>();
 
             return services;
         }
