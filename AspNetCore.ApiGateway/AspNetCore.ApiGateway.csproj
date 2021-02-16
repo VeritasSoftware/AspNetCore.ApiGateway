@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <Description>Framework to help build your own Api Gateway. Out of the box simple Gateway facade. Swagger, Authorization, Load balancing, Response caching, Web sockets, Logging and more support.</Description>
+    <Description>Framework to help build your own Api Gateway. Out of the box, simple Gateway facade. Swagger, Authorization, Load balancing, Response caching, Web sockets, Logging and more support.</Description>
     <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
     <PackageTags>AspNetCore.ApiGateway Api Gateway asp net core 3 library framework facade freeware swagger authorization, load balancing, response caching, web sockets, action filters</PackageTags>
@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>1.4.0</Version>
-    <PackageReleaseNotes>Added action filters support. No breaking changes.</PackageReleaseNotes>
+    <Version>1.5.0</Version>
+    <PackageReleaseNotes>Added exception, result filters support. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
