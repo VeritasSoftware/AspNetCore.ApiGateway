@@ -162,6 +162,8 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
             app.UseEndpoints(endpoints =>
             {
+                //GatewayHub endpoint
+                endpoints.MapHub<GatewayHub>("/gatewayhub");
                 endpoints.MapControllers();
             });
         }
@@ -225,4 +227,4 @@ Your Gateway's Api Orchestration is published by **GET /api/Gateway/orchestratio
 
 The Api Gateway uses **ILogger\<ApiGatewayLog>** to create logs. 
 
-In your Gateway API project, this can be used to tap into the these logs.
+In your Gateway API project, this can be used to tap into these logs.
