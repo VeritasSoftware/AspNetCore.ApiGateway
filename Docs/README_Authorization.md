@@ -2,6 +2,10 @@
 
 The library provides interfaces your Gateway API can implement to hook into the endpoint authorization.
 
+In your Gateway API project, hook up your Authentication and Authorization as you want.
+
+You can now authorize using the **Gateway Authorization Filters** as shown below.
+
 In your Gateway API project,
 
 ### you can hook into a common authorization by implementing the below interface.
