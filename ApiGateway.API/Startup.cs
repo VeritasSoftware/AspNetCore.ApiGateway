@@ -1,5 +1,6 @@
 using ApiGateway.API.Application.ActionFilters;
 using ApiGateway.API.Application.Authorization;
+using ApiGateway.API.Application.MiddlewareService;
 using ApiGateway.API.Application.ResultFilters;
 using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Application.ActionFilters;
@@ -7,6 +8,7 @@ using AspNetCore.ApiGateway.Application.ExceptionFilters;
 using AspNetCore.ApiGateway.Application.ResultFilters;
 using AspNetCore.ApiGateway.Authorization;
 using AspNetCore.ApiGateway.Hubs;
+using AspNetCore.ApiGateway.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +58,9 @@ namespace ApiGateway.API
             //Result filters
             services.AddScoped<IGatewayResultFilter, ResultFilterService>();
             services.AddScoped<IPostGatewayResultFilter, PostResultFilterService>();
+
+            //Middleware service
+            services.AddScoped<IGatewayMiddleware, GatewayMiddlewareService>();
 
             //Api gateway
             services.AddApiGateway(options =>

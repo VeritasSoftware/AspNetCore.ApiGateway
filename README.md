@@ -28,6 +28,7 @@ The microservices architecture uses an Api Gateway as shown below.
 *   Response caching
 *   Web sockets
 *   Request aggregation
+*   Middleware service
 *   Logging
 
 ## Gateway as a Facade
@@ -217,6 +218,10 @@ For **Request aggregation**, see this section.
    * #### [Exception Filters](Docs/README_ExceptionFilters.md)
    * #### [Result Filters](Docs/README_ResultFilters.md)
     
+### Middleware Service
+
+### [Middleware Service](Docs/README_Middleware_Service.md)
+
 ### Viewing your Gateway's Api Orchestration
 
 Your Gateway's Api Orchestration is published by **GET /api/Gateway/orchestration** endpoint.

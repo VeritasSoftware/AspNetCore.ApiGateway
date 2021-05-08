@@ -1,6 +1,7 @@
 ﻿using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Application.ActionFilters;
 using AspNetCore.ApiGateway.Application.ExceptionFilters;
+using AspNetCore.ApiGateway.Middleware;
 using AspNetCore.ApiGateway.Application.ResultFilters;
 using AspNetCore.ApiGateway.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -55,6 +56,12 @@ namespace AspNetCore.ApiGateway
                 }
             }
             app.UseMiddleware<GatewayMiddleware>();
+
+            var gatewayMiddleware = serviceProvider.GetService<IGatewayMiddleware>();
+            if (gatewayMiddleware != null)
+            {
+                app.UseMiddleware<GatewayMiddlewareService>();
+            }
 
             app.UseHubs(apiOrchestrator);            
         }
