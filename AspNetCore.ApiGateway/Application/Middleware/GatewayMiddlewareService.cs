@@ -40,11 +40,7 @@ namespace AspNetCore.ApiGateway.Middleware
             {
                 logger.LogError(ex, "Api Gateway middleware service error.");
 
-                context.Response.StatusCode = StatusCodes.Status404NotFound;
-
-                await context.Response.CompleteAsync();
-
-                return;
+                throw ex;
             }
 
             await _next(context);
