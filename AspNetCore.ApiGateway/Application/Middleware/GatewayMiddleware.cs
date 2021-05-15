@@ -35,8 +35,7 @@ namespace AspNetCore.ApiGateway
             {
                 var path = context.Request.Path.Value;
 
-                var segmentsMatch = Regex.Match(path, "^/?api/Gateway(/(?!orchestration)(hub/)?(?<api>.*?)/(?<key>.*?)(/.*?)?)?$", 
-                                                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                var segmentsMatch = Regex.Match(path, GatewayConstants.GATEWAY_PATH_REGEX, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 if (segmentsMatch.Success)
                 {
