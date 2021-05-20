@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>1.6.0</Version>
-    <PackageReleaseNotes>Minor improvements. No breaking changes.</PackageReleaseNotes>
+    <Version>1.7.0</Version>
+    <PackageReleaseNotes>Added middleware service. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
