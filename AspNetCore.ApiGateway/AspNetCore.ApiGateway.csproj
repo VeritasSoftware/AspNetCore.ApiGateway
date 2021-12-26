@@ -7,14 +7,14 @@
     <Description>Framework to help build your own Api Gateway. Out of the box, simple Gateway facade. Swagger, Authorization, Load balancing, Response caching, Web sockets, Logging and more support.</Description>
     <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
-    <PackageTags>AspNetCore.ApiGateway Api Gateway asp net core 5 library framework facade freeware swagger authorization, load balancing, response caching, web sockets, action filters</PackageTags>
+    <PackageTags>AspNetCore.ApiGateway Api Gateway asp net core 6 library framework facade freeware swagger authorization, load balancing, response caching, web sockets, action filters</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>2.0.0</Version>
-    <PackageReleaseNotes>Upgraded framework to .Net 5.0. No breaking changes.</PackageReleaseNotes>
+    <Version>3.0.0</Version>
+    <PackageReleaseNotes>Upgraded framework to .Net 6.0. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

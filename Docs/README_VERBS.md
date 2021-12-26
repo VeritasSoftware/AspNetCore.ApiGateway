@@ -1,14 +1,14 @@
 ### GET
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/ApiGatewayCall.PNG)
+![API Gateway Swagger](/Docs/ApiGatewayCall.PNG)
 
 ### HEAD
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/HEAD.PNG)
+![API Gateway Swagger](/Docs/HEAD.PNG)
 
 ### GET with Params
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/GETWithParams.PNG)
+![API Gateway Swagger](/Docs/GETWithParams.PNG)
 
 You can specify your entire route in the **parameters** query string param.
 
@@ -27,24 +27,24 @@ You will set up the **Orchestration** as
 
 And call the GET endpoint as
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/GETWithParams1.PNG)
+![API Gateway Swagger](/Docs/GETWithParams1.PNG)
 
 ### POST
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/POST.PNG)
+![API Gateway Swagger](/Docs/POST.PNG)
 
 ### PUT
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/Update.PNG)
+![API Gateway Swagger](/Docs/Update.PNG)
 
 ### PATCH
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/Patch.PNG)
+![API Gateway Swagger](/Docs/Patch.PNG)
 
 ### DELETE
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/Delete.PNG)
+![API Gateway Swagger](/Docs/Delete.PNG)
 
 ### GET Orchestration
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/Orchestration.PNG)
+![API Gateway Swagger](/Docs/Orchestration.PNG)

@@ -51,7 +51,7 @@ You can pass a max of 10 objects in the request.
 
 In Swagger, you would call this endpoint as below:
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/WebSockets.PNG)
+![API Gateway Swagger](/Docs/WebSockets.PNG)
 
 There is a **GatewayHub** which the Client can subscribe to to get messages from the back end Hub.
 

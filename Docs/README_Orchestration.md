@@ -8,7 +8,7 @@ You can call the endpoint in **Swagger** to view your Api Orchestration.
 
 ### GET Orchestration
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/Orchestration.PNG)
+![API Gateway Swagger](/Docs/Orchestration.PNG)
 
 You can filter by Api Key. This way you can get all the information on an Api.
 

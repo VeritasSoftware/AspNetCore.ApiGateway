@@ -10,7 +10,7 @@
 
 The microservices architecture uses an Api Gateway as shown below.
 
-![Architecture](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/Architecture.png)
+![Architecture](/Docs/Architecture.png)
 
 **The package:**
 
@@ -45,7 +45,7 @@ The microservices architecture uses an Api Gateway as shown below.
 <div>
 
 </div>
-<img src="https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/FacadeDesignPattern.PNG" style="width:60%;height:auto;max-width:500px;" alt="API Gateway Facade" >
+<img src="/Docs/FacadeDesignPattern.PNG" style="width:60%;height:auto;max-width:500px;" alt="API Gateway Facade" >
 
 ## Implementation
 
@@ -172,13 +172,13 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
 
 The Gateway Swagger appears as shown below:
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/ApiGateway.PNG)
+![API Gateway Swagger](/Docs/ApiGateway.PNG)
 
 To call the **forecast** Route on the **weather service** Api,
 
 you can enter the Api key and Route key into Swagger as below:
 
-![API Gateway Swagger](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/blob/master/Docs/ApiGatewayCall.PNG)
+![API Gateway Swagger](/Docs/ApiGatewayCall.PNG)
 
 This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
 
