@@ -57,13 +57,27 @@ namespace AspNetCore.ApiGateway
             }
             app.UseMiddleware<GatewayMiddleware>();
 
-            var gatewayMiddleware = serviceProvider.GetService<IGatewayMiddleware>();
+            var gatewayMiddleware = serviceProvider.GetServiceOrNull<IGatewayMiddleware>();
+
             if (gatewayMiddleware != null)
             {
                 app.UseMiddleware<GatewayMiddlewareService>();
             }
 
             app.UseHubs(apiOrchestrator);            
+        }
+
+        internal static T GetServiceOrNull<T>(this IServiceProvider serviceProvider)
+            where T: class
+        {
+            try
+            {
+                return serviceProvider.GetService<T>();
+            }
+            catch(Exception)
+            {
+                return null;
+            }
         }
 
         internal static IServiceCollection AddAuthorizationFilters(this IServiceCollection services)
