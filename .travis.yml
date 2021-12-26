@@ -3,7 +3,7 @@ solution: ApiGateway.sln
 mono: none
 dist: xenial
 sudo: required
-dotnet: 5.0
+dotnet: 6.0
 script:
  - dotnet restore
  - dotnet build
