@@ -50,6 +50,7 @@ namespace AspNetCore.ApiGateway
     {
         public string InvokeMethod { get; set; }
         public string ReceiveMethod { get; set; }
+        public string ReceiveGroup { get; set; }
         public Type[] ReceiveParameterTypes { get; set; }
     }
 

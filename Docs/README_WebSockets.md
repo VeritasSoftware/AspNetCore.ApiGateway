@@ -43,6 +43,8 @@ The **InvokeMethod** is the method that is called in the downstream Hub.
 
 The **ReceiveMethod** is the method that will receive the notification from the Hub.
 
+You can specify the **ReceiveGroup** that will receive the notification from the Hub.
+
 The Gateway provides a **POST** endpoint for accepting requests for downstream Hubs.
 
 You can pass the data in the body of this post request.

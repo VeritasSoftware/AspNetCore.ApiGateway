@@ -20,7 +20,15 @@ namespace AspNetCore.ApiGateway.Hubs
 
             if (!string.IsNullOrEmpty(auth.ReceiveKey) && !string.IsNullOrEmpty(receiveKey) && string.Compare(receiveKey, auth.ReceiveKey) == 0)
             {
-                await base.Clients.All.SendAsync(route.ReceiveMethod, arg1, arg2);
+                if (string.IsNullOrEmpty(route.ReceiveGroup))
+                {
+                    await base.Clients.All.SendAsync(route.ReceiveMethod, arg1, arg2);
+                }
+                else
+                {
+                    await base.Clients.Group(route.ReceiveGroup).SendAsync(route.ReceiveMethod, arg1, arg2);
+                }
+                
             }            
         }
 
