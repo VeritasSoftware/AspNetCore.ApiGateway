@@ -77,7 +77,7 @@ namespace AspNetCore.ApiGateway.Hubs
 
                     isMessageSent = true;
                 }
-                else if (_connectedUsers.Any())
+                else if (routeInfo.Value.HubRoute.BroadcastType != HubBroadcastType.Group && _connectedUsers.Any())
                 {
                     connectionIds = _connectedUsers.Where(user => string.Compare(user.Api, auth.Api, true) == 0 && string.Compare(receiveKey, user.ReceiveKey) == 0 
                                                                         && hubRouteInfo.Mediator.Routes.Any(route => string.Compare(route.Key, user.Key, true) == 0))
