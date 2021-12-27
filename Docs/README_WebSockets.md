@@ -43,9 +43,15 @@ The **InvokeMethod** is the method that is called in the downstream Hub.
 
 The **ReceiveMethod** is the method that will receive the notification from the Hub.
 
-You can specify the **ReceiveGroup** that will receive the notification from the Hub. And, set the **BroadcastType** to be **HubBroadcastType.Group**.
+You can set how the notification from the downstream hub is sent from the Gateway hub using **BroadcastType**.
 
-If you want the route to support specific individual notification, set the **BroadcastType** to be **HubBroadcastType.Individual**.
+Broadcast Type | Explanation
+-- | --
+All | The notification from the downstream hub will be sent to all connected Clients.
+Group | The notification from the downstream hub will be sent to all connected Clients in a Group. You must specify the **ReceiveGroup**.
+Individual | The notification from the downstream hub will be sent to individual/specific Clients, who have subscribed to the route.
+
+The default route BroadcastType is **All**.
 
 The Gateway provides a **POST** endpoint for accepting requests for downstream Hubs.
 
