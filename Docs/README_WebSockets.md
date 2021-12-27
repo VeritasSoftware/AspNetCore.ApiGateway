@@ -43,9 +43,9 @@ The **InvokeMethod** is the method that is called in the downstream Hub.
 
 The **ReceiveMethod** is the method that will receive the notification from the Hub.
 
-You can specify the **ReceiveGroup** that will receive the notification from the Hub. And, set the **CommType** to be **HubCommType.Group**.
+You can specify the **ReceiveGroup** that will receive the notification from the Hub. And, set the **BroadcastType** to be **HubBroadcastType.Group**.
 
-If you want the route to support specific individual notification, set the **CommType** to be **HubCommType.Individual**.
+If you want the route to support specific individual notification, set the **BroadcastType** to be **HubBroadcastType.Individual**.
 
 The Gateway provides a **POST** endpoint for accepting requests for downstream Hubs.
 
@@ -129,7 +129,7 @@ var conn = new HubConnectionBuilder()
 await conn.StartAsync();
 
 //If you want to subscribe to a route
-//If you have set the route CommType to Individual, only users who have subscribed, will be sent notifications
+//If you have set the route BroadcastType to Individual, only users who have subscribed, will be sent notifications
 await conn.InvokeAsync("SubscribeToRoute", new GatewayHubUser
 {
     Api = "chatservice",

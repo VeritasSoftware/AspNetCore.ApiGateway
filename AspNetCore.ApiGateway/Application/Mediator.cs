@@ -46,7 +46,7 @@ namespace AspNetCore.ApiGateway
         public HttpClientConfig HttpClientConfig { get; set; }
     }
 
-    public enum HubCommType
+    public enum HubBroadcastType
     {
         All,
         Group,
@@ -58,7 +58,7 @@ namespace AspNetCore.ApiGateway
         public string InvokeMethod { get; set; }
         public string ReceiveMethod { get; set; }
         public string ReceiveGroup { get; set; }
-        public HubCommType CommType { get; set; } = HubCommType.All;
+        public HubBroadcastType BroadcastType { get; set; } = HubBroadcastType.All;
         public Type[] ReceiveParameterTypes { get; set; }
     }
 

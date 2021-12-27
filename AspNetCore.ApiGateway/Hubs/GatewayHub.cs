@@ -71,7 +71,7 @@ namespace AspNetCore.ApiGateway.Hubs
                 IEnumerable<string> connectionIds = null;
                 var routeInfo = hubRouteInfo.Mediator.Paths.Single(route => string.Compare(route.Key, auth.Key, true) == 0);
 
-                if (routeInfo.Value.HubRoute.CommType == HubCommType.Group && !string.IsNullOrEmpty(route.ReceiveGroup))
+                if (routeInfo.Value.HubRoute.BroadcastType == HubBroadcastType.Group && !string.IsNullOrEmpty(route.ReceiveGroup))
                 {
                     await base.Clients.Group(route.ReceiveGroup).SendAsync(route.ReceiveMethod, arg1, arg2);
 
@@ -90,7 +90,7 @@ namespace AspNetCore.ApiGateway.Hubs
                             await base.Clients.Client(connId).SendAsync(route.ReceiveMethod, arg1, arg2);
                         }
 
-                        isMessageSent = routeInfo.Value.HubRoute.CommType == HubCommType.Individual;
+                        isMessageSent = routeInfo.Value.HubRoute.BroadcastType == HubBroadcastType.Individual;
                     }                    
                 }
                                 
