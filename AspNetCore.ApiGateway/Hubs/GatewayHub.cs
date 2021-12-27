@@ -70,38 +70,34 @@ namespace AspNetCore.ApiGateway.Hubs
                 IEnumerable<string> connectionIds = null;
                 var routeInfo = hubRouteInfo.Mediator.Paths.Single(route => string.Compare(route.Key, auth.Key, true) == 0);
 
-                if (routeInfo.Value.HubRoute.BroadcastType == HubBroadcastType.Group && !string.IsNullOrEmpty(route.ReceiveGroup))
+                switch(routeInfo.Value.HubRoute.BroadcastType)
                 {
-                    await base.Clients.Group(route.ReceiveGroup).SendAsync(route.ReceiveMethod, arg1, arg2);
-
-                    return;
-                }
-                
-                if (routeInfo.Value.HubRoute.BroadcastType != HubBroadcastType.Group && _connectedUsers.Any())
-                {
-                    connectionIds = _connectedUsers.Where(user => string.Compare(user.Api, auth.Api, true) == 0 && string.Compare(receiveKey, user.ReceiveKey) == 0 
-                                                                        && hubRouteInfo.Mediator.Routes.Any(route => string.Compare(route.Key, user.Key, true) == 0))
-                                                              .Select(x => x.ConnectionId).ToList();                    
-                    
-                    if (connectionIds.Any())
-                    {
-                        foreach (var connId in connectionIds)
+                    case HubBroadcastType.Group:
+                        if (!string.IsNullOrEmpty(route.ReceiveGroup))
                         {
-                            await base.Clients.Client(connId).SendAsync(route.ReceiveMethod, arg1, arg2);
+                            await base.Clients.Group(route.ReceiveGroup).SendAsync(route.ReceiveMethod, arg1, arg2);
                         }
-                    }                    
-                }
-                                
-                if (routeInfo.Value.HubRoute.BroadcastType == HubBroadcastType.All)
-                {
-                    if (connectionIds != null)
-                    {
-                        await base.Clients.AllExcept(connectionIds).SendAsync(route.ReceiveMethod, arg1, arg2);
-                    }
-                    else
-                    {
+                        break;
+                    case HubBroadcastType.Individual:
+                        if (_connectedUsers.Any())
+                        {
+                            connectionIds = _connectedUsers.Where(user => string.Compare(user.Api, auth.Api, true) == 0 && string.Compare(receiveKey, user.ReceiveKey) == 0
+                                                                        && hubRouteInfo.Mediator.Routes.Any(route => string.Compare(route.Key, user.Key, true) == 0))
+                                                              .Select(x => x.ConnectionId).ToList();
+
+                            if (connectionIds.Any())
+                            {
+                                foreach (var connId in connectionIds)
+                                {
+                                    await base.Clients.Client(connId).SendAsync(route.ReceiveMethod, arg1, arg2);
+                                }
+                            }
+                        }
+                        break;
+                    case HubBroadcastType.All:
                         await base.Clients.All.SendAsync(route.ReceiveMethod, arg1, arg2);
-                    }
+                        break;
+                    default: break;
                 }
             }            
         }
