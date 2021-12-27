@@ -28,22 +28,22 @@ namespace AspNetCore.ApiGateway.Hubs
 
                 if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
                 {
-                    if (!_connectedUsers.Any(u => string.Compare(u.UserId, user.UserId, true) == 0))
+                    lock (_lockObject)
                     {
-                        var extUser = new GatewayHubUserExtended
+                        if (!_connectedUsers.Any(u => string.Compare(u.UserId, user.UserId, true) == 0))
                         {
-                            ConnectionId = Context.ConnectionId,
-                            Api = user.Api,
-                            Key = user.Key,
-                            UserId = user.UserId,
-                            ReceiveKey = user.ReceiveKey
-                        };
+                            var extUser = new GatewayHubUserExtended
+                            {
+                                ConnectionId = Context.ConnectionId,
+                                Api = user.Api,
+                                Key = user.Key,
+                                UserId = user.UserId,
+                                ReceiveKey = user.ReceiveKey
+                            };
 
-                        lock (_lockObject)
-                        {
                             _connectedUsers.Add(extUser);
-                        }                        
-                    }                    
+                        }
+                    }                                       
                 }
             }
 
