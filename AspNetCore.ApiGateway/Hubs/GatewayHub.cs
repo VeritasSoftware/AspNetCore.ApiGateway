@@ -67,7 +67,6 @@ namespace AspNetCore.ApiGateway.Hubs
 
             if (!string.IsNullOrEmpty(auth.ReceiveKey) && !string.IsNullOrEmpty(receiveKey) && string.Compare(receiveKey, auth.ReceiveKey) == 0)
             {
-                bool isMessageSent = false;
                 IEnumerable<string> connectionIds = null;
                 var routeInfo = hubRouteInfo.Mediator.Paths.Single(route => string.Compare(route.Key, auth.Key, true) == 0);
 
@@ -75,9 +74,10 @@ namespace AspNetCore.ApiGateway.Hubs
                 {
                     await base.Clients.Group(route.ReceiveGroup).SendAsync(route.ReceiveMethod, arg1, arg2);
 
-                    isMessageSent = true;
+                    return;
                 }
-                else if (routeInfo.Value.HubRoute.BroadcastType != HubBroadcastType.Group && _connectedUsers.Any())
+                
+                if (routeInfo.Value.HubRoute.BroadcastType != HubBroadcastType.Group && _connectedUsers.Any())
                 {
                     connectionIds = _connectedUsers.Where(user => string.Compare(user.Api, auth.Api, true) == 0 && string.Compare(receiveKey, user.ReceiveKey) == 0 
                                                                         && hubRouteInfo.Mediator.Routes.Any(route => string.Compare(route.Key, user.Key, true) == 0))
@@ -89,12 +89,10 @@ namespace AspNetCore.ApiGateway.Hubs
                         {
                             await base.Clients.Client(connId).SendAsync(route.ReceiveMethod, arg1, arg2);
                         }
-
-                        isMessageSent = routeInfo.Value.HubRoute.BroadcastType == HubBroadcastType.Individual;
                     }                    
                 }
                                 
-                if (!isMessageSent )
+                if (routeInfo.Value.HubRoute.BroadcastType == HubBroadcastType.All)
                 {
                     if (connectionIds != null)
                     {
