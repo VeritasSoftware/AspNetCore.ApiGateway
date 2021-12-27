@@ -46,11 +46,19 @@ namespace AspNetCore.ApiGateway
         public HttpClientConfig HttpClientConfig { get; set; }
     }
 
+    public enum HubCommType
+    {
+        All,
+        Group,
+        Individual
+    }
+
     public class HubRouteInfo
     {
         public string InvokeMethod { get; set; }
         public string ReceiveMethod { get; set; }
         public string ReceiveGroup { get; set; }
+        public HubCommType CommType { get; set; } = HubCommType.All;
         public Type[] ReceiveParameterTypes { get; set; }
     }
 
@@ -115,7 +123,7 @@ namespace AspNetCore.ApiGateway
             _apiOrchestrator = apiOrchestrator;
         }
 
-        public IMediator AddRoute(string key, GatewayVerb verb, RouteInfo routeInfo)
+        public IMediator AddRoute(string routeKey, GatewayVerb verb, RouteInfo routeInfo)
         {
             var gatewayRouteInfo = new GatewayRouteInfo
             {
@@ -123,12 +131,12 @@ namespace AspNetCore.ApiGateway
                 Route = routeInfo
             };
 
-            paths.Add(key.ToLower(), gatewayRouteInfo);
+            paths.Add(routeKey.ToLower(), gatewayRouteInfo);
 
             return this;
         }
 
-        public IMediator AddRoute(string key, GatewayVerb verb, Func<ApiInfo, HttpRequest, Task<object>> exec)
+        public IMediator AddRoute(string routeKey, GatewayVerb verb, Func<ApiInfo, HttpRequest, Task<object>> exec)
         {
             var gatewayRouteInfo = new GatewayRouteInfo
             {
@@ -139,7 +147,7 @@ namespace AspNetCore.ApiGateway
                 }
             };
 
-            paths.Add(key.ToLower(), gatewayRouteInfo);
+            paths.Add(routeKey.ToLower(), gatewayRouteInfo);
 
             return this;
         }

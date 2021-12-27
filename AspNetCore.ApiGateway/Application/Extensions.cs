@@ -181,7 +181,7 @@ namespace AspNetCore.ApiGateway
 
                         connection.On(route.ReceiveMethod, route.ReceiveParameterTypes, async (arg1, arg2) =>
                         {
-                            await gatewayConn.InvokeAsync("Receive", new HubReceiveAuth { Hub = hub.Key, ReceiveKey = hub.Value.ReceiveKey }, route, arg1, arg2);
+                            await gatewayConn.InvokeAsync("Receive", new HubReceiveAuth { Api = hub.Key, Key = path.Key, ReceiveKey = hub.Value.ReceiveKey }, route, arg1, arg2);
                         }, new object());
                     });
                 });

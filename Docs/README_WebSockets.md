@@ -43,7 +43,9 @@ The **InvokeMethod** is the method that is called in the downstream Hub.
 
 The **ReceiveMethod** is the method that will receive the notification from the Hub.
 
-You can specify the **ReceiveGroup** that will receive the notification from the Hub.
+You can specify the **ReceiveGroup** that will receive the notification from the Hub. And, set the **CommType** to be **HubCommType.Group**.
+
+If you want the route to support specific individual notification, set the **CommType** to be **HubCommType.Individual**.
 
 The Gateway provides a **POST** endpoint for accepting requests for downstream Hubs.
 
@@ -124,10 +126,22 @@ var conn = new HubConnectionBuilder()
                 .AddNewtonsoftJsonProtocol()
                 .Build();
 
-conn.StartAsync().ConfigureAwait(false);
+await conn.StartAsync();
+
+//If you want to subscribe to a route
+//If you have set the route CommType to Individual, only users who have subscribed, will be sent notifications
+await conn.InvokeAsync("SubscribeToRoute", new GatewayHubUser
+{
+    Api = "chatservice",
+    Key = "room",                
+    ReceiveKey = "2f85e3c6-66d2-48a3-8ff7-31a65073558b",
+    UserId = "JohnD"
+});
 
 conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
 {
-    //receive your data here
+    return WriteToConsole(arg1);
 }, new object());
 ```
+
+You can invoke **UnsubscribeFromRoute** (with the same param), to stop receiving notifications.
