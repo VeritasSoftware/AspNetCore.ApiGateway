@@ -132,12 +132,12 @@ var conn = new HubConnectionBuilder()
                 .AddNewtonsoftJsonProtocol()
                 .Build();
 
-await conn.StartAsync();
-
 conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
 {
     return WriteToConsole(arg1);
 }, new object());
+
+await conn.StartAsync();
 ```
 
 If you have set the route BroadcastType to Individual, you have to subscribe to the route.
