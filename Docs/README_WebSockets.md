@@ -139,6 +139,14 @@ conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, 
 
 await conn.StartAsync();
 ```
+Here, arg1 contains the array of objects sent in the POST request. Eg.
+
+```C#
+[
+    { "name": "John", "message": "Hello!" }
+]
+```
+
 
 If you have set the route BroadcastType to Individual, you have to subscribe to the route.
 
