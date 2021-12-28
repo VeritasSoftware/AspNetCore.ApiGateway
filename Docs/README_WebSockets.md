@@ -88,6 +88,9 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     .
     .
+    //Api gateway
+    app.UseApiGateway(orchestrator => ApiOrchestration.Create(orchestrator, app));
+
     app.UseEndpoints(endpoints =>
     {
         //GatewayHub endpoint
