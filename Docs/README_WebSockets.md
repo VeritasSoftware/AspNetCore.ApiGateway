@@ -143,7 +143,7 @@ Here, arg1 contains the array of objects sent in the POST request. Eg.
 
 ```C#
 [
-    { "name": "John", "message": "Hello!" }
+    { "name": "John Doe", "message": "Hello!" }
 ]
 ```
 
