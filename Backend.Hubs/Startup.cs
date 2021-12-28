@@ -45,7 +45,7 @@ namespace Backend.Hubs
             {                
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("Backend/downstream Chat Hub.");
                 });
                 endpoints.MapHub<ChatHub>("/chathub"); ;
             });
