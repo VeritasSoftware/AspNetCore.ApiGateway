@@ -124,7 +124,7 @@ you have to specify the **ReceiveKey**.
 
 ## Client
 
-In your **Client**, connect to the GatewayHub and subscribe to **ReceiveMessage**.
+In your **Client**, connect to the GatewayHub and listen to **ReceiveMessage**.
 
 ```C#
 var conn = new HubConnectionBuilder()
@@ -134,8 +134,21 @@ var conn = new HubConnectionBuilder()
 
 await conn.StartAsync();
 
-//If you want to subscribe to a route
-//If you have set the route BroadcastType to Individual, only users who have subscribed, will be sent notifications
+conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
+{
+    return WriteToConsole(arg1);
+}, new object());
+```
+
+If you have set the route BroadcastType to Individual, you have to subscribe to the route.
+
+```
+.AddRoute("room", new HubRouteInfo { BroadcastType = HubBroadcastType.Individual, InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
+```
+
+Only users who have subscribed, will be sent notifications.
+
+```
 await conn.InvokeAsync("SubscribeToRoute", new GatewayHubUser
 {
     Api = "chatservice",
@@ -143,11 +156,6 @@ await conn.InvokeAsync("SubscribeToRoute", new GatewayHubUser
     ReceiveKey = "2f85e3c6-66d2-48a3-8ff7-31a65073558b",
     UserId = "JohnD"
 });
-
-conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
-{
-    return WriteToConsole(arg1);
-}, new object());
 ```
 
 You can invoke **UnsubscribeFromRoute** (with the same param), to stop receiving notifications.
