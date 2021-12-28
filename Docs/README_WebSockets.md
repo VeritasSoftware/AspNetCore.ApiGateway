@@ -48,7 +48,7 @@ You can set how the notification from the downstream hub is sent from the Gatewa
 Broadcast Type | Explanation
 -- | --
 All | The notification from the downstream hub will be sent to all connected Clients.
-Group | The notification from the downstream hub will be sent to all connected Clients in a Group. You must specify the **ReceiveGroup**.
+Group | The notification from the downstream hub will be sent to all connected Clients in a Group. You must specify the **ReceiveGroup** ie group name. Also, Clients have to subscribe to the Group.
 Individual | The notification from the downstream hub will be sent to individual/specific Clients, who have subscribed to the route.
 
 The default route BroadcastType is **All**.
@@ -147,8 +147,33 @@ Here, arg1 contains the array of objects sent in the POST request. Eg.
 ]
 ```
 
+## Group
 
-If you have set the route BroadcastType to Individual, you have to subscribe to the route.
+If you have set the route BroadcastType to Group (as shown below), you have to specify a **ReceiveGroup** too.
+
+Then, the user has to subscribe to the Group.
+
+```C#
+.AddRoute("room", new HubRouteInfo { BroadcastType = HubBroadcastType.Group, ReceiveGroup = "ChatGroup", InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
+```
+
+Only users who have subscribed, will be sent notifications.
+
+```C#
+await conn.InvokeAsync("SubscribeToGroup", new GatewayHubGroupUser
+{
+    Api = "chatservice",
+    Key = "room",
+    ReceiveKey = "2f85e3c6-66d2-48a3-8ff7-31a65073558b",
+    ReceiveGroup = "ChatGroup"
+});
+```
+
+You can invoke **UnsubscribeFromGroup** (with the same param), to stop receiving notifications.
+
+## Individual
+
+If you have set the route BroadcastType to Individual (as shown below), you have to subscribe to the Route.
 
 ```C#
 .AddRoute("room", new HubRouteInfo { BroadcastType = HubBroadcastType.Individual, InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })

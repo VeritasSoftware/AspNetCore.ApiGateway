@@ -18,6 +18,36 @@ namespace AspNetCore.ApiGateway.Hubs
             _apiOrchestrator = apiOrchestrator;
         }
 
+        public async Task SubscribeToGroup(GatewayHubGroupUser user)
+        {
+            if (!string.IsNullOrEmpty(user.ReceiveGroup) && !string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            {
+                var hubInfo = _apiOrchestrator.GetHub(user.Api);
+
+                var routeInfo = hubInfo.Mediator.GetRoute(user.Key);
+
+                if (routeInfo.HubRoute.BroadcastType == HubBroadcastType.Group && !string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
+                {
+                    await Groups.AddToGroupAsync(Context.ConnectionId, user.ReceiveGroup);
+                }
+            }
+        }
+
+        public async Task UnsubscribeFromGroup(GatewayHubGroupUser user)
+        {
+            if (!string.IsNullOrEmpty(user.ReceiveGroup) && !string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            {
+                var hubInfo = _apiOrchestrator.GetHub(user.Api);
+
+                var routeInfo = hubInfo.Mediator.GetRoute(user.Key);
+
+                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
+                {
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.ReceiveGroup);
+                }
+            }
+        }
+
         public async Task SubscribeToRoute(GatewayHubUser user)
         {
             if (!string.IsNullOrEmpty(user.UserId) && !string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
@@ -26,7 +56,7 @@ namespace AspNetCore.ApiGateway.Hubs
 
                 var routeInfo = hubInfo.Mediator.GetRoute(user.Key);
 
-                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
+                if (routeInfo.HubRoute.BroadcastType == HubBroadcastType.Individual && !string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
                 {
                     lock (_lockObject)
                     {
@@ -51,12 +81,22 @@ namespace AspNetCore.ApiGateway.Hubs
         }
         public async Task UnsubscribeFromRoute(GatewayHubUser user)
         {
-            lock (_lockObject)
+            if (!string.IsNullOrEmpty(user.UserId) && !string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
             {
-                _connectedUsers.RemoveAll(u => string.Compare(u.UserId, user.UserId, true) == 0 && string.Compare(u.Api, user.Api, true) == 0 
-                                                && string.Compare(u.Key, user.Key, true) == 0 && string.Compare(u.ReceiveKey, user.ReceiveKey) == 0);
-            }
+                var hubInfo = _apiOrchestrator.GetHub(user.Api);
 
+                var routeInfo = hubInfo.Mediator.GetRoute(user.Key);
+
+                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
+                {
+                    lock (_lockObject)
+                    {
+                        _connectedUsers.RemoveAll(u => string.Compare(u.UserId, user.UserId, true) == 0 && string.Compare(u.Api, user.Api, true) == 0
+                                                        && string.Compare(u.Key, user.Key, true) == 0 && string.Compare(u.ReceiveKey, user.ReceiveKey) == 0);
+                    }
+                }
+            }
+            
             await Task.CompletedTask;
         }
 
