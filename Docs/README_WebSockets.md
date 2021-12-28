@@ -142,13 +142,13 @@ conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, 
 
 If you have set the route BroadcastType to Individual, you have to subscribe to the route.
 
-```
+```C#
 .AddRoute("room", new HubRouteInfo { BroadcastType = HubBroadcastType.Individual, InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
 ```
 
 Only users who have subscribed, will be sent notifications.
 
-```
+```C#
 await conn.InvokeAsync("SubscribeToRoute", new GatewayHubUser
 {
     Api = "chatservice",
