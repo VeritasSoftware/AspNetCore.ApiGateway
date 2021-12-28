@@ -48,8 +48,8 @@ You can set how the notification from the downstream hub is sent from the Gatewa
 Broadcast Type | Explanation
 -- | --
 All | The notification from the downstream hub will be sent to all connected Clients.
-Group | The notification from the downstream hub will be sent to all connected Clients in a Group. You must specify the **ReceiveGroup** ie group name. Also, Clients have to subscribe to the Group.
-Individual | The notification from the downstream hub will be sent to individual/specific Clients, who have subscribed to the route.
+Group | The notification from the downstream hub will be sent to all connected Clients, who have subscribed to a Group. You must specify the **ReceiveGroup** ie group name.
+Individual | The notification from the downstream hub will be sent to individual/specific Clients, who have subscribed to the Route.
 
 The default route BroadcastType is **All**.
 
@@ -147,7 +147,7 @@ Here, arg1 contains the array of objects sent in the POST request. Eg.
 ]
 ```
 
-## Group
+### Group
 
 If you have set the route BroadcastType to Group (as shown below), you have to specify a **ReceiveGroup** too.
 
@@ -171,7 +171,7 @@ await conn.InvokeAsync("SubscribeToGroup", new GatewayHubGroupUser
 
 You can invoke **UnsubscribeFromGroup** (with the same param), to stop receiving notifications.
 
-## Individual
+### Individual
 
 If you have set the route BroadcastType to Individual (as shown below), you have to subscribe to the Route.
 
