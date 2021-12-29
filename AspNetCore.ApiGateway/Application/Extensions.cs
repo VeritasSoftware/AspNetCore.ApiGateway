@@ -173,6 +173,22 @@ namespace AspNetCore.ApiGateway
                 {
                     var connection = hub.Value.Connection;
 
+                    try
+                    {
+                        await connection.StartAsync();
+                    }
+                    catch(Exception ex)
+                    {
+                        try
+                        {
+                            var logger = app.ApplicationServices.GetService<ILogger<ApiGatewayLog>>();
+                            logger.LogError(ex, $"Api Gateway error starting hub connection.");
+                        }
+                        catch (Exception) 
+                        { 
+                        }
+                    }                    
+
                     hub.Value.Mediator.Paths.ToList().ForEach(path =>
                     {
                         var route = hub.Value.Mediator.GetRoute(path.Key).HubRoute;
