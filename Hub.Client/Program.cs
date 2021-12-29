@@ -24,7 +24,7 @@ namespace Hub.Client
 
             await conn.StartAsync();
 
-            //await conn.InvokeAsync("SubscribeToRoute", new GatewayHubUser
+            //await conn.InvokeAsync("SubscribeToRoute", new
             //{
             //    Api = "chatservice",
             //    Key = "room",
@@ -32,7 +32,7 @@ namespace Hub.Client
             //    UserId = "JohnD"
             //});
 
-            //await conn.InvokeAsync("SubscribeToGroup", new GatewayHubGroupUser
+            //await conn.InvokeAsync("SubscribeToGroup", new
             //{
             //    Api = "chatservice",
             //    Key = "room",

@@ -1,8 +1,18 @@
 ### Api Gateway Web Sockets
 
-The Api Gateway supports calling downstream Web Sockets.
+The framework uses SignalR as the Web Sockets technology.
 
-## Downstream Hub
+Out of the box, there is a SignalR Gateway Hub.
+
+You can set up routes in the ApiOrchestrator to interact with downstream SignalR Hubs via this Hub.
+
+You can
+
+* send a notification to the downstream Hub via the Gateway POST endpoint.
+
+* receive a notification from the downstream Hub via the Gateway Hub.
+
+## Backend/Downstream Hub
 
 Let us say, you have a downstream ChatHub:
 
@@ -163,7 +173,7 @@ Then, the user has to subscribe to the Group.
 Only users who have subscribed, will be sent notifications.
 
 ```C#
-await conn.InvokeAsync("SubscribeToGroup", new GatewayHubGroupUser
+await conn.InvokeAsync("SubscribeToGroup", new
 {
     Api = "chatservice",
     Key = "room",
@@ -185,7 +195,7 @@ If you have set the route BroadcastType to Individual (as shown below), you have
 Only users who have subscribed, will be sent notifications.
 
 ```C#
-await conn.InvokeAsync("SubscribeToRoute", new GatewayHubUser
+await conn.InvokeAsync("SubscribeToRoute", new
 {
     Api = "chatservice",
     Key = "room",                
