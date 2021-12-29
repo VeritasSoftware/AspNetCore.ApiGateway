@@ -173,8 +173,6 @@ namespace AspNetCore.ApiGateway
                 {
                     var connection = hub.Value.Connection;
 
-                    await connection.StartAsync();
-
                     hub.Value.Mediator.Paths.ToList().ForEach(path =>
                     {
                         var route = hub.Value.Mediator.GetRoute(path.Key).HubRoute;
