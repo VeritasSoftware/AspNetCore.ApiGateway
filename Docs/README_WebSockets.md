@@ -168,7 +168,7 @@ services.AddScoped<IGatewayHubFilter, GatewayHubFilterService>();
 services.AddApiGateway();
 ```
 
-## Security
+### Security
 
 You can secure the POST endpoint by implementing interface **IHubPostGatewayAuthorization**.
 
