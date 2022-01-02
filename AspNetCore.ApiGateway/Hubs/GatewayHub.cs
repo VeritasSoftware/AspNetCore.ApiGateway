@@ -1,4 +1,7 @@
 ﻿using AspNetCore.ApiGateway.Application;
+using AspNetCore.ApiGateway.Application.HubFilters;
+using AspNetCore.ApiGateway.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway.Hubs
 {
+    [GatewayHubFilter]
     public class GatewayHub : Hub
     {
         readonly IApiOrchestrator _apiOrchestrator;

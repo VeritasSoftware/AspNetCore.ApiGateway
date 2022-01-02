@@ -125,6 +125,49 @@ You can turn off the GatewayHub by
 orchestrator.StartGatewayHub = false;
 ```
 
+### Filter
+
+You can filter the calls to the Gateway Hub.
+
+By implementing **IGatewayHubFilter**.
+
+In your Gateway API project,
+
+*	Create a service like below
+
+```C#
+    public class GatewayHubFilterService : IGatewayHubFilter
+    {
+        public ValueTask<object> InvokeMethodAsync(HubInvocationContext invocationContext)
+        {
+            //Do your work here eg.
+            //invocationContext.Context.Abort();
+            return new ValueTask<object>();
+        }
+
+        public Task OnConnectedAsync(HubLifetimeContext context)
+        {
+            //Do your work here
+            return Task.CompletedTask;
+        }
+
+        public Task OnDisconnectedAsync(HubLifetimeContext context, Exception exception)
+        {
+            //Do your work here
+            return Task.CompletedTask;
+        }
+    }
+```
+
+*	Wire it up for dependency injection in Startup.cs
+
+```C#
+services.AddScoped<IGatewayHubFilter, GatewayHubFilterService>();
+.
+.
+services.AddApiGateway();
+```
+
 ## Security
 
 You can secure the POST endpoint by implementing interface **IHubPostGatewayAuthorization**.

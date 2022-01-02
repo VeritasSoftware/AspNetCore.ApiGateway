@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net.Http.Headers;
+using AspNetCore.ApiGateway.Application.HubFilters;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AspNetCore.ApiGateway
 {
@@ -34,7 +36,8 @@ namespace AspNetCore.ApiGateway
             services.AddAuthorizationFilters()
                     .AddActionFilters()
                     .AddExceptionFilters()
-                    .AddResultFilters();
+                    .AddResultFilters()
+                    .AddHubFilters();
 
             services.AddHttpClient<IHttpService, HttpService>();
 
@@ -132,6 +135,18 @@ namespace AspNetCore.ApiGateway
             services.AddScoped<GatewayPutAsyncResultFilterAttribute>();
             services.AddScoped<GatewayPatchAsyncResultFilterAttribute>();
             services.AddScoped<GatewayDeleteAsyncResultFilterAttribute>();
+
+            return services;
+        }
+
+        internal static IServiceCollection AddHubFilters(this IServiceCollection services)
+        {
+            services.AddScoped<GatewayHubFilterAttribute>();
+
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.AddFilter<GatewayHubFilterAttribute>();
+            });
 
             return services;
         }
