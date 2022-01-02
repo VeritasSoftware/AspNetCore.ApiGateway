@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>3.0.0</Version>
-    <PackageReleaseNotes>Upgraded framework to .Net 6.0. No breaking changes.</PackageReleaseNotes>
+    <Version>3.1.0</Version>
+    <PackageReleaseNotes>Improved web sockets functionality. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
