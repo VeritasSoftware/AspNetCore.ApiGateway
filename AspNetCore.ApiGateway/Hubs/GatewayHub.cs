@@ -1,8 +1,7 @@
 ﻿using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Application.HubFilters;
-using AspNetCore.ApiGateway.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,6 +47,26 @@ namespace AspNetCore.ApiGateway.Hubs
                 if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
                 {
                     await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.ReceiveGroup);
+                }
+            }
+        }
+
+        public async Task InvokeDownstreamHub(GatewayHubDownstreamHubUser user)
+        {
+            if (!string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            {
+                var hubInfo = _apiOrchestrator.GetHub(user.Api);
+
+                var routeInfo = hubInfo.Mediator.GetRoute(user.Key);
+
+                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(hubInfo.ReceiveKey, user.ReceiveKey) == 0)
+                {
+                    var connection = hubInfo.Connection;
+
+                    if (connection.State != HubConnectionState.Connected)
+                        await connection.StartAsync();
+
+                    await connection.InvokeAsync(routeInfo.HubRoute.InvokeMethod, user.Data);
                 }
             }
         }

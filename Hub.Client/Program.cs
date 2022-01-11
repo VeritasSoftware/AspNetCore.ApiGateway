@@ -40,6 +40,18 @@ namespace Hub.Client
             //    ReceiveGroup = "ChatGroup"
             //});
 
+            //await conn.InvokeAsync("InvokeDownstreamHub", new
+            //{
+            //    Api = "chatservice",
+            //    Key = "room",
+            //    ReceiveKey = "2f85e3c6-66d2-48a3-8ff7-31a65073558b",
+            //    Data = new
+            //    {
+            //        Name = "John",
+            //        Message = "Hello!"
+            //    }
+            //});
+
             Console.ReadLine();
         }
 

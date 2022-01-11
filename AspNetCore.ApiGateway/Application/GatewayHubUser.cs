@@ -21,4 +21,10 @@
     {
         public string ConnectionId { get; set; }
     }
+
+    public class GatewayHubDownstreamHubUser: GatewayHubUserBase
+    {
+        public object Data { get; set; } 
+    }
+
 }
