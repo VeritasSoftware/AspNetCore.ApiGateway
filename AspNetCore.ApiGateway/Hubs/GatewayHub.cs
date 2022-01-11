@@ -66,7 +66,14 @@ namespace AspNetCore.ApiGateway.Hubs
                     if (connection.State != HubConnectionState.Connected)
                         await connection.StartAsync();
 
-                    await connection.InvokeAsync(routeInfo.HubRoute.InvokeMethod, user.Data);
+                    if (user.Data != null)
+                    {
+                        await connection.InvokeAsync(routeInfo.HubRoute.InvokeMethod, user.Data);
+                    }
+                    else
+                    {
+                        await connection.InvokeCoreAsync(routeInfo.HubRoute.InvokeMethod, user.DataArray);
+                    }                    
                 }
             }
         }
