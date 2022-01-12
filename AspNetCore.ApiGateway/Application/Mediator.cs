@@ -28,12 +28,21 @@ namespace AspNetCore.ApiGateway
         public Action<HttpClient, HttpRequest> CustomizeDefaultHttpClient { get; set; }
     }
 
-    public class GatewayRouteInfo
+    public abstract class GatewayRouteInfoBase
+    {
+
+    }
+
+    public class GatewayRouteInfo : GatewayRouteInfoBase
     {
         public GatewayVerb Verb { get; set; }
 
         public RouteInfo Route { get; set; }
+    }
 
+    public class GatewayHubRouteInfo : GatewayRouteInfoBase
+    {
+        public GatewayVerb Verb { get; set; } = GatewayVerb.POST;
         public HubRouteInfo HubRoute { get; set; }
     }
 
@@ -66,9 +75,9 @@ namespace AspNetCore.ApiGateway
     public class HubMediator : IHubMediator
     {
         private readonly IApiOrchestrator _apiOrchestrator;
-        Dictionary<string, GatewayRouteInfo> paths = new Dictionary<string, GatewayRouteInfo>();
+        Dictionary<string, GatewayHubRouteInfo> paths = new Dictionary<string, GatewayHubRouteInfo>();
 
-        public Dictionary<string, GatewayRouteInfo> Paths => paths;
+        public Dictionary<string, GatewayHubRouteInfo> Paths => paths;
 
         public HubMediator(IApiOrchestrator apiOrchestrator)
         {
@@ -91,9 +100,8 @@ namespace AspNetCore.ApiGateway
 
         public IHubMediator AddRoute(string key, HubRouteInfo routeInfo)
         {
-            var gatewayRouteInfo = new GatewayRouteInfo
+            var gatewayRouteInfo = new GatewayHubRouteInfo
             {
-                Verb = GatewayVerb.POST,
                 HubRoute = routeInfo
             };
 
@@ -102,7 +110,7 @@ namespace AspNetCore.ApiGateway
             return this;
         }
 
-        public GatewayRouteInfo GetRoute(string key)
+        public GatewayHubRouteInfo GetRoute(string key)
         {
             return paths[key.ToLower()];
         }
@@ -110,7 +118,6 @@ namespace AspNetCore.ApiGateway
         public IEnumerable<Route> Routes => paths.Select(x => new Route
         {
             Key = x.Key,
-            Verb = x.Value?.Verb.ToString(),
         });
     }
 

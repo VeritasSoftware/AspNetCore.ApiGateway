@@ -30,6 +30,7 @@ namespace AspNetCore.ApiGateway
             ApiInfo apiInfo = null;
             HubInfo hubInfo = null;
             GatewayRouteInfo routeInfo = null;
+            GatewayHubRouteInfo hubRouteInfo = null;
 
             try
             {
@@ -46,7 +47,7 @@ namespace AspNetCore.ApiGateway
                     {
                         hubInfo = orchestrator.GetHub(api);
 
-                        routeInfo = hubInfo.Mediator.GetRoute(key);
+                        hubRouteInfo = hubInfo.Mediator.GetRoute(key);
                     }
                     else
                     {
@@ -55,7 +56,8 @@ namespace AspNetCore.ApiGateway
                         routeInfo = apiInfo.Mediator.GetRoute(key.ToString());
                     }                    
 
-                    if (routeInfo.Verb.ToString() != context.Request.Method.ToUpper())
+                    if ((routeInfo?.Verb.ToString() != context.Request.Method.ToUpper()) &&
+                        (hubRouteInfo?.Verb.ToString() != context.Request.Method.ToUpper()))
                     {
                         throw new Exception("Invalid verb");
                     }

@@ -14,11 +14,11 @@ namespace AspNetCore.ApiGateway
 
         IHubMediator AddRoute(string key, HubRouteInfo routeInfo);
 
-        GatewayRouteInfo GetRoute(string key);
+        GatewayHubRouteInfo GetRoute(string key);
 
         IEnumerable<Route> Routes { get; }
 
-        Dictionary<string, GatewayRouteInfo> Paths { get; }
+        Dictionary<string, GatewayHubRouteInfo> Paths { get; }
     }
 
     public interface IMediator
