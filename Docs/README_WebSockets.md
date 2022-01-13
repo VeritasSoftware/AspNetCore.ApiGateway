@@ -68,6 +68,8 @@ The Gateway provides
 * a Hub method (**InvokeDownstreamHub**) for accepting requests for downstream Hubs.
 * a **POST** endpoint for accepting requests for downstream Hubs.
 
+### POST endpoint
+
 You can pass the data in the body of this post request.
 
 You can pass a max of 10 objects in the request.
@@ -75,6 +77,8 @@ You can pass a max of 10 objects in the request.
 In Swagger, you would call this endpoint as below:
 
 ![API Gateway Swagger](/Docs/WebSockets.PNG)
+
+### Gateway Hub
 
 There is a **GatewayHub** which the Client can subscribe to to get messages from the back end Hub.
 
@@ -128,7 +132,7 @@ You can turn off the GatewayHub by
 orchestrator.StartGatewayHub = false;
 ```
 
-### Filter
+#### Filter
 
 You can filter the calls to the Gateway Hub.
 
@@ -198,15 +202,12 @@ conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, 
 
 await conn.StartAsync();
 ```
-Here, arg1 contains the array of objects sent in the POST request. Eg.
 
-```C#
-[
-    { "name": "John Doe", "message": "Hello!" }
-]
-```
+Here, arg1 contains the array of objects sent to all Clients subscribing to the downstream Chat Hub SendMessage method.
 
-### Group
+### Broadcast Types
+
+#### Group
 
 If you have set the route BroadcastType to Group (as shown below), you have to specify a **ReceiveGroup** too.
 
@@ -230,7 +231,7 @@ await conn.InvokeAsync("SubscribeToGroup", new
 
 You can invoke **UnsubscribeFromGroup** (with the same param), to stop receiving notifications.
 
-### Individual
+#### Individual
 
 If you have set the route BroadcastType to Individual (as shown below), you have to subscribe to the Route.
 
@@ -252,7 +253,7 @@ await conn.InvokeAsync("SubscribeToRoute", new
 
 You can invoke **UnsubscribeFromRoute** (with the same param), to stop receiving notifications.
 
-### Invoking downstream Hub
+### Invoking downstream hub
 
 You can invoke a method on a downstream hub, by calling a method (**InvokeDownstreamHub**) on the Gateway Hub.
 
