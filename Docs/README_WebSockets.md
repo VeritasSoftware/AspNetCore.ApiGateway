@@ -4,11 +4,11 @@ The framework uses SignalR as the Web Sockets technology.
 
 Out of the box, there is a SignalR Gateway Hub.
 
-You can set up routes in the ApiOrchestrator to interact with downstream SignalR Hubs via this Hub.
+You can set up routes in the ApiOrchestrator to interact with downstream SignalR Hubs.
 
 You can
 
-* send a notification to the downstream Hub via the Gateway POST endpoint.
+* send a notification to the downstream Hub.
 
 * receive a notification from the downstream Hub via the Gateway Hub.
 
@@ -80,7 +80,7 @@ In Swagger, you would call this endpoint as below:
 
 ### Gateway Hub
 
-There is a **GatewayHub** which the Client can subscribe to to get messages from the back end Hub.
+There is a **GatewayHub** which the Client can subscribe to, to get messages from and to send messages to, the back end/downstream Hub.
 
 To hook up the GatewayHub, in your Gateway API project Startup.cs:
 
@@ -181,9 +181,15 @@ You can secure the POST endpoint by implementing interface **IHubPostGatewayAuth
 
 Please see section [Authorization](/Docs/README_Authorization.md) to learn how to do this.
 
-Also, if you are going to receive notifications from the downstream Hub,
+Also, if you are going to receive notifications from or invoke methods on the downstream Hub,
 
 you have to specify the **ReceiveKey**.
+
+Also, you can turn off the Gateway Hub.
+
+```C#
+orchestrator.StartGatewayHub = false;
+```
 
 ## Client
 
