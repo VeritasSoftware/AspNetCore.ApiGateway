@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>3.2.0</Version>
-    <PackageReleaseNotes>Targeting .net 5 &amp; .net 6. No breaking changes.</PackageReleaseNotes>
+    <Version>3.3.0</Version>
+    <PackageReleaseNotes>Improved web sockets functionality. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
