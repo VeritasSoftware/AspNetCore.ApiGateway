@@ -119,6 +119,8 @@ you have to specify the **RouteKey**.
 
 In your **Client**, connect to the GatewayHub and listen to **ReceiveMyStreamEvent**.
 
+You have to subscribe to the route (stream) once, before you start receiving Events.
+
 ```C#
 var conn = new HubConnectionBuilder()
                 .WithUrl("https://localhost:44360/GatewayHub")
@@ -136,7 +138,7 @@ conn.On("ReceiveMyStreamEvent", new Type[] { typeof(object), typeof(object) }, (
 await conn.StartAsync();
 ```
 
-Here, arg1 contains the array of events sent to all Clients subscribing to the downstream Event Store Server stream.
+Here, arg1 contains the array of Events sent to all Clients subscribing to the downstream Event Store Server stream.
 
 ### Publish event
 
