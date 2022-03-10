@@ -140,6 +140,40 @@ await conn.StartAsync();
 
 Here, arg1 contains the array of Events sent to all Clients subscribing to the downstream Event Store Server stream.
 
+The Event has the below Json format:
+
+```Javascript
+{
+  "Event": {
+    "EventStreamId": "my-stream",
+    "EventId": "20026749-258a-4310-a8bc-07e11f8a2a11",
+    "EventNumber": 348,
+    "EventType": "MyEvent",
+    "Data": "eyJhIjoiMTUifQ==",
+    "Metadata": "e30=",
+    "IsJson": false,
+    "Created": "2022-03-10T22:26:43.075048",
+    "CreatedEpoch": 1646951203075
+  },
+  "Link": null,
+  "OriginalPosition": null,
+  "OriginalEvent": {
+    "EventStreamId": "my-stream",
+    "EventId": "20026749-258a-4310-a8bc-07e11f8a2a11",
+    "EventNumber": 348,
+    "EventType": "MyEvent",
+    "Data": "eyJhIjoiMTUifQ==",
+    "Metadata": "e30=",
+    "IsJson": false,
+    "Created": "2022-03-10T22:26:43.075048",
+    "CreatedEpoch": 1646951203075
+  },
+  "IsResolved": false,
+  "OriginalStreamId": "my-stream",
+  "OriginalEventNumber": 348
+}
+```
+
 ### Publish event
 
 You can publish an event, by calling a method (**PublishToEventStoreStream**) on the Gateway Hub.
@@ -156,7 +190,8 @@ await conn.InvokeAsync("PublishToEventStoreStream", new
             EventId = Guid.NewGuid(),
             Type = "MyEvent",
             Data = Encoding.UTF8.GetBytes("{\"a\":\"15\"}"),
-            MetaData = Encoding.UTF8.GetBytes("{}")
+            MetaData = Encoding.UTF8.GetBytes("{}"),
+            IsJson = false
         }
     }
 });
