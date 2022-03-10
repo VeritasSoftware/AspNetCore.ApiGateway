@@ -22,6 +22,12 @@ orchestrator.AddEventSource("eventsourceservice", BuildEventSourceConnection, "2
 
 ```
 
+and provide the Url to the Gateway Hub:
+
+```C#
+orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
+```
+
 The **ReceiveKey** (eg. Guid) is to be specified if you want to publish and subscribe.
 
 ```C#
@@ -103,12 +109,6 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         endpoints.MapControllers();
     });
 }
-```
-
-In your Api Orchestration, provide the Url to the Gateway Hub:
-
-```C#
-orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 ```
 
 ### Security
