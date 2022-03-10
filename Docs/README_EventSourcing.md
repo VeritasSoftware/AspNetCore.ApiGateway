@@ -117,10 +117,6 @@ If you are going to publish or subscribe on the downstream Event Store Server st
 
 you have to specify the **ReceiveKey**.
 
-```C#
-orchestrator.StartGatewayHub = false;
-```
-
 ## Client
 
 In your **Client**, connect to the GatewayHub and listen to **ReceiveMyStreamEvent**.
