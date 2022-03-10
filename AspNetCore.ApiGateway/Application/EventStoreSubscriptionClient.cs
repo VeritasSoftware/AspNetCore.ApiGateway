@@ -33,6 +33,8 @@ namespace AspNetCore.ApiGateway.Application
 
                 await client.ConnectAsync();
 
+                _subscriptions.Add(subscriptionClientSettings);
+
                 return client;
             }
 
