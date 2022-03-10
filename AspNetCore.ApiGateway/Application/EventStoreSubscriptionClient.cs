@@ -95,7 +95,7 @@ namespace AspNetCore.ApiGateway.Application
         {
             var strResolvedEvent = JsonConvert.SerializeObject(resolvedEvent);
 
-            _hubConnection.InvokeAsync("EventStoreEventAppeared", _connectionId, _storeUser, strResolvedEvent);
+            _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, _connectionId, strResolvedEvent);
         }
 
         public void Dispose()

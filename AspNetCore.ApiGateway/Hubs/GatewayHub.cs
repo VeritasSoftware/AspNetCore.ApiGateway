@@ -121,7 +121,7 @@ namespace AspNetCore.ApiGateway.Hubs
             }
         }
 
-        public async Task EventStoreEventAppeared(string connectionId, GatewayHubSubscribeEventStoreUser user, string resolvedEvent)
+        public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string connectionId, string resolvedEvent)
         {
             if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
             {
