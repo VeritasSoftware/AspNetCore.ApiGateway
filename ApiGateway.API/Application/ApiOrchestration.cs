@@ -22,7 +22,7 @@ namespace ApiGateway.API
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
-            orchestrator.StartGatewayHub = true;
+            orchestrator.StartGatewayHub = false;
             orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
