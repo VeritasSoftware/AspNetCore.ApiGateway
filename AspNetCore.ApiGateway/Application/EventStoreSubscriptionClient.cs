@@ -16,6 +16,7 @@ namespace AspNetCore.ApiGateway.Application
         public EventSourceRouteInfo RouteInfo { get; set; }
         public IEventStoreConnection Connection { get; set; }
         public string GatewayUrl { get; set; }
+        public string ConnectionId { get; set; }
     }
 
     internal static class EventStoreClientFactory
@@ -24,7 +25,8 @@ namespace AspNetCore.ApiGateway.Application
 
         public static async Task<EventStoreSubscriptionClient> CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
         {
-            if(!_subscriptions.Any(x => (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
+            if(!_subscriptions.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
+                                            && (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
                                             && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName) 
                                             && (x.RouteInfo.GroupName == subscriptionClientSettings.RouteInfo.GroupName)))
@@ -47,6 +49,7 @@ namespace AspNetCore.ApiGateway.Application
         private readonly IEventStoreConnection _eventStoreConnection;
         private readonly EventSourceRouteInfo _routeInfo;
         private readonly string _gatewayHubUrl;
+        private readonly string _connectionId;
         private readonly GatewayHubSubscribeEventStoreUser _storeUser;
         private HubConnection _hubConnection;
 
@@ -58,6 +61,7 @@ namespace AspNetCore.ApiGateway.Application
             _routeInfo = settings.RouteInfo;
             _gatewayHubUrl = settings.GatewayUrl;
             _storeUser = settings.StoreUser;
+            _connectionId = settings.ConnectionId;
             _eventStoreConnection.ConnectAsync().ConfigureAwait(true);
         }
 
@@ -91,7 +95,7 @@ namespace AspNetCore.ApiGateway.Application
         {
             var strResolvedEvent = JsonConvert.SerializeObject(resolvedEvent);
 
-            _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, strResolvedEvent);
+            _hubConnection.InvokeAsync("EventStoreEventAppeared", _connectionId, _storeUser, strResolvedEvent);
         }
 
         public void Dispose()

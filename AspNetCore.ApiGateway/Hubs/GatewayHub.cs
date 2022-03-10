@@ -115,12 +115,13 @@ namespace AspNetCore.ApiGateway.Hubs
                         RouteInfo = routeInfo.EventSourceRoute,
                         GatewayUrl = _apiOrchestrator.GatewayHubUrl,
                         StoreUser = user,
+                        ConnectionId = this.Context.ConnectionId
                     });
                 }
             }
         }
 
-        public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string resolvedEvent)
+        public async Task EventStoreEventAppeared(string connectionId, GatewayHubSubscribeEventStoreUser user, string resolvedEvent)
         {
             if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
             {
@@ -130,7 +131,7 @@ namespace AspNetCore.ApiGateway.Hubs
 
                 if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
                 {
-                    await base.Clients.All.SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
+                    await base.Clients.Client(connectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
                 }
             }            
         }
