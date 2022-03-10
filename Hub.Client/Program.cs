@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Hub.Client
@@ -20,6 +22,14 @@ namespace Hub.Client
             conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
             {
                 return WriteToConsole(arg1);
+            }, new object());
+
+            conn.On("ReceiveMyStreamEvent", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
+            {
+                dynamic parsedJson = JsonConvert.DeserializeObject(arg1[0].ToString());
+                var evt = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+                Console.WriteLine(evt);
+                return Task.CompletedTask;
             }, new object());
 
             await conn.StartAsync();
@@ -49,6 +59,43 @@ namespace Hub.Client
             //    {
             //        Name = "John",
             //        Message = "Hello!"
+            //    }
+            //});
+
+            //await conn.InvokeAsync("InvokeDownstreamHub", new
+            //{
+            //    Api = "chatservice",
+            //    Key = "room",
+            //    ReceiveKey = "2f85e3c6-66d2-48a3-8ff7-31a65073558b",
+            //    DataArray = new[]
+            //    {
+            //        new {
+            //            Name = "John",
+            //            Message = "Hello!"
+            //        }
+            //    }
+            //});
+
+            //await conn.InvokeAsync("SubscribeToEventStoreStream", new
+            //{
+            //    Api = "eventsourceservice",
+            //    Key = "mystream",
+            //    ReceiveKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
+            //});
+
+            //await conn.InvokeAsync("PublishToEventStoreStream", new
+            //{
+            //    Api = "eventsourceservice",
+            //    Key = "mystream",
+            //    ReceiveKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3",
+            //    Events = new[]
+            //    {
+            //        new {
+            //            EventId = Guid.NewGuid(),
+            //            Type = "MyEvent",
+            //            Data = Encoding.UTF8.GetBytes("{\"a\":\"15\"}"),
+            //            MetaData = Encoding.UTF8.GetBytes("{}")
+            //        }
             //    }
             //});
 

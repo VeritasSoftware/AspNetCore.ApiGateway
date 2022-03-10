@@ -6,11 +6,30 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway
 {
+    public interface IEventSourceMediator
+    {
+        IMediator AddApi(string apiKey, params string[] baseUrls);
+
+        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
+
+        IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey);
+
+        IEventSourceMediator AddRoute(string key, EventSourceRouteInfo routeInfo);
+
+        GatewayEventSourceRouteInfo GetRoute(string key);
+
+        IEnumerable<Route> Routes { get; }
+
+        Dictionary<string, GatewayEventSourceRouteInfo> Paths { get; }
+    }
+
     public interface IHubMediator
     {
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
         IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
+
+        IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey);
 
         IHubMediator AddRoute(string key, HubRouteInfo routeInfo);
 
@@ -32,6 +51,8 @@ namespace AspNetCore.ApiGateway
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
         IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
+
+        IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey);
 
         IEnumerable<Route> Routes { get; }
     }

@@ -10,9 +10,12 @@ namespace AspNetCore.ApiGateway
 
         IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
 
+        IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey);
+
         ApiInfo GetApi(string apiKey);
 
         HubInfo GetHub(string apiKey);
+        EventSourcingInfo GetEventSource(string apiKey);
 
         IEnumerable<Orchestration> Orchestration { get; }
 

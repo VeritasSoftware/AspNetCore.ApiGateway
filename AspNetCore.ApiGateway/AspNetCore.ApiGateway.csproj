@@ -35,4 +35,8 @@
 	    <PackageReference Include="NJsonSchema" Version="10.4.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EventStore.Client" Version="21.2.2" />
+  </ItemGroup>
+
 </Project>

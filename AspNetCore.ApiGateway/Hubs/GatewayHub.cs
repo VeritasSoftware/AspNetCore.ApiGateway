@@ -1,7 +1,9 @@
 ﻿using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Application.HubFilters;
+using EventStore.ClientAPI;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -76,6 +78,61 @@ namespace AspNetCore.ApiGateway.Hubs
                     }                    
                 }
             }
+        }
+
+        public async Task PublishToEventStoreStream(GatewayHubEventStoreUser user)
+        {
+            if (!string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            {
+                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
+
+                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
+
+                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(eventSourceInfo.ReceiveKey, user.ReceiveKey) == 0)
+                {
+                    var connection = (IEventStoreConnection) eventSourceInfo.Connection;
+
+                    await connection.AppendToStreamAsync(routeInfo.EventSourceRoute.StreamName, ExpectedVersion.Any, user.Events);
+                }
+            }
+        }
+
+        public async Task SubscribeToEventStoreStream(GatewayHubSubscribeEventStoreUser user)
+        {
+            if (!string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            {
+                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
+
+                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
+
+                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(eventSourceInfo.ReceiveKey, user.ReceiveKey) == 0)
+                {
+                    var connection = (IEventStoreConnection)eventSourceInfo.Connection;
+
+                    var client = await EventStoreClientFactory.CreateAsync(new EventStoreSubscriptionClientSettings
+                    {
+                        Connection = connection,
+                        RouteInfo = routeInfo.EventSourceRoute,
+                        GatewayUrl = _apiOrchestrator.GatewayHubUrl,
+                        StoreUser = user,
+                    });
+                }
+            }
+        }
+
+        public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string resolvedEvent)
+        {
+            if (!string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            {
+                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
+
+                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
+
+                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(eventSourceInfo.ReceiveKey, user.ReceiveKey) == 0)
+                {
+                    await base.Clients.All.SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
+                }
+            }            
         }
 
         public async Task SubscribeToRoute(GatewayHubUser user)

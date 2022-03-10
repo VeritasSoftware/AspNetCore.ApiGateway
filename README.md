@@ -27,6 +27,7 @@ The microservices architecture uses an Api Gateway as shown below.
 *   Load balancing
 *   Response caching
 *   Web sockets
+*   Event sourcing
 *   Request aggregation
 *   Middleware service
 *   Logging
@@ -108,7 +109,9 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })                                
                         .AddHub("chatservice", BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
-                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
+                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
+                        .AddEventSource("eventsourceservice", BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
+                                .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStoreDb, StreamName = "my-test-stream", GroupName = "my-group", UserId = "admin", Password = "*******" });
         }
 
         private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
@@ -116,6 +119,34 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
             return builder.WithUrl("https://localhost:44339/chathub")
                           .AddNewtonsoftJsonProtocol()
                           .Build();
+        }
+
+        private static object BuildEventSourceConnection()
+        {
+            var address = IPAddress.Parse("127.0.0.1");
+            var tcpPort = 1113;
+            var userName = "admin";
+            var password = "********";
+
+            var _connectionSettings = ConnectionSettings.Create();
+            _connectionSettings.EnableVerboseLogging()
+                .UseDebugLogger()
+                .UseConsoleLogger()
+                .KeepReconnecting()
+                .DisableServerCertificateValidation()
+                .DisableTls()
+                .LimitAttemptsForOperationTo(3)
+                .LimitRetriesForOperationTo(3)
+                .SetHeartbeatTimeout(TimeSpan.FromSeconds(3600))
+                .SetHeartbeatInterval(TimeSpan.FromSeconds(3600))
+                .WithConnectionTimeoutOf(TimeSpan.FromSeconds(3600))
+                .Build();
+
+            var connection = EventStoreConnection.Create(
+                $"ConnectTo=tcp://{address}:{tcpPort};DefaultUserCredentials={userName}:{password};",
+                _connectionSettings);
+
+            return connection;
         }
     }
 ```
@@ -211,6 +242,10 @@ For **Request aggregation**, see this section.
 ### Web Sockets
 
 ### [Web Sockets](Docs/README_WebSockets.md)
+
+### Event Sourcing
+
+### [Event Sourcing](Docs/README_EventSourcing.md)
 
 ### Filters
 

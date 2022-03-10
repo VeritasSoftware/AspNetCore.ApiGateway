@@ -1,9 +1,14 @@
 ﻿using AspNetCore.ApiGateway;
+using AspNetCore.ApiGateway.Application;
+using EventStore.ClientAPI;
+using EventStore.ClientAPI.SystemData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace ApiGateway.API
 {
@@ -17,7 +22,7 @@ namespace ApiGateway.API
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
-            orchestrator.StartGatewayHub = false;
+            orchestrator.StartGatewayHub = true;
             orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")
@@ -32,7 +37,7 @@ namespace ApiGateway.API
                                 //Get using custom implementation
                                 .AddRoute("typescustom", GatewayVerb.GET, weatherService.GetTypes)
                                 //Post
-                                .AddRoute("add", GatewayVerb.POST, new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
+                                .AddRoute("add", GatewayVerb.POST, new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[]) })
                                 //Put
                                 .AddRoute("update", GatewayVerb.PUT, new RouteInfo { Path = "weatherforecast/types/update", RequestType = typeof(UpdateWeatherTypeRequest), ResponseType = typeof(string[]) })
                                 //Patch
@@ -41,9 +46,11 @@ namespace ApiGateway.API
                                 .AddRoute("remove", GatewayVerb.DELETE, new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
                         .AddApi("stockservice", "http://localhost:63967/")
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
-                                .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })                                
+                                .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })
                         .AddHub("chatservice", BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
-                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
+                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", BroadcastType = HubBroadcastType.Group, ReceiveGroup = "ChatGroup", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
+                        .AddEventSource("eventsourceservice", BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
+                                .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStoreDb, StreamName = "my-test-stream", GroupName = "my-group", UserId = "admin", Password = "changeit" });
         }
 
         private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
@@ -51,6 +58,35 @@ namespace ApiGateway.API
             return builder.WithUrl("https://localhost:44339/chathub")
                           .AddNewtonsoftJsonProtocol()
                           .Build();
+        }
+
+        private static object BuildEventSourceConnection()
+        {
+            var address = IPAddress.Parse("127.0.0.1");
+            var tcpPort = 1113;
+
+            var userName = "admin";
+            var password = "changeit";
+
+            var _connectionSettings = ConnectionSettings.Create();
+            _connectionSettings.EnableVerboseLogging()
+                .UseDebugLogger()
+                .UseConsoleLogger()
+                .KeepReconnecting()
+                .DisableServerCertificateValidation()
+                .DisableTls()
+                .LimitAttemptsForOperationTo(3)
+                .LimitRetriesForOperationTo(3)
+                .SetHeartbeatTimeout(TimeSpan.FromSeconds(3600))
+                .SetHeartbeatInterval(TimeSpan.FromSeconds(3600))
+                .WithConnectionTimeoutOf(TimeSpan.FromSeconds(3600))
+                .Build();
+
+            var connection = EventStoreConnection.Create(
+                $"ConnectTo=tcp://{address}:{tcpPort};DefaultUserCredentials={userName}:{password};",
+                _connectionSettings);
+
+            return connection;
         }
     }
 }

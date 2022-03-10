@@ -24,11 +24,24 @@ namespace AspNetCore.ApiGateway
         public string ReceiveKey { get; set; }
     }
 
+    public class EventSourcingInfo
+    {
+        public string BaseUrl { get; set; }
+
+        public EventSourceMediator Mediator { get; set; }
+
+        public object Connection { get; set; }
+
+        public string ReceiveKey { get; set; }
+    }
+
     public class ApiOrchestrator : IApiOrchestrator
     {
         Dictionary<string, ApiInfo> apis = new Dictionary<string, ApiInfo>();
 
         Dictionary<string, HubInfo> hubs = new Dictionary<string, HubInfo>();
+
+        Dictionary<string, EventSourcingInfo> eventSources = new Dictionary<string, EventSourcingInfo>();
 
         Dictionary<string, string[]> apiUrls = new Dictionary<string, string[]>();
 
@@ -61,6 +74,17 @@ namespace AspNetCore.ApiGateway
             return mediator;
         }
 
+        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey)
+        {
+            var mediator = new EventSourceMediator(this);
+
+            var conn = connectionBuilder();
+
+            eventSources.Add(apiKey.ToLower(), new EventSourcingInfo() { Mediator = mediator, Connection = conn, ReceiveKey = receiveKey });
+
+            return mediator;
+        }
+
         public ApiInfo GetApi(string apiKey)
         {
             var apiInfo = apis[apiKey.ToLower()];
@@ -80,6 +104,13 @@ namespace AspNetCore.ApiGateway
         public HubInfo GetHub(string apiKey)
         {
             var apiInfo = hubs[apiKey.ToLower()];
+
+            return apiInfo;
+        }
+
+        public EventSourcingInfo GetEventSource(string apiKey)
+        {
+            var apiInfo = eventSources[apiKey.ToLower()];
 
             return apiInfo;
         }

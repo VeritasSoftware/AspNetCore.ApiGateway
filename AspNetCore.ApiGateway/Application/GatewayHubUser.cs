@@ -1,4 +1,6 @@
-﻿namespace AspNetCore.ApiGateway.Application
+﻿using EventStore.ClientAPI;
+
+namespace AspNetCore.ApiGateway.Application
 {
     public abstract class GatewayHubUserBase
     {
@@ -26,6 +28,15 @@
     {
         public object Data { get; set; }
         public object[] DataArray { get; set; }
+    }
+
+    public class GatewayHubEventStoreUser : GatewayHubUserBase
+    {
+        public EventData[] Events { get; set; }
+    }
+
+    public class GatewayHubSubscribeEventStoreUser : GatewayHubUserBase
+    {
     }
 
 }
