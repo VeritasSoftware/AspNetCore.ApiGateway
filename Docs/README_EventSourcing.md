@@ -30,6 +30,14 @@ orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 
 The **RouteKey** (eg. Guid) is to be specified if you want to publish and subscribe.
 
+The **ReceiveMethod** is the method that will receive the events from the downstream Event Store stream.
+
+The **StreamName** is the name of the downstream Event Store stream.
+
+The **GroupName** is the name of the downstream Event Store stream subscription group.
+
+**Note:-** The downstream Event Store stream must have a persistent subscription created for that stream & group.
+
 ```C#
 private static object BuildEventSourceConnection()
 {
@@ -61,14 +69,6 @@ private static object BuildEventSourceConnection()
 ```
 
 In this you set up the **Connection** to the downstream Event Store Server using the **[EventStore.Client](https://www.nuget.org/packages/EventStore.Client/21.2.2)** nuget package library.
-
-The **ReceiveMethod** is the method that will receive the events from the downstream Event Store stream.
-
-The **StreamName** is the name of the downstream Event Store stream.
-
-The **GroupName** is the name of the downstream Event Store stream subscription group.
-
-**Note:-** The downstream Event Store stream must have a persistent subscription created for that stream & group.
 
 ### Gateway Hub
 
