@@ -32,7 +32,7 @@ namespace AspNetCore.ApiGateway
 
         public object Connection { get; set; }
 
-        public string ReceiveKey { get; set; }
+        public string RouteKey { get; set; }
     }
 
     public class ApiOrchestrator : IApiOrchestrator
@@ -74,13 +74,13 @@ namespace AspNetCore.ApiGateway
             return mediator;
         }
 
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey)
+        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
         {
             var mediator = new EventSourceMediator(this);
 
             var conn = connectionBuilder();
 
-            eventSources.Add(apiKey.ToLower(), new EventSourcingInfo() { Mediator = mediator, Connection = conn, ReceiveKey = receiveKey });
+            eventSources.Add(apiKey.ToLower(), new EventSourcingInfo() { Mediator = mediator, Connection = conn, RouteKey = routeKey });
 
             return mediator;
         }

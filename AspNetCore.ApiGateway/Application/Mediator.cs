@@ -112,9 +112,9 @@ namespace AspNetCore.ApiGateway
             return _apiOrchestrator.AddApi(apiKey, baseUrls);
         }
 
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey)
+        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
         {
-            _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, receiveKey);
+            _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, routeKey);
 
             return this;
         }
@@ -168,9 +168,9 @@ namespace AspNetCore.ApiGateway
             return _apiOrchestrator.GetApi(apiKey).Mediator;
         }
 
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey)
+        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
         {
-            return _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, receiveKey);
+            return _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, routeKey);
         }
 
         public IHubMediator AddRoute(string key, HubRouteInfo routeInfo)
@@ -270,9 +270,9 @@ namespace AspNetCore.ApiGateway
             return _apiOrchestrator.AddHub(apiKey, connectionBuilder, receiveKey);
         }
 
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey)
+        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
         {
-            return _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, receiveKey);
+            return _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, routeKey);
         }
 
         #endregion

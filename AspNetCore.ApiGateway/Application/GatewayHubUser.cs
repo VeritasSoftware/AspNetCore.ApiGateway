@@ -9,6 +9,13 @@ namespace AspNetCore.ApiGateway.Application
         public string ReceiveKey { get; set; }
     }
 
+    public abstract class GatewayHubEventStoreUserBase
+    {
+        public string Api { get; set; }
+        public string Key { get; set; }
+        public string RouteKey { get; set; }
+    }
+
     public class GatewayHubUser : GatewayHubUserBase
     {
         public string UserId { get; set; }
@@ -30,12 +37,12 @@ namespace AspNetCore.ApiGateway.Application
         public object[] DataArray { get; set; }
     }
 
-    public class GatewayHubEventStoreUser : GatewayHubUserBase
+    public class GatewayHubEventStoreUser : GatewayHubEventStoreUserBase
     {
         public EventData[] Events { get; set; }
     }
 
-    public class GatewayHubSubscribeEventStoreUser : GatewayHubUserBase
+    public class GatewayHubSubscribeEventStoreUser : GatewayHubEventStoreUserBase
     {
     }
 

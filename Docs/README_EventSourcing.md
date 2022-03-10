@@ -6,7 +6,7 @@ You can set up routes in the ApiOrchestrator to interact with downstream Event S
 
 You can
 
-* publish an event to the downstream Event Store Server stream.
+* publish events to the downstream Event Store Server stream.
 
 * subscribe to events from a downstream Event Store Server stream
 
@@ -28,7 +28,7 @@ and provide the Url to the Gateway Hub:
 orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 ```
 
-The **ReceiveKey** (eg. Guid) is to be specified if you want to publish and subscribe.
+The **RouteKey** (eg. Guid) is to be specified if you want to publish and subscribe.
 
 ```C#
 private static object BuildEventSourceConnection()
@@ -67,8 +67,6 @@ The **ReceiveMethod** is the method that will receive the events from the downst
 The **StreamName** is the name of the downstream Event Store stream.
 
 The **GroupName** is the name of the downstream Event Store stream subscription group.
-
-The **UserId** and **Password** are the credentials on the downstream Event Store Server.
 
 **Note:-** The downstream Event Store stream must have a persistent subscription created for that stream & group.
 
@@ -115,7 +113,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 If you are going to publish or subscribe on the downstream Event Store Server stream,
 
-you have to specify the **ReceiveKey**.
+you have to specify the **RouteKey**.
 
 ## Client
 
@@ -149,7 +147,7 @@ await conn.InvokeAsync("PublishToEventStoreStream", new
 {
     Api = "eventsourceservice",
     Key = "mystream",
-    ReceiveKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3",
+    RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3",
     Events = new[]
     {
         new {
@@ -171,6 +169,6 @@ await conn.InvokeAsync("SubscribeToEventStoreStream", new
 {
     Api = "eventsourceservice",
     Key = "mystream",
-    ReceiveKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
+    RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
 });
 ```

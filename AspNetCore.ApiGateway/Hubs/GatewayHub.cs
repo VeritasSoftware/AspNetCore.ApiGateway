@@ -82,13 +82,13 @@ namespace AspNetCore.ApiGateway.Hubs
 
         public async Task PublishToEventStoreStream(GatewayHubEventStoreUser user)
         {
-            if (!string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
             {
                 var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
 
                 var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
 
-                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(eventSourceInfo.ReceiveKey, user.ReceiveKey) == 0)
+                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
                 {
                     var connection = (IEventStoreConnection) eventSourceInfo.Connection;
 
@@ -99,13 +99,13 @@ namespace AspNetCore.ApiGateway.Hubs
 
         public async Task SubscribeToEventStoreStream(GatewayHubSubscribeEventStoreUser user)
         {
-            if (!string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
             {
                 var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
 
                 var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
 
-                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(eventSourceInfo.ReceiveKey, user.ReceiveKey) == 0)
+                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
                 {
                     var connection = (IEventStoreConnection)eventSourceInfo.Connection;
 
@@ -122,13 +122,13 @@ namespace AspNetCore.ApiGateway.Hubs
 
         public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string resolvedEvent)
         {
-            if (!string.IsNullOrEmpty(user.ReceiveKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
             {
                 var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
 
                 var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
 
-                if (!string.IsNullOrEmpty(user.ReceiveKey) && string.Compare(eventSourceInfo.ReceiveKey, user.ReceiveKey) == 0)
+                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
                 {
                     await base.Clients.All.SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
                 }
