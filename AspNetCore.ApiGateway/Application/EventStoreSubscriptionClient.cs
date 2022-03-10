@@ -24,7 +24,10 @@ namespace AspNetCore.ApiGateway.Application
 
         public static async Task<EventStoreSubscriptionClient> CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
         {
-            if(!_subscriptions.Any(x => (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName) && (x.RouteInfo.GroupName == subscriptionClientSettings.RouteInfo.GroupName)))
+            if(!_subscriptions.Any(x => (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
+                                            && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
+                                            && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName) 
+                                            && (x.RouteInfo.GroupName == subscriptionClientSettings.RouteInfo.GroupName)))
             {
                 var client = new EventStoreSubscriptionClient(subscriptionClientSettings);
 
