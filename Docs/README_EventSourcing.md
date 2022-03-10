@@ -108,16 +108,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 In your Api Orchestration, provide the Url to the Gateway Hub:
 
 ```C#
-orchestrator.StartGatewayHub = true;
 orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
-```
-
-**Note**
-
-You can turn off the GatewayHub by
-
-```C#
-orchestrator.StartGatewayHub = false;
 ```
 
 ### Security
@@ -125,8 +116,6 @@ orchestrator.StartGatewayHub = false;
 If you are going to publish or subscribe on the downstream Event Store Server stream,
 
 you have to specify the **ReceiveKey**.
-
-Also, you can turn off the Gateway Hub.
 
 ```C#
 orchestrator.StartGatewayHub = false;
