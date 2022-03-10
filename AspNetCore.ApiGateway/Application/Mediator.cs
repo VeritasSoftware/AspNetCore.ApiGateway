@@ -87,9 +87,6 @@ namespace AspNetCore.ApiGateway
         public string StreamName { get; set; }
         public string GroupName { get; set; }
 
-        public string UserId { get; set; }
-        public string Password { get; set; }
-
         public string ReceiveMethod { get; set; }
     }
 

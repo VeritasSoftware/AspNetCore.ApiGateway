@@ -43,7 +43,6 @@ namespace AspNetCore.ApiGateway.Application
     internal class EventStoreSubscriptionClient : IDisposable
     {
         private readonly IEventStoreConnection _eventStoreConnection;
-        private readonly UserCredentials _userCredentials;
         private readonly EventSourceRouteInfo _routeInfo;
         private readonly string _gatewayHubUrl;
         private readonly GatewayHubSubscribeEventStoreUser _storeUser;
@@ -54,7 +53,6 @@ namespace AspNetCore.ApiGateway.Application
         public EventStoreSubscriptionClient(EventStoreSubscriptionClientSettings settings)
         {
             _eventStoreConnection = settings.Connection;
-            //_userCredentials = new UserCredentials(settings.RouteInfo.UserId, settings.RouteInfo.Password);
             _routeInfo = settings.RouteInfo;
             _gatewayHubUrl = settings.GatewayUrl;
             _storeUser = settings.StoreUser;
@@ -68,7 +66,7 @@ namespace AspNetCore.ApiGateway.Application
                    _routeInfo.GroupName,
                    EventAppeared,
                    SubscriptionDropped,
-                   _userCredentials,
+                   null,
                    10,
                    true
             );

@@ -111,7 +111,7 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
                         .AddHub("chatservice", BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
                                 .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
                         .AddEventSource("eventsourceservice", BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
-                                .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStoreDb, StreamName = "my-test-stream", GroupName = "my-group", UserId = "admin", Password = "*******" });
+                                .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStoreDb, StreamName = "my-test-stream", GroupName = "my-group" });
         }
 
         private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
