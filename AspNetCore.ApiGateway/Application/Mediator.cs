@@ -69,7 +69,7 @@ namespace AspNetCore.ApiGateway
 
     public enum EventSourcingType
     {
-        EventStoreDb
+        EventStore
     }
 
     public class HubRouteInfo
@@ -83,7 +83,7 @@ namespace AspNetCore.ApiGateway
 
     public class EventSourceRouteInfo
     {
-        public EventSourcingType Type { get; set; } = EventSourcingType.EventStoreDb;
+        public EventSourcingType Type { get; set; } = EventSourcingType.EventStore;
         public string StreamName { get; set; }
         public string GroupName { get; set; }
 

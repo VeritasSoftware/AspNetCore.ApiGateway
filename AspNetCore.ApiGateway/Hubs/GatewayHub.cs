@@ -124,7 +124,8 @@ namespace AspNetCore.ApiGateway.Hubs
                         RouteInfo = routeInfo.EventSourceRoute,
                         GatewayUrl = _apiOrchestrator.GatewayHubUrl,
                         StoreUser = user,
-                        ConnectionId = this.Context.ConnectionId
+                        ConnectionId = this.Context.ConnectionId,
+                        Logger = _logger
                     });
 
                     _logger?.LogInformation($"Finish subscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");

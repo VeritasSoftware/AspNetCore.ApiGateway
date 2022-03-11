@@ -50,7 +50,7 @@ namespace ApiGateway.API
                         .AddHub("chatservice", BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
                                 .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", BroadcastType = HubBroadcastType.Group, ReceiveGroup = "ChatGroup", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
                         .AddEventSource("eventsourceservice", BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
-                                .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStoreDb, StreamName = "my-test-stream", GroupName = "my-group" });
+                                .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStore, StreamName = "my-stream", GroupName = "my-group" });
         }
 
         private static HubConnection BuildHubConnection(HubConnectionBuilder builder)

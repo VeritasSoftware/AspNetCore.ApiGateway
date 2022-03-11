@@ -18,7 +18,7 @@ You talk to this backend Event Store Server, set up a EventSource and Route in y
 
 ```C#
 orchestrator.AddEventSource("eventsourceservice", BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
-                    .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStoreDb, StreamName = "my-stream", GroupName = "my-group" });
+                    .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStore, StreamName = "my-stream", GroupName = "my-group" });
 
 ```
 

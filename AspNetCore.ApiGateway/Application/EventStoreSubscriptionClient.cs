@@ -2,6 +2,7 @@
 using EventStore.ClientAPI.SystemData;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace AspNetCore.ApiGateway.Application
         public string GatewayUrl { get; set; }
         public string ConnectionId { get; set; }
         public EventStoreSubscriptionClient Client { get; set; }
+        public ILogger<ApiGatewayLog> Logger { get; set; }
     }
 
     internal class ConnectedEventStoreUser
@@ -72,6 +74,7 @@ namespace AspNetCore.ApiGateway.Application
         private readonly string _gatewayHubUrl;
         private readonly GatewayHubSubscribeEventStoreUser _storeUser;
         private HubConnection _hubConnection;
+        private readonly ILogger<ApiGatewayLog> _logger;
 
         private EventStorePersistentSubscriptionBase EventStorePersistentSubscriptionBase { get; set; }
 
@@ -81,11 +84,19 @@ namespace AspNetCore.ApiGateway.Application
             _routeInfo = settings.RouteInfo;
             _gatewayHubUrl = settings.GatewayUrl;
             _storeUser = settings.StoreUser;
-            _eventStoreConnection.ConnectAsync().ConfigureAwait(true);
+            _logger = settings.Logger;
         }
 
         public async Task ConnectAsync()
-        {            
+        {
+            _logger?.LogInformation($"Connecting to the Event Store Server.");
+
+            await _eventStoreConnection.ConnectAsync();
+
+            _logger?.LogInformation($"Finished connecting to the Event Store Server.");
+
+            _logger?.LogInformation($"Connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");
+
             EventStorePersistentSubscriptionBase = await _eventStoreConnection.ConnectToPersistentSubscriptionAsync(
                    _routeInfo.StreamName,
                    _routeInfo.GroupName,
@@ -95,6 +106,8 @@ namespace AspNetCore.ApiGateway.Application
                    10,
                    true
             );
+
+            _logger?.LogInformation($"Finished connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");
 
             _hubConnection = new HubConnectionBuilder()
                     .WithUrl(_gatewayHubUrl)
@@ -110,11 +123,11 @@ namespace AspNetCore.ApiGateway.Application
             await ConnectAsync();
         }
 
-        private void EventAppeared(EventStorePersistentSubscriptionBase subscription, ResolvedEvent resolvedEvent)
+        private async void EventAppeared(EventStorePersistentSubscriptionBase subscription, ResolvedEvent resolvedEvent)
         {
-            var strResolvedEvent = JsonConvert.SerializeObject(resolvedEvent);
+            var strResolvedEvent = JsonConvert.SerializeObject(resolvedEvent, Formatting.Indented);
 
-            _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, strResolvedEvent);
+            await _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, strResolvedEvent);
         }
 
         public void Dispose()
