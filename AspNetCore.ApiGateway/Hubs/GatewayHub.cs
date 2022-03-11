@@ -3,6 +3,7 @@ using AspNetCore.ApiGateway.Application.HubFilters;
 using EventStore.ClientAPI;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,15 @@ namespace AspNetCore.ApiGateway.Hubs
     public class GatewayHub : Hub
     {
         readonly IApiOrchestrator _apiOrchestrator;
+        readonly ILogger<ApiGatewayLog> _logger;
 
         readonly static List<GatewayHubUserExtended> _connectedUsers = new List<GatewayHubUserExtended>();
         private static object _lockObject = new object();
 
-        public GatewayHub(IApiOrchestrator apiOrchestrator)
+        public GatewayHub(IApiOrchestrator apiOrchestrator, ILogger<ApiGatewayLog> logger = null)
         {
             _apiOrchestrator = apiOrchestrator;
+            _logger = logger;
         }
 
         public async Task SubscribeToGroup(GatewayHubGroupUser user)
@@ -92,7 +95,11 @@ namespace AspNetCore.ApiGateway.Hubs
                 {
                     var connection = (IEventStoreConnection) eventSourceInfo.Connection;
 
+                    _logger?.LogInformation($"Start publishing Events to downstream Event Store stream {routeInfo.EventSourceRoute.StreamName}, for ConnectionId {this.Context.ConnectionId}.");
+
                     await connection.AppendToStreamAsync(routeInfo.EventSourceRoute.StreamName, ExpectedVersion.Any, user.Events);
+
+                    _logger?.LogInformation($"Start publishing Events to downstream Event Store stream {routeInfo.EventSourceRoute.StreamName}, for ConnectionId {this.Context.ConnectionId}.");
                 }
             }
         }
@@ -109,6 +116,8 @@ namespace AspNetCore.ApiGateway.Hubs
                 {
                     var connection = (IEventStoreConnection)eventSourceInfo.Connection;
 
+                    _logger?.LogInformation($"Start subscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
+
                     var client = await EventStoreClientFactory.CreateAsync(new EventStoreSubscriptionClientSettings
                     {
                         Connection = connection,
@@ -117,6 +126,8 @@ namespace AspNetCore.ApiGateway.Hubs
                         StoreUser = user,
                         ConnectionId = this.Context.ConnectionId
                     });
+
+                    _logger?.LogInformation($"Finish subscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
                 }
             }
         }
@@ -133,9 +144,20 @@ namespace AspNetCore.ApiGateway.Hubs
                 {
                     lock(this)
                     {
-                        EventStoreClientFactory.Subscriptions.RemoveAll(s => (s.ConnectionId == this.Context.ConnectionId)
+                        _logger?.LogInformation($"Start unsubscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
+
+                        var subscription = EventStoreClientFactory.Subscriptions.SingleOrDefault(s => (s.ConnectionId == this.Context.ConnectionId)
                                                                                 && (s.StoreUser.Api == user.Api)
                                                                                 && (s.StoreUser.Key == user.Key));
+
+                        if (subscription != null)
+                        {
+                            subscription.Client.Dispose();
+
+                            EventStoreClientFactory.Subscriptions.Remove(subscription);
+                        }
+
+                        _logger?.LogInformation($"Finish unsubscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
                     }                    
                 }
             }
@@ -157,7 +179,11 @@ namespace AspNetCore.ApiGateway.Hubs
 
                     validSubscriptions.ForEach(async subscription =>
                     {
+                        _logger?.LogInformation($"Start sending Event to ConnectionId {subscription.ConnectionId}.");
+
                         await base.Clients.Client(subscription.ConnectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
+
+                        _logger?.LogInformation($"Finish sending Event to ConnectionId {subscription.ConnectionId}.");
                     });                    
                 }
             }

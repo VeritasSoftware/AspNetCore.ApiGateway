@@ -17,6 +17,7 @@ namespace AspNetCore.ApiGateway.Application
         public IEventStoreConnection Connection { get; set; }
         public string GatewayUrl { get; set; }
         public string ConnectionId { get; set; }
+        public EventStoreSubscriptionClient Client { get; set; }
     }
 
     internal static class EventStoreClientFactory
@@ -34,6 +35,8 @@ namespace AspNetCore.ApiGateway.Application
                 var client = new EventStoreSubscriptionClient(subscriptionClientSettings);
 
                 await client.ConnectAsync();
+
+                subscriptionClientSettings.Client = client;
 
                 Subscriptions.Add(subscriptionClientSettings);
 
