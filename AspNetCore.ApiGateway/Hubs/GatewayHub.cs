@@ -97,7 +97,7 @@ namespace AspNetCore.ApiGateway.Hubs
 
                     _logger?.LogInformation($"Start publishing Events to downstream Event Store stream {routeInfo.EventSourceRoute.StreamName}, for ConnectionId {this.Context.ConnectionId}.");
 
-                    await connection.AppendToStreamAsync(routeInfo.EventSourceRoute.StreamName, ExpectedVersion.Any, user.Events);
+                    await connection.AppendToStreamAsync(routeInfo.EventSourceRoute.StreamName, ExpectedVersion.StreamExists, user.Events);
 
                     _logger?.LogInformation($"Start publishing Events to downstream Event Store stream {routeInfo.EventSourceRoute.StreamName}, for ConnectionId {this.Context.ConnectionId}.");
                 }
