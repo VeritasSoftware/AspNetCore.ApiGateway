@@ -141,7 +141,7 @@ namespace AspNetCore.ApiGateway.Hubs
             await Task.CompletedTask;
         }
 
-        public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string connectionId, string resolvedEvent)
+        public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string resolvedEvent)
         {
             if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
             {
@@ -155,7 +155,7 @@ namespace AspNetCore.ApiGateway.Hubs
 
                     validSubscriptions.ForEach(async subscription =>
                     {
-                        await base.Clients.Client(connectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
+                        await base.Clients.Client(subscription.ConnectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
                     });                    
                 }
             }

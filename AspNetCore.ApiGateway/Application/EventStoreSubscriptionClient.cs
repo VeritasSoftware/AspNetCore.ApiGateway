@@ -49,7 +49,6 @@ namespace AspNetCore.ApiGateway.Application
         private readonly IEventStoreConnection _eventStoreConnection;
         private readonly EventSourceRouteInfo _routeInfo;
         private readonly string _gatewayHubUrl;
-        private readonly string _connectionId;
         private readonly GatewayHubSubscribeEventStoreUser _storeUser;
         private HubConnection _hubConnection;
 
@@ -61,7 +60,6 @@ namespace AspNetCore.ApiGateway.Application
             _routeInfo = settings.RouteInfo;
             _gatewayHubUrl = settings.GatewayUrl;
             _storeUser = settings.StoreUser;
-            _connectionId = settings.ConnectionId;
             _eventStoreConnection.ConnectAsync().ConfigureAwait(true);
         }
 
@@ -95,7 +93,7 @@ namespace AspNetCore.ApiGateway.Application
         {
             var strResolvedEvent = JsonConvert.SerializeObject(resolvedEvent);
 
-            _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, _connectionId, strResolvedEvent);
+            _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, strResolvedEvent);
         }
 
         public void Dispose()
