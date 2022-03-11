@@ -20,9 +20,18 @@ namespace AspNetCore.ApiGateway.Application
         public EventStoreSubscriptionClient Client { get; set; }
     }
 
+    internal class ConnectedEventStoreUser
+    {
+        public string ConnectionId { get; set; }
+        public GatewayHubSubscribeEventStoreUser StoreUser { get; set; }
+    }
+
     internal static class EventStoreClientFactory
     {
         public static List<EventStoreSubscriptionClientSettings> Subscriptions { get; set; } = new List<EventStoreSubscriptionClientSettings>();
+        public static List<ConnectedEventStoreUser> ConnectedUsers { get; set; } = new List<ConnectedEventStoreUser>();
+
+        static readonly object _lockObject = new object();
 
         public static async Task CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
         {
@@ -35,17 +44,24 @@ namespace AspNetCore.ApiGateway.Application
 
                 await client.ConnectAsync();
 
-                subscriptionClientSettings.Client = client;                
-            }
-
-            if (!Subscriptions.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
-                                             && (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
-                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
-                                             && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName)
-                                             && (x.RouteInfo.GroupName == subscriptionClientSettings.RouteInfo.GroupName)))
-            {
+                subscriptionClientSettings.Client = client;
+                
                 Subscriptions.Add(subscriptionClientSettings);
             }
+
+            lock(_lockObject)
+            {
+                if (!ConnectedUsers.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
+                                             && (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
+                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)))
+                {
+                    ConnectedUsers.Add(new ConnectedEventStoreUser
+                    {
+                        ConnectionId = subscriptionClientSettings.ConnectionId,
+                        StoreUser = subscriptionClientSettings.StoreUser
+                    });
+                }
+            }            
         }
     }
 

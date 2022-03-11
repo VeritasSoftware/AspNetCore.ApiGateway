@@ -146,16 +146,8 @@ namespace AspNetCore.ApiGateway.Hubs
                     {
                         _logger?.LogInformation($"Start unsubscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
 
-                        var subscription = EventStoreClientFactory.Subscriptions.SingleOrDefault(s => (s.ConnectionId == this.Context.ConnectionId)
-                                                                                && (s.StoreUser.Api == user.Api)
-                                                                                && (s.StoreUser.Key == user.Key));
-
-                        if (subscription != null)
-                        {
-                            subscription.Client.Dispose();
-
-                            EventStoreClientFactory.Subscriptions.Remove(subscription);
-                        }
+                        EventStoreClientFactory.ConnectedUsers.RemoveAll(x => (x.ConnectionId == this.Context.ConnectionId)
+                                                                                && (x.StoreUser.Api == user.Api) && (x.StoreUser.Key == user.Key));
 
                         _logger?.LogInformation($"Finish unsubscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
                     }                    
@@ -175,15 +167,15 @@ namespace AspNetCore.ApiGateway.Hubs
 
                 if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
                 {
-                    var validSubscriptions = EventStoreClientFactory.Subscriptions.Where(s => (s.StoreUser.Api == user.Api) && (s.StoreUser.Key == user.Key)).ToList();
+                    var connectedUsers = EventStoreClientFactory.ConnectedUsers.Where(x => (x.StoreUser.Api == user.Api) && (x.StoreUser.Key == user.Key)).ToList();
 
-                    validSubscriptions.ForEach(async subscription =>
+                    connectedUsers.ForEach(async connectedUser =>
                     {
-                        _logger?.LogInformation($"Start sending Event to ConnectionId {subscription.ConnectionId}.");
+                        _logger?.LogInformation($"Start sending Event to ConnectionId {connectedUser.ConnectionId}.");
 
-                        await base.Clients.Client(subscription.ConnectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
+                        await base.Clients.Client(connectedUser.ConnectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
 
-                        _logger?.LogInformation($"Finish sending Event to ConnectionId {subscription.ConnectionId}.");
+                        _logger?.LogInformation($"Finish sending Event to ConnectionId {connectedUser.ConnectionId}.");
                     });                    
                 }
             }
