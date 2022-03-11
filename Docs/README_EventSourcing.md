@@ -119,6 +119,10 @@ you have to specify the **RouteKey**.
 
 In your **Client**, connect to the GatewayHub and listen to **ReceiveMyStreamEvent**.
 
+You will have to use a SignalR client library to do this.
+
+You can read more on SignalR client libraries for .Net, Java, Javascript etc. [here](https://docs.microsoft.com/en-us/aspnet/core/signalr/client-features?view=aspnetcore-6.0).
+
 You have to subscribe to the route (stream) once, before you start receiving Events.
 
 ```C#
