@@ -133,7 +133,9 @@ namespace AspNetCore.ApiGateway.Hubs
                 {
                     lock(this)
                     {
-                        EventStoreClientFactory.Subscriptions.RemoveAll(s => s.ConnectionId == this.Context.ConnectionId);
+                        EventStoreClientFactory.Subscriptions.RemoveAll(s => (s.ConnectionId == this.Context.ConnectionId)
+                                                                                && (s.StoreUser.Api == user.Api)
+                                                                                && (s.StoreUser.Key == user.Key));
                     }                    
                 }
             }
