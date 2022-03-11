@@ -24,10 +24,9 @@ namespace AspNetCore.ApiGateway.Application
     {
         public static List<EventStoreSubscriptionClientSettings> Subscriptions { get; set; } = new List<EventStoreSubscriptionClientSettings>();
 
-        public static async Task<EventStoreSubscriptionClient> CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
+        public static async Task CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
         {
-            if(!Subscriptions.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
-                                            && (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
+            if(!Subscriptions.Any(x => (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
                                             && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName) 
                                             && (x.RouteInfo.GroupName == subscriptionClientSettings.RouteInfo.GroupName)))
@@ -36,14 +35,17 @@ namespace AspNetCore.ApiGateway.Application
 
                 await client.ConnectAsync();
 
-                subscriptionClientSettings.Client = client;
-
-                Subscriptions.Add(subscriptionClientSettings);
-
-                return client;
+                subscriptionClientSettings.Client = client;                
             }
 
-            return null;
+            if (!Subscriptions.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
+                                             && (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
+                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
+                                             && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName)
+                                             && (x.RouteInfo.GroupName == subscriptionClientSettings.RouteInfo.GroupName)))
+            {
+                Subscriptions.Add(subscriptionClientSettings);
+            }
         }
     }
 

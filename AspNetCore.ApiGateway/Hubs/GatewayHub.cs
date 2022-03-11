@@ -118,7 +118,7 @@ namespace AspNetCore.ApiGateway.Hubs
 
                     _logger?.LogInformation($"Start subscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
 
-                    var client = await EventStoreClientFactory.CreateAsync(new EventStoreSubscriptionClientSettings
+                    await EventStoreClientFactory.CreateAsync(new EventStoreSubscriptionClientSettings
                     {
                         Connection = connection,
                         RouteInfo = routeInfo.EventSourceRoute,
