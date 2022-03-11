@@ -21,11 +21,11 @@ namespace AspNetCore.ApiGateway.Application
 
     internal static class EventStoreClientFactory
     {
-        static readonly List<EventStoreSubscriptionClientSettings> _subscriptions = new List<EventStoreSubscriptionClientSettings>();
+        public static List<EventStoreSubscriptionClientSettings> Subscriptions { get; set; } = new List<EventStoreSubscriptionClientSettings>();
 
         public static async Task<EventStoreSubscriptionClient> CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
         {
-            if(!_subscriptions.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
+            if(!Subscriptions.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
                                             && (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
                                             && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName) 
@@ -35,7 +35,7 @@ namespace AspNetCore.ApiGateway.Application
 
                 await client.ConnectAsync();
 
-                _subscriptions.Add(subscriptionClientSettings);
+                Subscriptions.Add(subscriptionClientSettings);
 
                 return client;
             }

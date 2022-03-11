@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hub.Client
@@ -80,23 +81,33 @@ namespace Hub.Client
             //{
             //    Api = "eventsourceservice",
             //    Key = "mystream",
-            //    ReceiveKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
+            //    RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
             //});
 
             //await conn.InvokeAsync("PublishToEventStoreStream", new
             //{
             //    Api = "eventsourceservice",
             //    Key = "mystream",
-            //    ReceiveKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3",
+            //    RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3",
             //    Events = new[]
             //    {
             //        new {
             //            EventId = Guid.NewGuid(),
             //            Type = "MyEvent",
             //            Data = Encoding.UTF8.GetBytes("{\"a\":\"15\"}"),
-            //            MetaData = Encoding.UTF8.GetBytes("{}")
+            //            MetaData = Encoding.UTF8.GetBytes("{}"),
+            //            IsJson = false
             //        }
             //    }
+            //});
+
+            //Thread.Sleep(500);
+
+            //await conn.InvokeAsync("UnsubscribeFromEventStoreStream", new
+            //{
+            //    Api = "eventsourceservice",
+            //    Key = "mystream",
+            //    RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
             //});
 
             Console.ReadLine();

@@ -121,6 +121,26 @@ namespace AspNetCore.ApiGateway.Hubs
             }
         }
 
+        public async Task UnsubscribeFromEventStoreStream(GatewayHubSubscribeEventStoreUser user)
+        {
+            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
+            {
+                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
+
+                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
+
+                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
+                {
+                    lock(this)
+                    {
+                        EventStoreClientFactory.Subscriptions.RemoveAll(s => s.ConnectionId == this.Context.ConnectionId);
+                    }                    
+                }
+            }
+
+            await Task.CompletedTask;
+        }
+
         public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string connectionId, string resolvedEvent)
         {
             if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
@@ -131,9 +151,16 @@ namespace AspNetCore.ApiGateway.Hubs
 
                 if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
                 {
-                    await base.Clients.Client(connectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
+                    var validSubscriptions = EventStoreClientFactory.Subscriptions.Where(s => (s.StoreUser.Api == user.Api) && (s.StoreUser.Key == user.Key)).ToList();
+
+                    validSubscriptions.ForEach(async subscription =>
+                    {
+                        await base.Clients.Client(connectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
+                    });                    
                 }
-            }            
+            }
+
+            await Task.CompletedTask;
         }
 
         public async Task SubscribeToRoute(GatewayHubUser user)

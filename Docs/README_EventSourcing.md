@@ -209,3 +209,16 @@ await conn.InvokeAsync("SubscribeToEventStoreStream", new
     RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
 });
 ```
+
+### Unsubscribe from stream
+
+You can unsubscribe from a downstream Event Store stream:
+
+```C#
+await conn.InvokeAsync("UnsubscribeFromEventStoreStream", new
+{
+    Api = "eventsourceservice",
+    Key = "mystream",
+    RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
+});
+```
