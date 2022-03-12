@@ -85,16 +85,24 @@ namespace AspNetCore.ApiGateway.Application
             _gatewayHubUrl = settings.GatewayUrl;
             _storeUser = settings.StoreUser;
             _logger = settings.Logger;
-        }
 
-        public async Task ConnectAsync()
-        {
             _logger?.LogInformation($"Connecting to the Event Store Server.");
 
-            await _eventStoreConnection.ConnectAsync();
+            _eventStoreConnection.ConnectAsync().ConfigureAwait(true);
 
             _logger?.LogInformation($"Finished connecting to the Event Store Server.");
 
+            _hubConnection = new HubConnectionBuilder()
+                    .WithUrl(_gatewayHubUrl)
+                    .WithAutomaticReconnect()
+                    .AddNewtonsoftJsonProtocol()
+                    .Build();
+
+            _hubConnection.StartAsync().ConfigureAwait(true);
+        }
+
+        public async Task ConnectAsync()
+        {            
             _logger?.LogInformation($"Connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");
 
             EventStorePersistentSubscriptionBase = await _eventStoreConnection.ConnectToPersistentSubscriptionAsync(
@@ -107,19 +115,13 @@ namespace AspNetCore.ApiGateway.Application
                    true
             );
 
-            _logger?.LogInformation($"Finished connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");
-
-            _hubConnection = new HubConnectionBuilder()
-                    .WithUrl(_gatewayHubUrl)
-                    .WithAutomaticReconnect()
-                    .AddNewtonsoftJsonProtocol()
-                    .Build();
-
-            await _hubConnection.StartAsync();
+            _logger?.LogInformation($"Finished connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");            
         }
 
         private async void SubscriptionDropped(EventStorePersistentSubscriptionBase subscription, SubscriptionDropReason reason, Exception ex)
         {
+            _logger?.LogInformation($"Event Store subscription dropped. Reconnecting.");
+
             await ConnectAsync();
         }
 
