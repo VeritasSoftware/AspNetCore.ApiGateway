@@ -18,7 +18,7 @@ You talk to this backend Event Store Server, set up a EventSource and Route in y
 
 ```C#
 orchestrator.AddEventSource("eventsourceservice", BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
-                    .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStore, StreamName = "my-stream", GroupName = "my-group" });
+                    .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStore, OperationType = EventSourcingOperationType.PublishSubscribe, StreamName = "my-stream", GroupName = "my-group" });
 
 ```
 
@@ -31,6 +31,8 @@ orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 The **RouteKey** (eg. Guid) is to be specified if you want to publish and subscribe.
 
 The **ReceiveMethod** is the method that will receive the events from the downstream Event Store stream.
+
+The **OperationType** specifies the type of operation allowed on the route. Options are PublishOnly, SubscribeOnly, PublishSubscribe. The default is PublishSubscribe.
 
 The **StreamName** is the name of the downstream Event Store stream.
 

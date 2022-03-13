@@ -91,7 +91,8 @@ namespace AspNetCore.ApiGateway.Hubs
 
                 var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
 
-                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
+                if ((routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.PublishOnly || routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.PublishSubscribe) 
+                    && (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0))
                 {
                     var connection = (IEventStoreConnection) eventSourceInfo.Connection;
 
@@ -112,7 +113,8 @@ namespace AspNetCore.ApiGateway.Hubs
 
                 var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
 
-                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
+                if ((routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.SubscribeOnly || routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.PublishSubscribe) 
+                    && (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0))
                 {
                     var connection = (IEventStoreConnection)eventSourceInfo.Connection;
 

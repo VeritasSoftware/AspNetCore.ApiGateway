@@ -81,9 +81,17 @@ namespace AspNetCore.ApiGateway
         public Type[] ReceiveParameterTypes { get; set; }
     }
 
+    public enum EventSourcingOperationType
+    {
+        PublishOnly,
+        SubscribeOnly,
+        PublishSubscribe
+    }
+
     public class EventSourceRouteInfo
     {
         public EventSourcingType Type { get; set; } = EventSourcingType.EventStore;
+        public EventSourcingOperationType OperationType { get; set; } = EventSourcingOperationType.PublishSubscribe;
         public string StreamName { get; set; }
         public string GroupName { get; set; }
 
