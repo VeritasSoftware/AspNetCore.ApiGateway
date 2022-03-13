@@ -36,7 +36,7 @@ namespace AspNetCore.ApiGateway.Application
         static readonly object _lockObject = new object();
 
         public static async Task CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
-        {
+        {            
             if(!Subscriptions.Any(x => (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
                                             && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName) 
@@ -47,8 +47,11 @@ namespace AspNetCore.ApiGateway.Application
                 await client.ConnectAsync();
 
                 subscriptionClientSettings.Client = client;
-                
-                Subscriptions.Add(subscriptionClientSettings);
+
+                lock (_lockObject)
+                {
+                    Subscriptions.Add(subscriptionClientSettings);
+                }                
             }
 
             lock(_lockObject)
