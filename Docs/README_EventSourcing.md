@@ -42,7 +42,9 @@ The **StreamName** is the name of the downstream Event Store stream.
 
 The **GroupName** is the name of the downstream Event Store stream subscription group.
 
-**Note:-** The downstream Event Store stream must have a **persistent subscription** created for that stream & group.
+**Note:-** The downstream Event Store stream must have an existing [**persistent subscription**](https://developers.eventstore.com/server/v20.10/persistent-subscriptions.html#persistent-subscription) for that stream & group.
+
+The developers guide to [**creating persistent subscriptions**](https://developers.eventstore.com/clients/dotnet/5.0/subscriptions.html#persistent-subscriptions) on the Event Store Server.
 
 ```C#
 private static object BuildEventSourceConnection()
