@@ -2,17 +2,21 @@
 
 The framework supports event sourcing using **[Event Store](https://www.eventstore.com/)**.
 
-You can set up routes in the ApiOrchestrator to interact with downstream Event Store Server.
+Your Api Gateway connects to the back-end Event Store Server.
+
+The client talks to the Api Gateway using web sockets (SignalR).
 
 You can
 
-* publish events to the downstream Event Store Server stream.
+* publish Events to the downstream Event Store Server stream.
 
-* subscribe to events from a downstream Event Store Server stream
+* subscribe to Events from a downstream Event Store Server stream
 
-via the Gateway Hub.
+via the Gateway SignalR Hub.
 
 ## Your Gateway API
+
+You set up routes in the ApiOrchestrator to interact with downstream Event Store Server.
 
 You talk to this backend Event Store Server, set up a EventSource and Route in your Gateway API's **Api Orchestrator**.
 
@@ -38,7 +42,7 @@ The **StreamName** is the name of the downstream Event Store stream.
 
 The **GroupName** is the name of the downstream Event Store stream subscription group.
 
-**Note:-** The downstream Event Store stream must have a persistent subscription created for that stream & group.
+**Note:-** The downstream Event Store stream must have a **persistent subscription** created for that stream & group.
 
 ```C#
 private static object BuildEventSourceConnection()
@@ -215,6 +219,8 @@ await conn.InvokeAsync("SubscribeToEventStoreStream", new
     RouteKey = "281802b8-6f19-4b9d-820c-9ed29ee127f3"
 });
 ```
+
+You have to subscribe to a route (stream) once, before you start receiving Events.
 
 ### Unsubscribe from stream
 
