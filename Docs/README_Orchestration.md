@@ -28,13 +28,7 @@ You can secure this endpoint by implementing interface **IGetOrchestrationGatewa
 
 Please see [**Authorization**](README_Authorization.md) section for more information on how to do this.
 
-The Api Orchestration returned by the endpoint has:
-
-*	All Api Keys and their Route Keys,
-*	The Verb
-*	The Request and Response Json Schema of each Route (if specified).
-
-The response is like below:
+The endpoint response is like below:
 
 ```json
 [
@@ -279,9 +273,27 @@ The response is like below:
     "routes": [
       {
         "key": "room",
-        "verb": "POST",
-        "requestJsonSchema": null,
-        "responseJsonSchema": null
+        "invokeMethod": "SendMessage",
+        "receiveMethod": "ReceiveMessage",
+        "receiveGroup": "ChatGroup",
+        "broadcastType": "Group",
+        "receiveParameterTypes": [
+          "String",
+          "String"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "eventsourceservice",
+    "routes": [
+      {
+        "key": "mystream",
+        "type": "EventStore",
+        "receiveMethod": "ReceiveMyStreamEvent",
+        "operationType": "PublishSubscribe",
+        "streamName": "my-stream",
+        "groupName": "my-group"
       }
     ]
   }

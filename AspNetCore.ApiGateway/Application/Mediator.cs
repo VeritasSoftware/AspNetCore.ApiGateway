@@ -144,9 +144,14 @@ namespace AspNetCore.ApiGateway
             return paths[key.ToLower()];
         }
 
-        public IEnumerable<Route> Routes => paths.Select(x => new Route
+        public IEnumerable<EventSourceRoute> Routes => paths.Select(x => new EventSourceRoute
         {
             Key = x.Key,
+            GroupName = x.Value.EventSourceRoute.GroupName,
+            OperationType = x.Value.EventSourceRoute.OperationType.ToString(),
+            ReceiveMethod = x.Value.EventSourceRoute.ReceiveMethod,
+            StreamName = x.Value.EventSourceRoute.StreamName,
+            Type = x.Value.EventSourceRoute.Type.ToString(),
         });
     }
 
@@ -198,9 +203,14 @@ namespace AspNetCore.ApiGateway
             return paths[key.ToLower()];
         }
 
-        public IEnumerable<Route> Routes => paths.Select(x => new Route
+        public IEnumerable<HubRoute> Routes => paths.Select(x => new HubRoute
         {
             Key = x.Key,
+            BroadcastType = x.Value.HubRoute.BroadcastType.ToString(),
+            InvokeMethod = x.Value.HubRoute.InvokeMethod,
+            ReceiveGroup = x.Value.HubRoute.ReceiveGroup,
+            ReceiveMethod = x.Value.HubRoute.ReceiveMethod,
+            ReceiveParameterTypes = x.Value.HubRoute.ReceiveParameterTypes.Select(y => y.Name)
         });
     }
 

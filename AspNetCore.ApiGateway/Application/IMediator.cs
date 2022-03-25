@@ -18,7 +18,7 @@ namespace AspNetCore.ApiGateway
 
         GatewayEventSourceRouteInfo GetRoute(string key);
 
-        IEnumerable<Route> Routes { get; }
+        IEnumerable<EventSourceRoute> Routes { get; }
 
         Dictionary<string, GatewayEventSourceRouteInfo> Paths { get; }
     }
@@ -35,7 +35,7 @@ namespace AspNetCore.ApiGateway
 
         GatewayHubRouteInfo GetRoute(string key);
 
-        IEnumerable<Route> Routes { get; }
+        IEnumerable<HubRoute> Routes { get; }
 
         Dictionary<string, GatewayHubRouteInfo> Paths { get; }
     }

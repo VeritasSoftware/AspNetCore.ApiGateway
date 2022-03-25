@@ -1,4 +1,5 @@
-﻿using NJsonSchema;
+﻿using Newtonsoft.Json;
+using NJsonSchema;
 using System.Collections.Generic;
 
 namespace AspNetCore.ApiGateway
@@ -7,17 +8,61 @@ namespace AspNetCore.ApiGateway
     {
         public string Api { get; set; }
 
-        public IEnumerable<Route> Routes { get; set; }
+        public IEnumerable<RouteBase> Routes { get; set; }
     }
 
-    public class Route
+    public abstract class RouteBase
     {
-        public string Key { get; set; }
+        [JsonProperty(Order = 1)]
+        public string Key { get; set; }        
+    }
 
+    public class Route : RouteBase
+    {
+        [JsonProperty(Order = 2)]
         public string Verb { get; set; }
 
+        [JsonProperty(Order = 3)]
         public JsonSchema RequestJsonSchema { get; set; }
 
+        [JsonProperty(Order = 4)]
         public JsonSchema ResponseJsonSchema { get; set; }
     }
+
+    public class HubRoute : RouteBase
+    {
+        [JsonProperty(Order = 2)]
+        public string InvokeMethod { get; set; }
+
+        [JsonProperty(Order = 3)]
+        public string ReceiveMethod { get; set; }        
+
+        [JsonProperty(Order = 4)]
+        public string ReceiveGroup { get; set; }
+
+        [JsonProperty(Order = 5)]
+        public string BroadcastType { get; set; }
+
+        [JsonProperty(Order = 6)]
+        public IEnumerable<string> ReceiveParameterTypes { get; set; }
+    }
+
+    public class EventSourceRoute : RouteBase
+    {
+        [JsonProperty(Order = 2)]
+        public string Type { get; set; }
+
+        [JsonProperty(Order = 3)]
+        public string ReceiveMethod { get; set; }
+
+        [JsonProperty(Order = 4)]
+        public string OperationType { get; set; }
+
+        [JsonProperty(Order = 5)]
+        public string StreamName { get; set; }
+
+        [JsonProperty(Order = 6)]
+        public string GroupName { get; set; }
+    }
+
 }
