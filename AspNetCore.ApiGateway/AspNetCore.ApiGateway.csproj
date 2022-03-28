@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>3.4.0</Version>
-    <PackageReleaseNotes>Added event sourcing feature. No breaking changes.</PackageReleaseNotes>
+    <Version>3.4.1</Version>
+    <PackageReleaseNotes>Improved viewing api orchestration. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
