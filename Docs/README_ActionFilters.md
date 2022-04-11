@@ -12,6 +12,8 @@ In your Gateway API project,
 Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key, string verb);
 ```
 
+See **ActionExecutingContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.actionexecutingcontext?view=aspnetcore-6.0).
+
 ### Example
 
 In your Gateway API project,

@@ -14,6 +14,8 @@ In your Gateway API project,
 Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key, string verb);
 ```
 
+See **AuthorizationFilterContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.authorizationfiltercontext?view=aspnetcore-6.0).
+
 ### Example
 
 In your Gateway API project,

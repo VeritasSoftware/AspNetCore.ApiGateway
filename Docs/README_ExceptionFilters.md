@@ -12,6 +12,8 @@ In your Gateway API project,
 Task OnExceptionAsync(ExceptionContext context, string api, string key, string verb);
 ```
 
+See **ExceptionContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.exceptioncontext?view=aspnetcore-6.0).
+
 ### Example
 
 In your Gateway API project,

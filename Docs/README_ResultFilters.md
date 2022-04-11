@@ -12,6 +12,8 @@ In your Gateway API project,
 Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key, string verb);
 ```
 
+See **ResultExecutingContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.resultexecutingcontext?view=aspnetcore-6.0).
+
 ### Example
 
 In your Gateway API project,
