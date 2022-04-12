@@ -20,4 +20,4 @@ orchestrator.AddApi("weatherservice", LoadBalancingType.RoundRobin, "http://loca
                     .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
 ```
 
-In this algorithm, the base url is selected in a **Round Robin* way.
+In this algorithm, the base url is selected in a **Round Robin** way.
