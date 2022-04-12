@@ -35,6 +35,19 @@ namespace AspNetCore.ApiGateway
         public string RouteKey { get; set; }
     }
 
+    internal class LoadBalancing
+    {
+        public LoadBalancingType Type { get; set; } = LoadBalancingType.Random;
+        public string[] BaseUrls {  get; set; }
+        public int LastBaseUrlIndex { get; set; } = -1;
+    }
+
+    public enum LoadBalancingType
+    {
+        Random,
+        RoundRobin
+    }
+
     public class ApiOrchestrator : IApiOrchestrator
     {
         Dictionary<string, ApiInfo> apis = new Dictionary<string, ApiInfo>();
@@ -43,7 +56,10 @@ namespace AspNetCore.ApiGateway
 
         Dictionary<string, EventSourcingInfo> eventSources = new Dictionary<string, EventSourcingInfo>();
 
-        Dictionary<string, string[]> apiUrls = new Dictionary<string, string[]>();
+        Dictionary<string, LoadBalancing> apiLoadBalancing = new Dictionary<string, LoadBalancing>();
+
+        private static Random _random = new Random();
+        private static readonly object _syncLock = new object();
 
         public Dictionary<string, HubInfo> Hubs => hubs;
 
@@ -56,7 +72,18 @@ namespace AspNetCore.ApiGateway
 
             apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
 
-            apiUrls.Add(apiKey.ToLower(), baseUrls);
+            apiLoadBalancing.Add(apiKey.ToLower(), new LoadBalancing { BaseUrls = baseUrls });
+
+            return mediator;
+        }
+
+        public IMediator AddApi(string apiKey, LoadBalancingType loadBalancingType, params string[] baseUrls)
+        {
+            var mediator = new Mediator(this);
+
+            apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
+
+            apiLoadBalancing.Add(apiKey.ToLower(), new LoadBalancing { Type = loadBalancingType,  BaseUrls = baseUrls });
 
             return mediator;
         }
@@ -85,18 +112,22 @@ namespace AspNetCore.ApiGateway
             return mediator;
         }
 
-        public ApiInfo GetApi(string apiKey)
+        public ApiInfo GetApi(string apiKey, bool withLoadBalancing = false)
         {
             var apiInfo = apis[apiKey.ToLower()];
 
-            var baseUrls = apiUrls[apiKey.ToLower()];
-
-            //if more than 1 base url is specified
-            //get the load balancing base url based on Random selection
-            if (baseUrls.Count() > 1)
+            if (withLoadBalancing)
             {
-                apiInfo.BaseUrl = this.GetLoadBalancingUrl(baseUrls);
-            }
+                //if more than 1 base url is specified
+                //get the load balancing base url based on load balancing algorithm specified.
+
+                var loadBalancing = apiLoadBalancing[apiKey.ToLower()];
+                
+                if (loadBalancing.BaseUrls.Count() > 1)
+                {
+                    apiInfo.BaseUrl = this.GetLoadBalancedUrl(loadBalancing);
+                }
+            }            
 
             return apiInfo;
         }
@@ -130,11 +161,26 @@ namespace AspNetCore.ApiGateway
             Routes = x.Value.Mediator.Routes
         }));
 
-        private string GetLoadBalancingUrl(string[] baseUrls)
+        private string GetLoadBalancedUrl(LoadBalancing loadBalancing)
         {
-            var random = new Random();
-            var selected = random.Next(0, baseUrls.Count() - 1);
-            return baseUrls[selected];
+            if (loadBalancing.Type == LoadBalancingType.RoundRobin)
+            {
+                loadBalancing.LastBaseUrlIndex++;
+
+                if (loadBalancing.LastBaseUrlIndex >= loadBalancing.BaseUrls.Length)
+                {
+                    loadBalancing.LastBaseUrlIndex = 0;
+                }
+                return loadBalancing.BaseUrls[loadBalancing.LastBaseUrlIndex];
+            }
+            else
+            {   
+                lock(_syncLock)
+                {
+                    var selected = _random.Next(0, loadBalancing.BaseUrls.Count());
+                    return loadBalancing.BaseUrls[selected];
+                }                
+            }
         }
     }
 }

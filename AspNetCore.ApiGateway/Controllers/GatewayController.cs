@@ -52,7 +52,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             _logger.LogApiInfo(api, key, parameters);
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
+            var apiInfo = _apiOrchestrator.GetApi(api, true);
 
             var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
 
