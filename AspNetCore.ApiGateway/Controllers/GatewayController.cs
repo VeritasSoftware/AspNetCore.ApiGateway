@@ -103,7 +103,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             _logger.LogApiInfo(api, key, parameters, request);
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
+            var apiInfo = _apiOrchestrator.GetApi(api, true);
 
             var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
 
@@ -191,7 +191,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             _logger.LogApiInfo(api, key, parameters, request);
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
+            var apiInfo = _apiOrchestrator.GetApi(api, true);
 
             var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
 
@@ -255,7 +255,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             _logger.LogApiInfo(api, key, parameters, patch.ToString());
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
+            var apiInfo = _apiOrchestrator.GetApi(api, true);
 
             var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
 
@@ -321,7 +321,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
             _logger.LogApiInfo(api, key, parameters);
 
-            var apiInfo = _apiOrchestrator.GetApi(api);
+            var apiInfo = _apiOrchestrator.GetApi(api, true);
 
             var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
 
