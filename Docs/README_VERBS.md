@@ -20,7 +20,7 @@ route on the back end API.
 
 You will set up the **Orchestration** as
 
-```
+```C#
     orchestrator.AddApi("schoolservice", "http://localhost:63990/")
                         .AddRoute("year-subject", GatewayVerb.GET, new RouteInfo { Path = "student/" });
 ```
@@ -28,6 +28,19 @@ You will set up the **Orchestration** as
 And call the GET endpoint as
 
 ![API Gateway Swagger](/Docs/GETWithParams1.PNG)
+
+**Or** 
+
+You will set up the **Orchestration** as
+
+```C#
+    orchestrator.AddApi("schoolservice", "http://localhost:63990/")
+                        .AddRoute("year-subject", GatewayVerb.GET, new RouteInfo { Path = "student/{year}/subject/{code}", WithParams = true })
+```
+
+And call the GET endpoint as
+
+![API Gateway Swagger](/Docs/GETWithParams2.PNG)
 
 ### POST
 

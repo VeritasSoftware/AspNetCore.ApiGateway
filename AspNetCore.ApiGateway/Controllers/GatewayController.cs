@@ -75,7 +75,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await (client??_httpService.Client).GetAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+                    var response = await (client??_httpService.Client).GetAsync($"{apiInfo.BaseUrl}{(routeInfo.WithParams ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}");
 
                     response.EnsureSuccessStatusCode();
 
@@ -139,7 +139,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await (client ?? _httpService.Client).PostAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+                    var response = await (client ?? _httpService.Client).PostAsync($"{apiInfo.BaseUrl}{(routeInfo.WithParams ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
@@ -227,7 +227,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await (client ?? _httpService.Client).PutAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+                    var response = await (client ?? _httpService.Client).PutAsync($"{apiInfo.BaseUrl}{(routeInfo.WithParams ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
@@ -291,7 +291,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await (client ?? _httpService.Client).PatchAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", content);
+                    var response = await (client ?? _httpService.Client).PatchAsync($"{apiInfo.BaseUrl}{(routeInfo.WithParams ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content);
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
@@ -344,7 +344,7 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
 
-                    var response = await (client ?? _httpService.Client).DeleteAsync($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+                    var response = await (client ?? _httpService.Client).DeleteAsync($"{apiInfo.BaseUrl}{(routeInfo.WithParams ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}");
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 

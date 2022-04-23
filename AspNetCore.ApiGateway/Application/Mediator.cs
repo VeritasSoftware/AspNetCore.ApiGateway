@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway
@@ -53,11 +54,50 @@ namespace AspNetCore.ApiGateway
 
     public class RouteInfo
     {
+        private IEnumerable<string> _routeParams = new List<string>();
+
         public string Path { get; set; }
+        public bool WithParams { get; set; }
         public Type ResponseType { get; set; }
         public Type RequestType { get; set; }
         public Func<ApiInfo, HttpRequest, Task<object>> Exec { get; set; }
         public HttpClientConfig HttpClientConfig { get; set; }
+        private IEnumerable<string> Params
+        {
+            get
+            {
+                if (_routeParams.Any())
+                {
+                    return _routeParams;
+                }
+
+                var m = Regex.Match(this.Path, @"^.*?(\{(?<param>.*?)\}.*?)*$", RegexOptions.IgnoreCase|RegexOptions.Compiled);
+
+                if (m.Success)
+                {
+                    _routeParams = m.Groups["param"].Captures.Select(x => x.Value).ToList();                    
+                }
+
+                return _routeParams;
+            }
+        }
+        public string GetPath(HttpRequest request)
+        {
+            var p = request.Query["parameters"][0];
+
+            var allParams = p.Split('&');
+
+            var paramDictionary = allParams.Select(x => x.Split('='));
+
+            var paramValues = paramDictionary.Join(this.Params, x => x[0], y => y, (x, y) => new { Key = x[0], Value = x[1] }).ToList();
+
+            paramValues.ForEach(x =>
+            {
+                this.Path = Regex.Replace(this.Path, $"{{{x.Key}}}", x.Value);
+            });
+
+            return this.Path;
+        }
     }
 
     public enum HubBroadcastType
@@ -268,6 +308,7 @@ namespace AspNetCore.ApiGateway
         { 
             Key = x.Key, 
             Verb = x.Value?.Verb.ToString(),
+            Path = (x.Value?.Route?.WithParams).HasValue && x.Value.Route.WithParams ? x.Value?.Route?.Path?.ToString() : string.Empty,
             RequestJsonSchema = GetJsonSchema(x.Value?.Route?.RequestType),
             ResponseJsonSchema = GetJsonSchema(x.Value?.Route?.ResponseType)
         });
