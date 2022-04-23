@@ -14,7 +14,7 @@ You can specify your entire route in the **parameters** query string param.
 
 eg. you may want to hit
 
-GET http://localhost:63990/student/{year}/subject/{code} 
+GET http://localhost:63990/student/{year}/subject/{code}?division={division}
 
 route on the back end API.
 
@@ -35,12 +35,16 @@ You will set up the **Orchestration** as
 
 ```C#
     orchestrator.AddApi("schoolservice", "http://localhost:63990/")
-                        .AddRoute("year-subject", GatewayVerb.GET, new RouteInfo { Path = "student/{year}/subject/{code}", WithParams = true })
+                        .AddRoute("year-subject", GatewayVerb.GET, new RouteInfo { Path = "student/{year}/subject/{code}?division={division}", WithParams = true })
 ```
 
 And call the GET endpoint as
 
 ![API Gateway Swagger](/Docs/GETWithParams2.PNG)
+
+Any param in the Path (eg. {year}) will be substituted by what is passed in the Parameters field in the request.
+
+So, the Path would become ```student/2020/subject/001?division=A```.
 
 ### POST
 
