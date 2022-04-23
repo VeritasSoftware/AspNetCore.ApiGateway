@@ -81,7 +81,7 @@ namespace AspNetCore.ApiGateway
                 return _routeParams;
             }
         }
-        public string GetPath(HttpRequest request)
+        internal string GetPath(HttpRequest request)
         {
             var p = request.Query["parameters"][0];
 
