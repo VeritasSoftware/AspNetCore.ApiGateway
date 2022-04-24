@@ -104,12 +104,14 @@ namespace AspNetCore.ApiGateway
 
             var paramValues = paramDictionary.Join(this.Params, x => x[0], y => y, (x, y) => new { Key = x[0], Value = x[1] }).ToList();
 
+            var path = new string(this.Path.ToCharArray());
+
             paramValues.ForEach(x =>
             {
-                this.Path = Regex.Replace(this.Path, $"{{{x.Key}}}", x.Value);
+                path = Regex.Replace(path, $"{{{x.Key}}}", x.Value);
             });
 
-            return this.Path;
+            return path;
         }
     }
 
@@ -321,7 +323,7 @@ namespace AspNetCore.ApiGateway
         { 
             Key = x.Key, 
             Verb = x.Value?.Verb.ToString(),
-            Path = (x.Value?.Route?.WithParams).HasValue && x.Value.Route.WithParams ? x.Value?.Route?.Path?.ToString() : string.Empty,
+            Path = x.Value?.Route?.Path?.ToString(),
             RequestJsonSchema = GetJsonSchema(x.Value?.Route?.RequestType),
             ResponseJsonSchema = GetJsonSchema(x.Value?.Route?.ResponseType)
         });

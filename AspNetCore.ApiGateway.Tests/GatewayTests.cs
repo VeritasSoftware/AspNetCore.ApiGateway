@@ -115,6 +115,17 @@ namespace AspNetCore.ApiGateway.Tests
 
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+
+            gatewayUrl = "http://localhost/api/Gateway/weatherservice/typewithparams?parameters=index=3";
+
+            response = await client.GetAsync(gatewayUrl);
+
+            response.EnsureSuccessStatusCode();
+
+            weatherType = JsonConvert.DeserializeObject<WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
+
+            Assert.NotNull(weatherType);
+            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
         }
 
         [Fact]

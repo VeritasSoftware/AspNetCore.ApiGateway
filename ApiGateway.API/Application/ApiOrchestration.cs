@@ -30,6 +30,8 @@ namespace ApiGateway.API
                                 .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
                                 //Head
                                 .AddRoute("forecasthead", GatewayVerb.HEAD, new RouteInfo { Path = "weatherforecast/forecast" })
+                                //Get with params
+                                .AddRoute("typewithparams", GatewayVerb.GET, new RouteInfo {  Path = "weatherforecast/types/{index}"})
                                 //Get using custom HttpClient
                                 .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get with param using custom HttpClient
