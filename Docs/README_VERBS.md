@@ -35,7 +35,7 @@ You will set up the **Orchestration** as
 
 ```C#
     orchestrator.AddApi("schoolservice", "http://localhost:63990/")
-                        .AddRoute("year-subject", GatewayVerb.GET, new RouteInfo { Path = "student/{year}/subject/{code}?division={division}", WithParams = true })
+                        .AddRoute("year-subject", GatewayVerb.GET, new RouteInfo { Path = "student/{year}/subject/{code}?division={division}" })
 ```
 
 And call the GET endpoint as

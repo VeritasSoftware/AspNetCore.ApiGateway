@@ -55,9 +55,22 @@ namespace AspNetCore.ApiGateway
     public class RouteInfo
     {
         private IEnumerable<string> _routeParams = new List<string>();
+        private bool _isPathTypeDetermined = false;
+        private bool _withParams = false;
 
         public string Path { get; set; }
-        public bool WithParams { get; set; }
+        internal bool WithParams
+        {
+            get
+            {
+                if (!_isPathTypeDetermined)
+                {
+                    _withParams = Regex.Match(this.Path, @"\{.*?\}", RegexOptions.IgnoreCase | RegexOptions.Compiled).Success;
+                    _isPathTypeDetermined=true;
+                }
+                return _withParams;
+            }
+        }
         public Type ResponseType { get; set; }
         public Type RequestType { get; set; }
         public Func<ApiInfo, HttpRequest, Task<object>> Exec { get; set; }
@@ -71,7 +84,7 @@ namespace AspNetCore.ApiGateway
                     return _routeParams;
                 }
 
-                var m = Regex.Match(this.Path, @"^.*?(\{(?<param>.*?)\}.*?)*$", RegexOptions.IgnoreCase|RegexOptions.Compiled);
+                var m = Regex.Match(this.Path, @"^.*?(\{(?<param>.*?)\}.*?)*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 if (m.Success)
                 {
