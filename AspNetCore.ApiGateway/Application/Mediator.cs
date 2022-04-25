@@ -323,7 +323,7 @@ namespace AspNetCore.ApiGateway
         { 
             Key = x.Key, 
             Verb = x.Value?.Verb.ToString(),
-            Path = x.Value?.Route?.Path?.ToString(),
+            DownstreamPath = x.Value?.Route?.Path?.ToString(),
             RequestJsonSchema = GetJsonSchema(x.Value?.Route?.RequestType),
             ResponseJsonSchema = GetJsonSchema(x.Value?.Route?.ResponseType)
         });

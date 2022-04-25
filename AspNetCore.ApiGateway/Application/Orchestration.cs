@@ -23,7 +23,7 @@ namespace AspNetCore.ApiGateway
         public string Verb { get; set; }
 
         [JsonProperty(Order = 3)]
-        public string Path { get; set; }
+        public string DownstreamPath { get; set; }
 
         [JsonProperty(Order = 4)]
         public JsonSchema RequestJsonSchema { get; set; }

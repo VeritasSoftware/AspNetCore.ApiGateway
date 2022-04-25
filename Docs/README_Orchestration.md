@@ -38,6 +38,7 @@ The endpoint response is like below:
       {
         "key": "forecast",
         "verb": "GET",
+        "downstreamPath": "weatherforecast/forecast",
         "requestJsonSchema": null,
         "responseJsonSchema": {
           "title": "IEnumerableOfWeatherForecast",
@@ -74,12 +75,21 @@ The endpoint response is like below:
       {
         "key": "forecasthead",
         "verb": "HEAD",
+        "downstreamPath": "weatherforecast/forecast",
+        "requestJsonSchema": null,
+        "responseJsonSchema": null
+      },
+      {
+        "key": "typewithparams",
+        "verb": "GET",
+        "downstreamPath": "weatherforecast/types/{index}",
         "requestJsonSchema": null,
         "responseJsonSchema": null
       },
       {
         "key": "types",
         "verb": "GET",
+        "downstreamPath": "weatherforecast/types",
         "requestJsonSchema": null,
         "responseJsonSchema": {
           "title": "String[]",
@@ -92,6 +102,7 @@ The endpoint response is like below:
       {
         "key": "type",
         "verb": "GET",
+        "downstreamPath": "weatherforecast/types/",
         "requestJsonSchema": null,
         "responseJsonSchema": {
           "title": "WeatherTypeResponse",
@@ -110,12 +121,14 @@ The endpoint response is like below:
       {
         "key": "typescustom",
         "verb": "GET",
+        "downstreamPath": null,
         "requestJsonSchema": null,
         "responseJsonSchema": null
       },
       {
         "key": "add",
         "verb": "POST",
+        "downstreamPath": "weatherforecast/types/add",
         "requestJsonSchema": {
           "title": "AddWeatherTypeRequest",
           "type": "object",
@@ -140,6 +153,7 @@ The endpoint response is like below:
       {
         "key": "update",
         "verb": "PUT",
+        "downstreamPath": "weatherforecast/types/update",
         "requestJsonSchema": {
           "title": "UpdateWeatherTypeRequest",
           "type": "object",
@@ -168,6 +182,7 @@ The endpoint response is like below:
       {
         "key": "patch",
         "verb": "PATCH",
+        "downstreamPath": "weatherforecast/forecast/patch",
         "requestJsonSchema": null,
         "responseJsonSchema": {
           "title": "WeatherForecast",
@@ -198,6 +213,7 @@ The endpoint response is like below:
       {
         "key": "remove",
         "verb": "DELETE",
+        "downstreamPath": "weatherforecast/types/remove/",
         "requestJsonSchema": null,
         "responseJsonSchema": {
           "title": "String[]",
@@ -215,6 +231,7 @@ The endpoint response is like below:
       {
         "key": "stocks",
         "verb": "GET",
+        "downstreamPath": "stock",
         "requestJsonSchema": null,
         "responseJsonSchema": {
           "title": "IEnumerableOfStockQuote",
@@ -245,6 +262,7 @@ The endpoint response is like below:
       {
         "key": "stock",
         "verb": "GET",
+        "downstreamPath": "stock/",
         "requestJsonSchema": null,
         "responseJsonSchema": {
           "title": "StockQuote",
