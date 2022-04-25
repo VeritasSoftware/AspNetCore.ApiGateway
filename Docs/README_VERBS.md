@@ -31,7 +31,9 @@ And call the GET endpoint as
 
 **Or** 
 
-You will set up a **parameterized route** in the **Orchestration** as
+### Parameterized route
+
+You will set up a parameterized route in the **Orchestration** as
 
 ```C#
 orchestrator.AddApi("schoolservice", "http://localhost:63990/")
