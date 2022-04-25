@@ -65,7 +65,7 @@ namespace AspNetCore.ApiGateway
             {
                 if (!_isPathTypeDetermined)
                 {
-                    _isParameterizedRoute = Regex.Match(this.Path, @"\{.*?\}", RegexOptions.IgnoreCase | RegexOptions.Compiled).Success;
+                    _isParameterizedRoute = Regex.Match(this.Path, @"\{.+?\}", RegexOptions.IgnoreCase | RegexOptions.Compiled).Success;
                     _isPathTypeDetermined=true;
                 }
                 return _isParameterizedRoute;
@@ -84,7 +84,7 @@ namespace AspNetCore.ApiGateway
                     return _routeParams;
                 }
 
-                var m = Regex.Match(this.Path, @"^.*?(\{(?<param>.*?)\}.*?)*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                var m = Regex.Match(this.Path, @"^.*?(\{(?<param>.+?)\}.*?)*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 if (m.Success)
                 {
