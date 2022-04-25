@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiGateway.API\ApiGateway.API.csproj" />
+    <ProjectReference Include="..\AspNetCore.ApiGateway.Client\AspNetCore.ApiGateway.Client.csproj" />
     <ProjectReference Include="..\Stock.API\Stock.API.csproj" />
     <ProjectReference Include="..\Weather.API\Weather.API.csproj" />
   </ItemGroup>
