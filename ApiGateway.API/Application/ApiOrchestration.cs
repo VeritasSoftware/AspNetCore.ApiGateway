@@ -49,20 +49,23 @@ namespace ApiGateway.API
                         .AddApi("stockservice", "http://localhost:63967/")
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })
-                        .AddHub("chatservice", BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
+                        .AddHub("chatservice", ConnectionHelpers.BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
                                 .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", BroadcastType = HubBroadcastType.Group, ReceiveGroup = "ChatGroup", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
-                        .AddEventSource("eventsourceservice", BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
+                        .AddEventSource("eventsourceservice", ConnectionHelpers.BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
                                 .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStore, OperationType = EventSourcingOperationType.PublishSubscribe, StreamName = "my-stream", GroupName = "my-group" });
         }
+    }
 
-        private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
+    public static class ConnectionHelpers
+    {
+        public static HubConnection BuildHubConnection(HubConnectionBuilder builder)
         {
             return builder.WithUrl("https://localhost:44339/chathub")
                           .AddNewtonsoftJsonProtocol()
                           .Build();
         }
 
-        private static object BuildEventSourceConnection()
+        public static object BuildEventSourceConnection()
         {
             var address = IPAddress.Parse("127.0.0.1");
             var tcpPort = 1113;
