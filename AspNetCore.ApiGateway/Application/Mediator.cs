@@ -59,7 +59,7 @@ namespace AspNetCore.ApiGateway
         private bool _withParams = false;
 
         public string Path { get; set; }
-        internal bool WithParams
+        internal bool IsParameterizedRoute
         {
             get
             {
