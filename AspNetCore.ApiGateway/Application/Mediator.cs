@@ -56,7 +56,7 @@ namespace AspNetCore.ApiGateway
     {
         private IEnumerable<string> _routeParams = new List<string>();
         private bool _isPathTypeDetermined = false;
-        private bool _withParams = false;
+        private bool _isParameterizedRoute = false;
 
         public string Path { get; set; }
         internal bool IsParameterizedRoute
@@ -65,10 +65,10 @@ namespace AspNetCore.ApiGateway
             {
                 if (!_isPathTypeDetermined)
                 {
-                    _withParams = Regex.Match(this.Path, @"\{.*?\}", RegexOptions.IgnoreCase | RegexOptions.Compiled).Success;
+                    _isParameterizedRoute = Regex.Match(this.Path, @"\{.*?\}", RegexOptions.IgnoreCase | RegexOptions.Compiled).Success;
                     _isPathTypeDetermined=true;
                 }
-                return _withParams;
+                return _isParameterizedRoute;
             }
         }
         public Type ResponseType { get; set; }
