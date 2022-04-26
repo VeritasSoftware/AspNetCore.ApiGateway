@@ -19,18 +19,21 @@ namespace AspNetCore.ApiGateway.Tests
 
         public APIInitializeClient()
         {
+            //Start Weather API
             IWebHostBuilder weatherAPI = new WebHostBuilder()
                                      .UseStartup<WeatherAPI.Startup>()
                                      .UseKestrel(options => options.Listen(IPAddress.Any, 63969));
 
             weatherAPI.Start();
 
+            //Start Stock API
             IWebHostBuilder stockAPI = new WebHostBuilder()
                                      .UseStartup<StockAPI.Startup>()
                                      .UseKestrel(options => options.Listen(IPAddress.Any, 63967));
 
             stockAPI.Start();
 
+            //Start Gateway API
             IWebHostBuilder gatewayAPI = new WebHostBuilder()
                                      .UseStartup<GatewayAPI.Startup>()
                                      .UseKestrel(options => options.Listen(IPAddress.Any, 80));
@@ -50,6 +53,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             IServiceCollection services = new ServiceCollection();
 
+            //Wire up the Client for dependency injection using extension
             services.AddApiGatewayClient(settings => settings.ApiGatewayUrl = "http://localhost/api/Gateway");
 
             _serviceProvider = services.BuildServiceProvider();
@@ -58,6 +62,9 @@ namespace AspNetCore.ApiGateway.Tests
         [Fact]
         public async Task Test_Get_Pass()
         {
+            //Arrange
+            
+            //Get Client from dependency injection container
             var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
 
             var parameters = new ApiGatewayParameters
@@ -70,14 +77,19 @@ namespace AspNetCore.ApiGateway.Tests
                 }
             };
 
+            //Act
             var forecasts = await client.GetAsync<WeatherForecast[]>(parameters);
 
+            //Assert
             Assert.True(forecasts.Length > 0);
         }
 
         [Fact]
         public async Task Test_Get_WithParam_Pass()
         {
+            //Arrange
+
+            //Get Client from dependency injection container
             var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
 
             var parameters = new ApiGatewayParameters
@@ -91,20 +103,29 @@ namespace AspNetCore.ApiGateway.Tests
                 }
             };
 
+            //Act
             var weatherType = await client.GetAsync<WeatherTypeResponse>(parameters);
 
+            //Assert
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
 
+            //Arrange
             parameters = new ApiGatewayParameters
             {
                 Api = "weatherservice",
                 Key = "typewithparams",
-                Parameters = "index=3"
+                Parameters = "index=3",
+                Headers = new Dictionary<string, string>
+                {
+                    { "Authorization", "bearer wq298cjwosos==" }
+                }
             };
 
+            //Act
             weatherType = await client.GetAsync<WeatherTypeResponse>(parameters);
 
+            //Assert
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
         }
@@ -112,13 +133,16 @@ namespace AspNetCore.ApiGateway.Tests
         [Fact]
         public async Task Test_Post_Pass()
         {
+            //Arrange
+
+            //Get Client from dependency injection container
             var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
 
             AddWeatherTypeRequest payload = new AddWeatherTypeRequest
             {
                 WeatherType = "Windy"
             };
-
+            
             var parameters = new ApiGatewayParameters
             {
                 Api = "weatherservice",
@@ -128,15 +152,20 @@ namespace AspNetCore.ApiGateway.Tests
                     { "Authorization", "bearer wq298cjwosos==" }
                 }
             };
-
+            
+            //Act
             var weatherTypes = await client.PostAsync<AddWeatherTypeRequest, string[]>(parameters, payload);
 
+            //Assert
             Assert.True(weatherTypes.Last() == "Windy");
         }
 
         [Fact]
         public async Task Test_Put_Pass()
         {
+            //Arrange
+
+            //Get Client from dependency injection container
             var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
 
             UpdateWeatherTypeRequest payload = new UpdateWeatherTypeRequest
@@ -155,6 +184,7 @@ namespace AspNetCore.ApiGateway.Tests
                 }
             };
 
+            //Act
             await client.PutAsync<UpdateWeatherTypeRequest, string>(parameters, payload);
 
             parameters = new ApiGatewayParameters
@@ -169,12 +199,16 @@ namespace AspNetCore.ApiGateway.Tests
 
             var weatherTypes = await client.GetAsync<string[]>(parameters);
 
+            //Assert
             Assert.True(weatherTypes[3] == "Coooooooool");
         }
 
         [Fact]
         public async Task Test_Patch_Pass()
         {
+            //Arrange
+
+            //Get Client from dependency injection container
             var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
 
             JsonPatchDocument<WeatherForecast> jsonPatch = new JsonPatchDocument<WeatherForecast>();
@@ -190,14 +224,19 @@ namespace AspNetCore.ApiGateway.Tests
                 }
             };
 
+            //Act
             var weatherForecast = await client.PatchAsync<WeatherForecast, WeatherForecast>(parameters, jsonPatch);
 
+            //Assert
             Assert.True(weatherForecast.TemperatureC == 35);
         }
 
         [Fact]
         public async Task Test_Delete_Pass()
         {
+            //Arrange
+
+            //Get Client from dependency injection container
             var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
 
             var parameters = new ApiGatewayParameters
@@ -211,6 +250,7 @@ namespace AspNetCore.ApiGateway.Tests
                 }
             };
 
+            //Act
             await client.DeleteAsync<string>(parameters);
 
             parameters = new ApiGatewayParameters
@@ -225,6 +265,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             var weatherTypes = await client.GetAsync<string[]>(parameters);
 
+            //Assert
             Assert.DoesNotContain(weatherTypes, x => x == "Freezing");
         }
     }
