@@ -188,6 +188,13 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
+            //Gateway API url with Api key and Route key
+            gatewayUrl = "http://localhost/api/Gateway/weatherservice/types";
+
+            response = await client.GetAsync(gatewayUrl);
+
+            response.EnsureSuccessStatusCode();
+
             var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(weatherTypes[3] == "Coooooooool");
@@ -232,6 +239,13 @@ namespace AspNetCore.ApiGateway.Tests
             var gatewayUrl = "http://localhost/api/Gateway/weatherservice/remove?parameters=0";
 
             var response = await client.DeleteAsync(gatewayUrl);
+
+            response.EnsureSuccessStatusCode();
+
+            //Gateway API url with Api key and Route key
+            gatewayUrl = "http://localhost/api/Gateway/weatherservice/types";
+
+            response = await client.GetAsync(gatewayUrl);
 
             response.EnsureSuccessStatusCode();
 

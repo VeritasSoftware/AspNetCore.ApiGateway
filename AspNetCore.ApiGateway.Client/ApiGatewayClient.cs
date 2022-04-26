@@ -26,13 +26,7 @@ namespace AspNetCore.ApiGateway.Client
             var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
-            if (parameters.Headers != null && parameters.Headers.Any())
-            {
-                foreach (var header in parameters.Headers)
-                {
-                    _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-                }
-            }
+            _httpClient.AddHeaders(parameters);
 
             var response = await _httpClient.GetAsync(gatewayUrl);
 
@@ -46,13 +40,7 @@ namespace AspNetCore.ApiGateway.Client
             var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
-            if (parameters.Headers != null && parameters.Headers.Any())
-            {
-                foreach (var header in parameters.Headers)
-                {
-                    _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-                }
-            }
+            _httpClient.AddHeaders(parameters);
 
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
@@ -68,13 +56,7 @@ namespace AspNetCore.ApiGateway.Client
             var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
-            if (parameters.Headers != null && parameters.Headers.Any())
-            {
-                foreach (var header in parameters.Headers)
-                {
-                    _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-                }
-            }
+            _httpClient.AddHeaders(parameters);
 
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -92,13 +74,7 @@ namespace AspNetCore.ApiGateway.Client
             var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
-            if (parameters.Headers != null && parameters.Headers.Any())
-            {
-                foreach (var header in parameters.Headers)
-                {
-                    _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-                }
-            }
+            _httpClient.AddHeaders(parameters);
 
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json-patch+json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
@@ -125,13 +101,7 @@ namespace AspNetCore.ApiGateway.Client
             var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
-            if (parameters.Headers != null && parameters.Headers.Any())
-            {
-                foreach (var header in parameters.Headers)
-                {
-                    _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-                }
-            }
+            _httpClient.AddHeaders(parameters);
 
             var response = await _httpClient.DeleteAsync(gatewayUrl);
 

@@ -64,9 +64,9 @@ namespace AspNetCore.ApiGateway.Tests
             {
                 Api = "weatherservice",
                 Key = "forecast",
-                Headers = new Dictionary<string, IEnumerable<string>>
+                Headers = new Dictionary<string, string>
                 {
-                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                    { "Authorization", "bearer wq298cjwosos==" }
                 }
             };
 
@@ -85,9 +85,9 @@ namespace AspNetCore.ApiGateway.Tests
                 Api = "weatherservice",
                 Key = "type",
                 Parameters = "3",
-                Headers = new Dictionary<string, IEnumerable<string>>
+                Headers = new Dictionary<string, string>
                 {
-                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                    { "Authorization", "bearer wq298cjwosos==" }
                 }
             };
 
@@ -123,9 +123,9 @@ namespace AspNetCore.ApiGateway.Tests
             {
                 Api = "weatherservice",
                 Key = "add",
-                Headers = new Dictionary<string, IEnumerable<string>>
+                Headers = new Dictionary<string, string>
                 {
-                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                    { "Authorization", "bearer wq298cjwosos==" }
                 }
             };
 
@@ -149,13 +149,25 @@ namespace AspNetCore.ApiGateway.Tests
             {
                 Api = "weatherservice",
                 Key = "update",
-                Headers = new Dictionary<string, IEnumerable<string>>
+                Headers = new Dictionary<string, string>
                 {
-                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                    { "Authorization", "bearer wq298cjwosos==" }
                 }
             };
 
-            var weatherTypes = await client.PutAsync<UpdateWeatherTypeRequest, string[]>(parameters, payload);
+            await client.PutAsync<UpdateWeatherTypeRequest, string>(parameters, payload);
+
+            parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "types",
+                Headers = new Dictionary<string, string>
+                {
+                    { "Authorization", "bearer wq298cjwosos==" }
+                }
+            };
+
+            var weatherTypes = await client.GetAsync<string[]>(parameters);
 
             Assert.True(weatherTypes[3] == "Coooooooool");
         }
@@ -172,9 +184,9 @@ namespace AspNetCore.ApiGateway.Tests
             {
                 Api = "weatherservice",
                 Key = "patch",
-                Headers = new Dictionary<string, IEnumerable<string>>
+                Headers = new Dictionary<string, string>
                 {
-                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                    { "Authorization", "bearer wq298cjwosos==" }
                 }
             };
 
@@ -192,14 +204,26 @@ namespace AspNetCore.ApiGateway.Tests
             {
                 Api = "weatherservice",
                 Key = "remove",
-                Headers = new Dictionary<string, IEnumerable<string>>
+                Parameters = "0",
+                Headers = new Dictionary<string, string>
                 {
-                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
-                },
-                Parameters = "0"
+                    { "Authorization", "bearer wq298cjwosos==" }
+                }
             };
 
-            var weatherTypes = await client.DeleteAsync<string[]>(parameters);
+            await client.DeleteAsync<string>(parameters);
+
+            parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "types",
+                Headers = new Dictionary<string, string>
+                {
+                    { "Authorization", "bearer wq298cjwosos==" }
+                }
+            };
+
+            var weatherTypes = await client.GetAsync<string[]>(parameters);
 
             Assert.DoesNotContain(weatherTypes, x => x == "Freezing");
         }
