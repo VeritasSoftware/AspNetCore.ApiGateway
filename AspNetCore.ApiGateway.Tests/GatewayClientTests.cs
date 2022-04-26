@@ -1,7 +1,10 @@
 ﻿using AspNetCore.ApiGateway.Client;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -57,9 +60,148 @@ namespace AspNetCore.ApiGateway.Tests
         {
             var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
 
-            var forecasts = await client.GetAsync<WeatherForecast[]>("weatherservice", "forecast");
+            var parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "forecast",
+                Headers = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                }
+            };
+
+            var forecasts = await client.GetAsync<WeatherForecast[]>(parameters);
 
             Assert.True(forecasts.Length > 0);
+        }
+
+        [Fact]
+        public async Task Test_Get_WithParam_Pass()
+        {
+            var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
+
+            var parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "type",
+                Parameters = "3",
+                Headers = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                }
+            };
+
+            var weatherType = await client.GetAsync<WeatherTypeResponse>(parameters);
+
+            Assert.NotNull(weatherType);
+            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+
+            parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "typewithparams",
+                Parameters = "index=3"
+            };
+
+            weatherType = await client.GetAsync<WeatherTypeResponse>(parameters);
+
+            Assert.NotNull(weatherType);
+            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+        }
+
+        [Fact]
+        public async Task Test_Post_Pass()
+        {
+            var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
+
+            AddWeatherTypeRequest payload = new AddWeatherTypeRequest
+            {
+                WeatherType = "Windy"
+            };
+
+            var parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "add",
+                Headers = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                }
+            };
+
+            var weatherTypes = await client.PostAsync<AddWeatherTypeRequest, string[]>(parameters, payload);
+
+            Assert.True(weatherTypes.Last() == "Windy");
+        }
+
+        [Fact]
+        public async Task Test_Put_Pass()
+        {
+            var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
+
+            UpdateWeatherTypeRequest payload = new UpdateWeatherTypeRequest
+            {
+                WeatherType = "Coooooooool",
+                Index = 3
+            };
+
+            var parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "update",
+                Headers = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                }
+            };
+
+            var weatherTypes = await client.PutAsync<UpdateWeatherTypeRequest, string[]>(parameters, payload);
+
+            Assert.True(weatherTypes[3] == "Coooooooool");
+        }
+
+        [Fact]
+        public async Task Test_Patch_Pass()
+        {
+            var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
+
+            JsonPatchDocument<WeatherForecast> jsonPatch = new JsonPatchDocument<WeatherForecast>();
+            jsonPatch.Add(x => x.TemperatureC, 35);
+
+            var parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "patch",
+                Headers = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                }
+            };
+
+            var weatherForecast = await client.PatchAsync<WeatherForecast, WeatherForecast>(parameters, jsonPatch);
+
+            Assert.True(weatherForecast.TemperatureC == 35);
+        }
+
+        [Fact]
+        public async Task Test_Delete_Pass()
+        {
+            var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
+
+            var parameters = new ApiGatewayParameters
+            {
+                Api = "weatherservice",
+                Key = "remove",
+                Headers = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Authorization", new List<string> { "bearer wq298cjwosos==" } }
+                },
+                Parameters = "0"
+            };
+
+            var weatherTypes = await client.DeleteAsync<string[]>(parameters);
+
+            Assert.DoesNotContain(weatherTypes, x => x == "Freezing");
         }
     }
 }
