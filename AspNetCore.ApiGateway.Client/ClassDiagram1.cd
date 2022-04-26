@@ -11,6 +11,13 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="AspNetCore.ApiGateway.Client.ApiGatewayParameters">
+    <Position X="9.5" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAIAAAAAgAAA=</HashCode>
+      <FileName>ApiGatewayParameters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="AspNetCore.ApiGateway.Client.IApiGatewayClient">
     <Position X="1" Y="0.5" Width="8" />
     <TypeIdentifier>
