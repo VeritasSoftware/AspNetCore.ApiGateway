@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Docs\GETWithParams1.PNG = Docs\GETWithParams1.PNG
 		Docs\HEAD.PNG = Docs\HEAD.PNG
 		LICENSE = LICENSE
+		Docs\NetClient.png = Docs\NetClient.png
 		Docs\Orchestration.PNG = Docs\Orchestration.PNG
 		Docs\Patch.PNG = Docs\Patch.PNG
 		Docs\POST.PNG = Docs\POST.PNG
@@ -41,6 +42,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Docs\README_ExceptionFilters.md = Docs\README_ExceptionFilters.md
 		Docs\README_LoadBalancing.md = Docs\README_LoadBalancing.md
 		Docs\README_Middleware_Service.md = Docs\README_Middleware_Service.md
+		Docs\README_Net_Client.md = Docs\README_Net_Client.md
 		Docs\README_Orchestration.md = Docs\README_Orchestration.md
 		Docs\README_ResponseCaching.md = Docs\README_ResponseCaching.md
 		Docs\README_ResultFilters.md = Docs\README_ResultFilters.md
@@ -60,7 +62,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hub.Client", "Hub.Client\Hu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{2BDB2B61-2A38-41AC-AF33-602E18497C1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.ApiGateway.Client", "AspNetCore.ApiGateway.Client\AspNetCore.ApiGateway.Client.csproj", "{4EEA8028-DAB4-4A8E-B4CF-BA95A52E3028}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApiGateway.Client", "AspNetCore.ApiGateway.Client\AspNetCore.ApiGateway.Client.csproj", "{4EEA8028-DAB4-4A8E-B4CF-BA95A52E3028}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

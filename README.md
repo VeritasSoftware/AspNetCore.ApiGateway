@@ -235,3 +235,16 @@ Your Gateway's Api Orchestration is published by **GET /api/Gateway/orchestratio
 The Api Gateway uses **ILogger\<ApiGatewayLog>** to create logs. 
 
 In your Gateway API project, this can be used to tap into these logs.
+
+## Clients
+
+The Api Gateway supports a fixed set of endpoints.
+
+All routes go through these endpoints.
+
+The Client application has to talk to these endpoints of the Api Gateway.
+
+A Client library is provided for:
+
+* [.Net](Docs/README_Net_Client.md)
+

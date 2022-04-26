@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="AspNetCore.ApiGateway.Client.ApiGatewayClient">
+    <Position X="1" Y="3" Width="8" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAggAAAAAAgBAAAAAAAAAAAAAAAAAAIAAAAoA=</HashCode>
+      <FileName>ApiGatewayClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="AspNetCore.ApiGateway.Client.IApiGatewayClient">
+    <Position X="1" Y="0.5" Width="8" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAoA=</HashCode>
+      <FileName>IApiGatewayClient.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
