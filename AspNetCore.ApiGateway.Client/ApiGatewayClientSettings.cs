@@ -2,6 +2,6 @@
 {
     public class ApiGatewayClientSettings
     {
-        public string ApiGatewayUrl { get; set; }
+        public string ApiGatewayBaseUrl { get; set; }
     }
 }

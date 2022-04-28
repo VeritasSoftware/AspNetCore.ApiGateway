@@ -54,7 +54,7 @@ namespace AspNetCore.ApiGateway.Tests
             IServiceCollection services = new ServiceCollection();
 
             //Wire up the Client for dependency injection using extension
-            services.AddApiGatewayClient(settings => settings.ApiGatewayUrl = "http://localhost/api/Gateway");
+            services.AddApiGatewayClient(settings => settings.ApiGatewayBaseUrl = "http://localhost");
 
             _serviceProvider = services.BuildServiceProvider();
         }

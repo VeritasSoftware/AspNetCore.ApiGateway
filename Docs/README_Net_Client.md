@@ -7,7 +7,7 @@ The .Net client application can talk to the Api Gateway using the Client.
 Wire up the Client for **dependency injection** in your app, using an extension.
 
 ```C#
-services.AddApiGatewayClient(settings => settings.ApiGatewayUrl = "http://localhost/api/Gateway");
+services.AddApiGatewayClient(settings => settings.ApiGatewayBaseUrl = "http://localhost");
 ```
 
 Then, you can inject **IApiGatewayClient** in your app.

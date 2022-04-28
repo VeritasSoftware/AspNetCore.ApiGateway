@@ -23,7 +23,7 @@ namespace AspNetCore.ApiGateway.Client
 
         public async Task<TResponse> GetAsync<TResponse>(ApiGatewayParameters parameters)
         {
-            var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
             _httpClient.AddHeaders(parameters);
@@ -37,7 +37,7 @@ namespace AspNetCore.ApiGateway.Client
 
         public async Task<TResponse> PostAsync<TPayload, TResponse>(ApiGatewayParameters parameters, TPayload data)
         {
-            var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
             _httpClient.AddHeaders(parameters);
@@ -53,7 +53,7 @@ namespace AspNetCore.ApiGateway.Client
 
         public async Task<TResponse> PutAsync<TPayload, TResponse>(ApiGatewayParameters parameters, TPayload data)
         {
-            var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
             _httpClient.AddHeaders(parameters);
@@ -71,7 +71,7 @@ namespace AspNetCore.ApiGateway.Client
         public async Task<TResponse> PatchAsync<TPayload, TResponse>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
             where TPayload : class
         {
-            var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
             _httpClient.AddHeaders(parameters);
@@ -98,7 +98,7 @@ namespace AspNetCore.ApiGateway.Client
 
         public async Task<TResponse> DeleteAsync<TResponse>(ApiGatewayParameters parameters)
         {
-            var gatewayUrl = UrlCombine(_settings.ApiGatewayUrl, parameters.Api, parameters.Key);
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
             gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
 
             _httpClient.AddHeaders(parameters);
