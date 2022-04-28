@@ -51,6 +51,21 @@ namespace AspNetCore.ApiGateway.Client
             return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
         }
 
+        public async Task PutAsync<TPayload>(ApiGatewayParameters parameters, TPayload data)
+        {
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
+            gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
+
+            _httpClient.AddHeaders(parameters);
+
+            var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await _httpClient.PutAsync(gatewayUrl, content);
+
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task<TResponse> PutAsync<TPayload, TResponse>(ApiGatewayParameters parameters, TPayload data)
         {
             var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
@@ -66,6 +81,32 @@ namespace AspNetCore.ApiGateway.Client
             response.EnsureSuccessStatusCode();
 
             return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task PatchAsync<TPayload>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
+            where TPayload : class
+        {
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
+            gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
+
+            _httpClient.AddHeaders(parameters);
+
+            var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json-patch+json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
+
+            var method = "PATCH";
+            var httpVerb = new HttpMethod(method);
+
+            var httprequest = new HttpRequestMessage
+            {
+                RequestUri = new Uri(gatewayUrl),
+                Content = content,
+                Method = httpVerb
+            };
+
+            var response = await _httpClient.SendAsync(httprequest);
+
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task<TResponse> PatchAsync<TPayload, TResponse>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
@@ -94,6 +135,18 @@ namespace AspNetCore.ApiGateway.Client
             response.EnsureSuccessStatusCode();
 
             return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task DeleteAsync(ApiGatewayParameters parameters)
+        {
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.Api, parameters.Key);
+            gatewayUrl = $"{gatewayUrl}?parameters={WebUtility.UrlEncode(parameters.Parameters ?? String.Empty)}";
+
+            _httpClient.AddHeaders(parameters);
+
+            var response = await _httpClient.DeleteAsync(gatewayUrl);
+
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task<TResponse> DeleteAsync<TResponse>(ApiGatewayParameters parameters)

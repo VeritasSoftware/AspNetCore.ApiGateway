@@ -185,7 +185,7 @@ namespace AspNetCore.ApiGateway.Tests
             };
 
             //Act
-            await client.PutAsync<UpdateWeatherTypeRequest, string>(parameters, payload);
+            await client.PutAsync(parameters, payload);
 
             parameters = new ApiGatewayParameters
             {
@@ -251,7 +251,7 @@ namespace AspNetCore.ApiGateway.Tests
             };
 
             //Act
-            await client.DeleteAsync<string>(parameters);
+            await client.DeleteAsync(parameters);
 
             parameters = new ApiGatewayParameters
             {
