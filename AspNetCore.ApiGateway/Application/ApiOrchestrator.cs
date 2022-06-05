@@ -146,19 +146,22 @@ namespace AspNetCore.ApiGateway
             return apiInfo;
         }
 
-        public IEnumerable<Orchestration> Orchestration => apis?.Select(x => new Orchestration
+        public IEnumerable<Orchestration> Orchestration => new List<Orchestration>().Union(apis?.Select(x => new ApiOrchestration
         {
             Api = x.Key,
-            Routes = x.Value.Mediator.Routes
-        }).Union(hubs?.Select(x => new Orchestration
+            Routes = x.Value.Mediator.Routes.Cast<RouteBase>().ToList(),
+            ApiRoutes = x.Value.Mediator.Routes
+        })).Union(hubs?.Select(x => new HubOrchestration
         {
             Api = x.Key,
-            Routes = x.Value.Mediator.Routes
+            Routes = x.Value.Mediator.Routes.Cast<RouteBase>().ToList(),
+            HubRoutes = x.Value.Mediator.Routes
         }))
-        .Union(eventSources?.Select(x => new Orchestration
+        .Union(eventSources?.Select(x => new EventSourceOrchestration
         {
             Api = x.Key,
-            Routes = x.Value.Mediator.Routes
+            Routes = x.Value.Mediator.Routes.Cast<RouteBase>().ToList(),
+            EventSourceRoutes = x.Value.Mediator.Routes
         }));
 
         private string GetLoadBalancedUrl(LoadBalancing loadBalancing)

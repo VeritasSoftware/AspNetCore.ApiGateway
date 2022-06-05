@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using NJsonSchema;
+using Newtonsoft.Json.Schema;
 using System.Collections.Generic;
 
-namespace AspNetCore.ApiGateway
+namespace AspNetCore.ApiGateway.Client
 {
     public class Orchestration
     {
@@ -11,9 +11,6 @@ namespace AspNetCore.ApiGateway
 
         [JsonProperty(Order = 2)]
         public OrchestationType OrchestrationType { get; set; }
-
-        [JsonIgnore()]
-        public List<RouteBase> Routes { get; set; }
     }
 
     public enum OrchestationType
@@ -25,33 +22,18 @@ namespace AspNetCore.ApiGateway
 
     public class ApiOrchestration : Orchestration
     {
-        public ApiOrchestration()
-        {
-            OrchestrationType = OrchestationType.Api;
-        }
-
         [JsonProperty(Order = 2)]
-        public IEnumerable<Route> ApiRoutes { get; set; }        
+        public IEnumerable<Route> ApiRoutes { get; set; }
     }
 
     public class HubOrchestration : Orchestration
     {
-        public HubOrchestration()
-        {
-            OrchestrationType = OrchestationType.Hub;
-        }
-
         [JsonProperty(Order = 2)]
         public IEnumerable<HubRoute> HubRoutes { get; set; }
     }
 
     public class EventSourceOrchestration : Orchestration
     {
-        public EventSourceOrchestration()
-        {
-            OrchestrationType = OrchestationType.EventSource;
-        }
-
         [JsonProperty(Order = 2)]
         public IEnumerable<EventSourceRoute> EventSourceRoutes { get; set; }
     }
@@ -69,12 +51,6 @@ namespace AspNetCore.ApiGateway
 
         [JsonProperty(Order = 4)]
         public string DownstreamPath { get; set; }
-
-        [JsonProperty(Order = 5)]
-        public JsonSchema RequestJsonSchema { get; set; }
-
-        [JsonProperty(Order = 6)]
-        public JsonSchema ResponseJsonSchema { get; set; }
     }
 
     public class HubRoute : RouteBase
@@ -83,7 +59,7 @@ namespace AspNetCore.ApiGateway
         public string InvokeMethod { get; set; }
 
         [JsonProperty(Order = 4)]
-        public string ReceiveMethod { get; set; }        
+        public string ReceiveMethod { get; set; }
 
         [JsonProperty(Order = 5)]
         public string ReceiveGroup { get; set; }
@@ -112,5 +88,4 @@ namespace AspNetCore.ApiGateway
         [JsonProperty(Order = 7)]
         public string GroupName { get; set; }
     }
-
 }

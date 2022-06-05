@@ -34,7 +34,7 @@ The endpoint response is like below:
 [
   {
     "api": "weatherservice",
-    "routes": [
+    "apiRoutes": [
       {
         "key": "forecast",
         "verb": "GET",
@@ -223,11 +223,12 @@ The endpoint response is like below:
           }
         }
       }
-    ]
+    ],
+    "orchestrationType": 0
   },
   {
     "api": "stockservice",
-    "routes": [
+    "apiRoutes": [
       {
         "key": "stocks",
         "verb": "GET",
@@ -284,11 +285,12 @@ The endpoint response is like below:
           }
         }
       }
-    ]
+    ],
+    "orchestrationType": 0
   },
   {
     "api": "chatservice",
-    "routes": [
+    "hubRoutes": [
       {
         "key": "room",
         "invokeMethod": "SendMessage",
@@ -300,11 +302,12 @@ The endpoint response is like below:
           "String"
         ]
       }
-    ]
+    ],
+    "orchestrationType": 1
   },
   {
     "api": "eventsourceservice",
-    "routes": [
+    "eventSourceRoutes": [
       {
         "key": "mystream",
         "type": "EventStore",
@@ -313,7 +316,8 @@ The endpoint response is like below:
         "streamName": "my-stream",
         "groupName": "my-group"
       }
-    ]
+    ],
+    "orchestrationType": 2
   }
 ]
 ```

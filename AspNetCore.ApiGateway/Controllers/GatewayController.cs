@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -363,21 +364,23 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayGetOrchestrationAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrchestrationAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrchestrationAsyncResultFilterAttribute))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Orchestration))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Orchestration>))]
         public async Task<IActionResult> GetOrchestration(string api = null, string key = null)
         {
             api = api?.ToLower();
             key = key?.ToLower();
 
-            return Ok(await Task.FromResult(string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key) 
-                                            ? _apiOrchestrator.Orchestration
-                                            : (!string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key)
-                                            ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
-                                            : (string.IsNullOrEmpty(api) && !string.IsNullOrEmpty(key)
-                                            ? _apiOrchestrator.Orchestration?.Where(x => x.Routes.Any(y => y.Key.Contains(key.Trim())))
-                                                                             .Select(x => x.FilterRoutes(key))
-                                            : _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
-                                                                             .Select(x => x.FilterRoutes(key))))));
+            var orchestrations = await Task.FromResult(string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key)
+                                                ? _apiOrchestrator.Orchestration
+                                                : (!string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key)
+                                                ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
+                                                : (string.IsNullOrEmpty(api) && !string.IsNullOrEmpty(key)
+                                                ? _apiOrchestrator.Orchestration?.Where(x => x.Routes.Any(y => y.Key.Contains(key.Trim())))
+                                                                                 .Select(x => x.FilterRoutes(key))
+                                                : _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
+                                                                                 .Select(x => x.FilterRoutes(key)))));
+
+            return Ok(orchestrations);
         }
     }
 }

@@ -233,7 +233,7 @@ namespace AspNetCore.ApiGateway
 
         internal static Orchestration FilterRoutes(this Orchestration orchestration, string key)
         {
-            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim()));            
+            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim())).Cast<RouteBase>().ToList();            
             return orchestration;
         }
 

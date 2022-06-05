@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -124,6 +126,44 @@ namespace AspNetCore.ApiGateway.Client
             response.EnsureSuccessStatusCode();
 
             return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<IEnumerable<Orchestration>> GetOrchestrationAsync(ApiGatewayParameters parameters)
+        {
+            var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, $"api/Gateway/orchestration?api={parameters.Api}&key={parameters.Key}");
+
+            _httpClient.AddHeaders(parameters);
+
+            var response = await _httpClient.GetAsync(gatewayUrl);
+
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var orchs = JArray.Parse(content);
+
+            var orchestrations = new List<Orchestration>();
+
+            orchs.AsEnumerable().ToList().ForEach(item =>
+            {
+                var type = item.SelectToken("orchestrationType");
+                var orchestrationType = (OrchestationType)Enum.Parse(typeof(OrchestationType), type.ToString());
+
+                switch (orchestrationType)
+                {
+                    case OrchestationType.Api:
+                        orchestrations.Add(item.ToObject<ApiOrchestration>());
+                        break;
+                    case OrchestationType.Hub:
+                        orchestrations.Add(item.ToObject<HubOrchestration>());
+                        break;
+                    case OrchestationType.EventSource:
+                        orchestrations.Add(item.ToObject<EventSourceOrchestration>());
+                        break;
+                }
+            });
+
+            return orchestrations;
         }
 
         private static string UrlCombine(string baseUrl, params string[] segments)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway.Client
@@ -15,5 +16,6 @@ namespace AspNetCore.ApiGateway.Client
             where TPayload : class;
         Task DeleteAsync(ApiGatewayParameters parameters);
         Task<TResponse> DeleteAsync<TResponse>(ApiGatewayParameters parameters);
+        Task<IEnumerable<Orchestration>> GetOrchestrationAsync(ApiGatewayParameters parameters);
     }
 }
