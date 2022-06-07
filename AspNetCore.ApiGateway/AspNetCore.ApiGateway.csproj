@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>3.6.0</Version>
-    <PackageReleaseNotes>Improved api routing. Added parameterized routes. No breaking changes.</PackageReleaseNotes>
+    <Version>3.6.1</Version>
+    <PackageReleaseNotes>Improved viewing api orchestration. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
