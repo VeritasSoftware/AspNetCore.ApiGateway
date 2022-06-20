@@ -1,5 +1,9 @@
 ## Api Gateway Client (.Net)
 
+|Packages|Version & Downloads|
+|---------------------------|:---:|
+|*AspNetCore.ApiGateway.Client*|[![NuGet Version and Downloads count](https://buildstats.info/nuget/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|
+
 The .Net client application can talk to the Api Gateway using the Client.
 
 ![.Net Client](/Docs/NetClient.png)

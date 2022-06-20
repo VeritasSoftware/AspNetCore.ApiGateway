@@ -7,6 +7,7 @@
 |Packages|Version & Downloads|
 |---------------------------|:---:|
 |*AspNetCore.ApiGateway*|[![NuGet Version and Downloads count](https://buildstats.info/nuget/AspNetCore.ApiGateway)](https://www.nuget.org/packages/AspNetCore.ApiGateway)|
+|*AspNetCore.ApiGateway.Client*|[![NuGet Version and Downloads count](https://buildstats.info/nuget/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|
 
 The microservices architecture uses an Api Gateway as shown below.
 
