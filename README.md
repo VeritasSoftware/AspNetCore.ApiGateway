@@ -33,9 +33,9 @@ The microservices architecture uses an Api Gateway as shown below.
 *   Middleware service
 *   Logging
 
-## Gateway as a Facade
+## Gateway as a Microservice Facade
 
-### Your **Gateway API** exposes endpoints which are a **facade** over your backend API endpoints.
+### Your **Gateway API** is a microservice which exposes endpoints that are a **facade** over your backend API endpoints.
 
 *	GET
 *   HEAD
