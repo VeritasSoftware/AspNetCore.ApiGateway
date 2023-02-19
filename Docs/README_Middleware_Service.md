@@ -31,7 +31,7 @@ In your Gateway API project,
 *	Wire it up for dependency injection in Startup.cs
 
 ```C#
-services.AddScoped<IGatewayMiddleware, GatewayMiddlewareService>();
+services.AddTransient<IGatewayMiddleware, GatewayMiddlewareService>();
 .
 .
 services.AddApiGateway();

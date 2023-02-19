@@ -65,7 +65,7 @@ namespace ApiGateway.API
             services.AddScoped<IGatewayHubFilter, GatewayHubFilterService>();
 
             //Middleware service
-            services.AddScoped<IGatewayMiddleware, GatewayMiddlewareService>();
+            services.AddTransient<IGatewayMiddleware, GatewayMiddlewareService>();
 
             //Api gateway
             services.AddApiGateway(options =>

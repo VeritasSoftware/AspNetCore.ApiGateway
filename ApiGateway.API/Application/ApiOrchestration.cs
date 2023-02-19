@@ -25,7 +25,7 @@ namespace ApiGateway.API
             orchestrator.StartGatewayHub = false;
             orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
 
-            orchestrator.AddApi("weatherservice", "http://localhost:63969/")
+            orchestrator.AddApi("weatherservice", "https://localhost:44365/")
                                 //Get
                                 .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
                                 //Head
@@ -46,7 +46,7 @@ namespace ApiGateway.API
                                 .AddRoute("patch", GatewayVerb.PATCH, new RouteInfo { Path = "weatherforecast/forecast/patch", ResponseType = typeof(WeatherForecast) })
                                 //Delete
                                 .AddRoute("remove", GatewayVerb.DELETE, new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
-                        .AddApi("stockservice", "http://localhost:63967/")
+                        .AddApi("stockservice", "https://localhost:44305/")
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })
                         .AddHub("chatservice", ConnectionHelpers.BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
