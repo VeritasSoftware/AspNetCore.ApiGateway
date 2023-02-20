@@ -22,21 +22,21 @@ namespace AspNetCore.ApiGateway.Tests
             //Start Weather API
             IWebHostBuilder weatherAPI = new WebHostBuilder()
                                      .UseStartup<WeatherAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44365, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 5003, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
 
             weatherAPI.Start();
 
             //Start Stock API
             IWebHostBuilder stockAPI = new WebHostBuilder()
                                      .UseStartup<StockAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44305, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 5005, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
 
             stockAPI.Start();
 
             //Start Gateway API
             IWebHostBuilder gatewayAPI = new WebHostBuilder()
                                      .UseStartup<GatewayAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44360, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 5001, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
 
             gatewayAPI.Start();
         }
@@ -54,7 +54,7 @@ namespace AspNetCore.ApiGateway.Tests
             IServiceCollection services = new ServiceCollection();
 
             //Wire up the Client for dependency injection using extension
-            services.AddApiGatewayClient(settings => settings.ApiGatewayBaseUrl = "https://localhost:44360");
+            services.AddApiGatewayClient(settings => settings.ApiGatewayBaseUrl = "https://localhost:5001");
 
             _serviceProvider = services.BuildServiceProvider();
         }

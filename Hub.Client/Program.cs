@@ -16,7 +16,7 @@ namespace Hub.Client
             Console.WriteLine("Hello World!");
 
             var conn = new HubConnectionBuilder()
-                            .WithUrl("https://localhost:44360/GatewayHub")
+                            .WithUrl("https://localhost:5001/GatewayHub")
                             .AddNewtonsoftJsonProtocol()
                             .Build();
 

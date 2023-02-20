@@ -25,21 +25,21 @@ namespace AspNetCore.ApiGateway.Tests
             //Start Weather API
             IWebHostBuilder weatherAPI = new WebHostBuilder()
                                      .UseStartup<WeatherAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44365, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 5003, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
 
             weatherAPI.Start();
 
             //Start Stock API
             IWebHostBuilder stockAPI = new WebHostBuilder()
                                      .UseStartup<StockAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44305, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 5005, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
 
             stockAPI.Start();
 
             //Start Gateway API
             IWebHostBuilder gatewayAPI = new WebHostBuilder()
                                      .UseStartup<GatewayAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 44360, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
+                                     .UseKestrel(options => options.Listen(IPAddress.Any, 5001, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
 
             TestServer gatewayServer = new TestServer(gatewayAPI);
 
@@ -62,7 +62,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with Api key and Route key
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/forecast";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/forecast";
 
             var response = await client.GetAsync(gatewayUrl);
 
@@ -80,7 +80,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             //Gateway API url with Api key and Route key
             //Weather API call
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/forecast";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/forecast";
 
             var response = await client.GetAsync(gatewayUrl);
 
@@ -90,8 +90,10 @@ namespace AspNetCore.ApiGateway.Tests
 
             Assert.True(forecasts.Length > 0);
 
+            client = _apiInit.GatewayAPI.CreateClient();
+
             //Stock API call
-            gatewayUrl = "https://localhost:44360/api/Gateway/stockservice/stocks";
+            gatewayUrl = "https://localhost:5001/api/Gateway/stockservice/stocks";
 
             response = await client.GetAsync(gatewayUrl);
 
@@ -108,7 +110,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with Api key, Route key and Param
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/type?parameters=3";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/type?parameters=3";
 
             var response = await client.GetAsync(gatewayUrl);
 
@@ -119,7 +121,7 @@ namespace AspNetCore.ApiGateway.Tests
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
 
-            gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/typewithparams?parameters=index=3";
+            gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/typewithparams?parameters=index=3";
 
             response = await client.GetAsync(gatewayUrl);
 
@@ -137,7 +139,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with Api key and Route key
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/add";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/add";
 
             AddWeatherTypeRequest request = new AddWeatherTypeRequest
             {
@@ -169,7 +171,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with Api key and Route key
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/update";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/update";
 
             UpdateWeatherTypeRequest request = new UpdateWeatherTypeRequest
             {
@@ -192,7 +194,7 @@ namespace AspNetCore.ApiGateway.Tests
             response.EnsureSuccessStatusCode();
 
             //Gateway API url with Api key and Route key
-            gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/types";
+            gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/types";
 
             response = await client.GetAsync(gatewayUrl);
 
@@ -209,7 +211,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with Api key and Route key
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/patch";            
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/patch";            
 
             JsonPatchDocument<WeatherForecast> jsonPatch = new JsonPatchDocument<WeatherForecast>();
             jsonPatch.Add(x => x.TemperatureC, 35);
@@ -239,14 +241,14 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with Api key, Route key and Param
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/remove?parameters=0";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/remove?parameters=0";
 
             var response = await client.DeleteAsync(gatewayUrl);
 
             response.EnsureSuccessStatusCode();
 
             //Gateway API url with Api key and Route key
-            gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/types";
+            gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/types";
 
             response = await client.GetAsync(gatewayUrl);
 
@@ -263,7 +265,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with invalid Api key and Route key
-            var gatewayUrl = "https://localhost:44360/api/Gateway/xyzservice/forecast";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/xyzservice/forecast";
 
             var response = await client.GetAsync(gatewayUrl);
 
@@ -276,7 +278,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API url with Api key and invalid Route key
-            var gatewayUrl = "https://localhost:44360/api/Gateway/weatherservice/xyz";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/weatherservice/xyz";
 
             var response = await client.GetAsync(gatewayUrl);
 
@@ -289,7 +291,7 @@ namespace AspNetCore.ApiGateway.Tests
             var client = _apiInit.GatewayAPI.CreateClient();
 
             //Gateway API Orchestration url
-            var gatewayUrl = "https://localhost:44360/api/Gateway/orchestration";
+            var gatewayUrl = "https://localhost:5001/api/Gateway/orchestration";
 
             var response = await client.GetAsync(gatewayUrl);
 

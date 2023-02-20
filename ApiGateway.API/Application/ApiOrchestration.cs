@@ -23,9 +23,9 @@ namespace ApiGateway.API
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
             orchestrator.StartGatewayHub = false;
-            orchestrator.GatewayHubUrl = "https://localhost:44360/GatewayHub";
+            orchestrator.GatewayHubUrl = "https://localhost:5001/GatewayHub";
 
-            orchestrator.AddApi("weatherservice", "https://localhost:44365/")
+            orchestrator.AddApi("weatherservice", "https://localhost:5003/")
                                 //Get
                                 .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
                                 //Head
@@ -46,7 +46,7 @@ namespace ApiGateway.API
                                 .AddRoute("patch", GatewayVerb.PATCH, new RouteInfo { Path = "weatherforecast/forecast/patch", ResponseType = typeof(WeatherForecast) })
                                 //Delete
                                 .AddRoute("remove", GatewayVerb.DELETE, new RouteInfo { Path = "weatherforecast/types/remove/", ResponseType = typeof(string[]) })
-                        .AddApi("stockservice", "https://localhost:44305/")
+                        .AddApi("stockservice", "https://localhost:5005/")
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })
                         .AddHub("chatservice", ConnectionHelpers.BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
@@ -60,7 +60,7 @@ namespace ApiGateway.API
     {
         public static HubConnection BuildHubConnection(HubConnectionBuilder builder)
         {
-            return builder.WithUrl("https://localhost:44339/chathub")
+            return builder.WithUrl("https://localhost:5007/chathub")
                           .AddNewtonsoftJsonProtocol()
                           .Build();
         }
