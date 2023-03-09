@@ -6,6 +6,8 @@ describe('Api Gateway Client Tests', function() {
     it('get', async function() {
         let settings = new ApiGatewayClientSettings();
         settings.ApiGatewayBaseUrl = "https://localhost:5001"
+        settings.UseHttps = true;
+        settings.IsDEVMode = true;
 
         let client = new ApiGatewayClient(settings);
 

@@ -1,4 +1,6 @@
 import fetch from 'node-fetch';
+import path from 'path';
+import fs from 'fs';
 import { ApiGatewayClientSettings } from './ApiGatewayClientSettings';
 import { ApiGatewayParameters } from "./ApiGatewayParameters";
 import { IApiGatewayClient } from "./IApiGatewayClient";
@@ -11,16 +13,36 @@ export class ApiGatewayClient implements IApiGatewayClient {
     constructor(settings: ApiGatewayClientSettings) {
         this._settings = settings;
 
-        const https = require('https');
+        if (this._settings.UseHttps) {
+            const https = require('https');
 
-        var rootCas = require('ssl-root-cas').create();
-
-        this._httpsAgent = new https.Agent({
-            ca: rootCas,
-            rejectUnauthorized: false,
-            requestCert: true,
-            agent: false            
-        });
+            if (this._settings.IsDEVMode) {
+                this._httpsAgent = new https.Agent({
+                    rejectUnauthorized: false,
+                    requestCert: true,
+                    agent: false            
+                });
+            }
+            else {
+                const options = {
+                    cert: fs.readFileSync(
+                      path.resolve(__dirname, this._settings.HttpsSettings?.PfxPath!),
+                      `utf-8`,
+                    ),
+                    key: fs.readFileSync(
+                      path.resolve(__dirname, this._settings.HttpsSettings?.PrivateKeyPath!),
+                      'utf-8',
+                    ),
+                    passphrase:
+                        this._settings.HttpsSettings?.Passphrase!,
+                
+                    rejectUnauthorized: true,
+                
+                    keepAlive: true,
+                  };
+                  this._httpsAgent = new https.Agent(options);
+            }            
+        }      
     }
 
     async GetAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse> {
