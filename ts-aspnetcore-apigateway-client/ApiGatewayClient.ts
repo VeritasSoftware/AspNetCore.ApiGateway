@@ -49,9 +49,21 @@ export class ApiGatewayClient implements IApiGatewayClient {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;        
         
         const response = await fetch(gatewayUrl, {method: 'GET', agent: this._httpsAgent});
-        const data = await response.json();
+        const res = await response.json();
 
-        return <TResponse> data;        
+        return <TResponse> res;        
     }
+
+    async PostAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse> {
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
+        
+        let headers = { 'Content-Type': 'application/json' };
+        let body = JSON.stringify(data);
+        
+        const response = await fetch(gatewayUrl, {method: 'POST', body: body, headers: headers, agent: this._httpsAgent});
+        const res = await response.json();
+
+        return <TResponse> res;        
+    }    
 
 }
