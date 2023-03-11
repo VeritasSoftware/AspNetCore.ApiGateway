@@ -5,6 +5,7 @@ import { ApiGatewayClientSettings } from './ApiGatewayClientSettings';
 import { ApiGatewayParameters } from "./ApiGatewayParameters";
 import { IApiGatewayClient } from "./IApiGatewayClient";
 import { JsonPatchOperation } from './JsonPatch';
+import { Orchestration } from './Orchestration';
 
 export class ApiGatewayClient implements IApiGatewayClient {
 
@@ -114,4 +115,13 @@ export class ApiGatewayClient implements IApiGatewayClient {
 
         return <TResponse>{};        
     }
+
+    async GetOrchestrationAsync(parameters: ApiGatewayParameters): Promise<Orchestration[]> {
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/orchestration?api=${parameters.Api}&key=${parameters.Key}`;        
+        
+        const response = await fetch(gatewayUrl, {method: 'GET', agent: this._httpsAgent});
+        const res = await response.json();
+
+        return <Orchestration[]> res;        
+    }    
 }

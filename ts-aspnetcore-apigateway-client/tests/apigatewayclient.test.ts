@@ -116,7 +116,22 @@ describe('Api Gateway Client Tests', function() {
         var weatherTypes = await client.GetAsync<string[]>(params);        
 
         expect(weatherTypes[0]).not.toBe("Freezing");
-    });    
+    }); 
+    
+    it('orchestration', async function() {
+        let settings = new ApiGatewayClientSettings();
+        settings.ApiGatewayBaseUrl = "https://localhost:5001"
+        settings.UseHttps = true;
+        settings.IsDEVMode = true;
+
+        let client = new ApiGatewayClient(settings);
+
+        var params = new ApiGatewayParameters();   
+
+        let orchestrations = await client.GetOrchestrationAsync(params);     
+
+        expect(orchestrations.length).toBe(4);
+    });     
 });
 
 class WeatherForecast {
