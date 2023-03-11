@@ -101,4 +101,17 @@ export class ApiGatewayClient implements IApiGatewayClient {
         return <TResponse>{};
     } 
 
+    async DeleteAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse> {
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;        
+        
+        const response = await fetch(gatewayUrl, {method: 'DELETE', agent: this._httpsAgent});
+        
+        if (response.ok && response.bodyUsed) {
+            const res = await response.json();
+
+            return <TResponse> res;
+        }
+
+        return <TResponse>{};        
+    }
 }

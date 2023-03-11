@@ -6,4 +6,5 @@ export interface IApiGatewayClient {
     PostAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse>;
     PutAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse>;
     PatchAsync<TResponse>(parameters: ApiGatewayParameters, data: JsonPatchOperation[]): Promise<TResponse>;
+    DeleteAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse>;
 }

@@ -92,6 +92,30 @@ describe('Api Gateway Client Tests', function() {
         let weatherForecast = await client.PatchAsync<WeatherForecast>(params, jsonPatch);
 
         expect(weatherForecast.temperatureC).toBe(35);
+    });
+    
+    it('delete', async function() {
+        let settings = new ApiGatewayClientSettings();
+        settings.ApiGatewayBaseUrl = "https://localhost:5001"
+        settings.UseHttps = true;
+        settings.IsDEVMode = true;
+
+        let client = new ApiGatewayClient(settings);
+
+        var params = new ApiGatewayParameters();
+        params.Api = "weatherservice";
+        params.Key = "remove";
+        params.Parameters = "0";       
+
+        await client.DeleteAsync(params);
+
+        params = new ApiGatewayParameters();
+        params.Api = "weatherservice";
+        params.Key = "types";
+
+        var weatherTypes = await client.GetAsync<string[]>(params);        
+
+        expect(weatherTypes[0]).not.toBe("Freezing");
     });    
 });
 
