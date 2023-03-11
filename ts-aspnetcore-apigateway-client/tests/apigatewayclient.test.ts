@@ -1,3 +1,4 @@
+import { Dictionary } from "ts-generic-collections-linq";
 import { ApiGatewayClient } from "../ApiGatewayClient";
 import { ApiGatewayClientSettings } from "../ApiGatewayClientSettings";
 import { ApiGatewayParameters } from "../ApiGatewayParameters";
@@ -12,9 +13,13 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
+        let headers = new Dictionary<string, string>();
+        headers.add("Authorization", "bearer wq298cjwosos==");
+
         var params = new ApiGatewayParameters();
         params.Api = "weatherservice";
-        params.Key = "forecast";        
+        params.Key = "forecast";
+        params.Headers = headers;
 
         let forecasts = await client.GetAsync<WeatherForecast[]>(params);
 
@@ -29,9 +34,13 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
+        let headers = new Dictionary<string, string>();
+        headers.add("Authorization", "bearer wq298cjwosos==");
+
         var params = new ApiGatewayParameters();
         params.Api = "weatherservice";
         params.Key = "add";
+        params.Headers = headers;
         
         let payload = new AddWeatherTypeRequest();
         payload.weatherType = "Windy";
@@ -49,9 +58,13 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
+        let headers = new Dictionary<string, string>();
+        headers.add("Authorization", "bearer wq298cjwosos==");
+
         var params = new ApiGatewayParameters();
         params.Api = "weatherservice";
         params.Key = "update";
+        params.Headers = headers;
         
         let payload = new UpdateWeatherTypeRequest();
         payload.weatherType = "Coooooooooooool";
@@ -62,6 +75,7 @@ describe('Api Gateway Client Tests', function() {
         params = new ApiGatewayParameters();
         params.Api = "weatherservice";
         params.Key = "types";
+        params.Headers = headers;
 
         var weatherTypes = await client.GetAsync<string[]>(params);
 
@@ -76,9 +90,13 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
+        let headers = new Dictionary<string, string>();
+        headers.add("Authorization", "bearer wq298cjwosos==");
+
         var params = new ApiGatewayParameters();
         params.Api = "weatherservice";
         params.Key = "patch";
+        params.Headers = headers;
 
         let jsonPatch = new Array<JsonPatchOperation>();
 
@@ -102,16 +120,21 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
+        let headers = new Dictionary<string, string>();
+        headers.add("Authorization", "bearer wq298cjwosos==");
+
         var params = new ApiGatewayParameters();
         params.Api = "weatherservice";
         params.Key = "remove";
-        params.Parameters = "0";       
+        params.Parameters = "0"; 
+        params.Headers = headers;      
 
         await client.DeleteAsync(params);
 
         params = new ApiGatewayParameters();
         params.Api = "weatherservice";
         params.Key = "types";
+        params.Headers = headers;
 
         var weatherTypes = await client.GetAsync<string[]>(params);        
 
