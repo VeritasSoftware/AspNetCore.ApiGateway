@@ -4,6 +4,7 @@ import fs from 'fs';
 import { ApiGatewayClientSettings } from './ApiGatewayClientSettings';
 import { ApiGatewayParameters } from "./ApiGatewayParameters";
 import { IApiGatewayClient } from "./IApiGatewayClient";
+import { JsonPatchOperation } from './JsonPatch';
 
 export class ApiGatewayClient implements IApiGatewayClient {
 
@@ -82,5 +83,22 @@ export class ApiGatewayClient implements IApiGatewayClient {
                 
         return <TResponse>{};
     }    
+    
+    async PatchAsync<TResponse>(parameters: ApiGatewayParameters, data: JsonPatchOperation[]): Promise<TResponse> {
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
+        
+        let headers = { 'Content-Type': 'application/json-patch+json' };
+        let body = JSON.stringify(data);
+        
+        const response = await fetch(gatewayUrl, {method: 'PATCH', body: body, headers: headers, agent: this._httpsAgent});
+
+        if (response.ok) {
+            const res = await response.json();
+
+            return <TResponse> res;
+        }
+                
+        return <TResponse>{};
+    } 
 
 }
