@@ -26,31 +26,35 @@ export class ApiGatewayClient implements IApiGatewayClient {
                 });
             }
             else {
-                const options = {
-                    cert: fs.readFileSync(
-                      path.resolve(__dirname, this._settings.HttpsSettings?.PfxPath!),
-                      `utf-8`,
-                    ),
-                    key: fs.readFileSync(
-                      path.resolve(__dirname, this._settings.HttpsSettings?.PrivateKeyPath!),
-                      'utf-8',
-                    ),
-                    passphrase:
-                        this._settings.HttpsSettings?.Passphrase!,
-                
-                    rejectUnauthorized: true,
-                
-                    keepAlive: true,
-                  };
-                  this._httpsAgent = new https.Agent(options);
+                if (this._settings.UseCertificate) {
+                    const options = {
+                        cert: fs.readFileSync(
+                          path.resolve(__dirname, this._settings.HttpsSettings?.PfxPath!),
+                          `utf-8`,
+                        ),
+                        key: fs.readFileSync(
+                          path.resolve(__dirname, this._settings.HttpsSettings?.PrivateKeyPath!),
+                          'utf-8',
+                        ),
+                        passphrase:
+                            this._settings.HttpsSettings?.Passphrase!,
+                    
+                        rejectUnauthorized: true,
+                    
+                        keepAlive: true,
+                      };
+                      this._httpsAgent = new https.Agent(options);
+                }                
             }            
         }      
     }
 
     async GetAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;        
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;    
         
-        const response = await fetch(gatewayUrl, {method: 'GET', agent: this._httpsAgent});
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent} : {method: 'GET'};
+        
+        const response = await fetch(gatewayUrl, options);
         const res = await response.json();
 
         return <TResponse> res;        
@@ -61,8 +65,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = { 'Content-Type': 'application/json' };
         let body = JSON.stringify(data);
+
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'POST', body: body, headers: headers, agent: this._httpsAgent} 
+                                                                                : {method: 'POST', body: body, headers: headers};
         
-        const response = await fetch(gatewayUrl, {method: 'POST', body: body, headers: headers, agent: this._httpsAgent});
+        const response = await fetch(gatewayUrl, options);
         const res = await response.json();
 
         return <TResponse> res;        
@@ -73,8 +80,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = { 'Content-Type': 'application/json' };
         let body = JSON.stringify(data);
+
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'PUT', body: body, headers: headers, agent: this._httpsAgent} 
+                                                                                : {method: 'PUT', body: body, headers: headers};
         
-        const response = await fetch(gatewayUrl, {method: 'PUT', body: body, headers: headers, agent: this._httpsAgent});
+        const response = await fetch(gatewayUrl, options);
 
         if (response.ok && response.bodyUsed) {
             const res = await response.json();
@@ -90,8 +100,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = { 'Content-Type': 'application/json-patch+json' };
         let body = JSON.stringify(data);
+
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'PATCH', body: body, headers: headers, agent: this._httpsAgent} 
+                                                                                : {method: 'PATCH', body: body, headers: headers};
         
-        const response = await fetch(gatewayUrl, {method: 'PATCH', body: body, headers: headers, agent: this._httpsAgent});
+        const response = await fetch(gatewayUrl, options);
 
         if (response.ok) {
             const res = await response.json();
@@ -103,9 +116,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
     } 
 
     async DeleteAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;        
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;     
         
-        const response = await fetch(gatewayUrl, {method: 'DELETE', agent: this._httpsAgent});
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'DELETE', agent: this._httpsAgent} : {method: 'DELETE'};
+        
+        const response = await fetch(gatewayUrl, options);
         
         if (response.ok && response.bodyUsed) {
             const res = await response.json();
@@ -117,9 +132,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }
 
     async GetOrchestrationAsync(parameters: ApiGatewayParameters): Promise<Orchestration[]> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/orchestration?api=${parameters.Api}&key=${parameters.Key}`;        
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/orchestration?api=${parameters.Api}&key=${parameters.Key}`;   
         
-        const response = await fetch(gatewayUrl, {method: 'GET', agent: this._httpsAgent});
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent} : {method: 'GET'};
+        
+        const response = await fetch(gatewayUrl, options);
         const res = await response.json();
 
         return <Orchestration[]> res;        

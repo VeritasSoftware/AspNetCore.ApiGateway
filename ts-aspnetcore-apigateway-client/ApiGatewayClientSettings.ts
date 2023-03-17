@@ -2,6 +2,7 @@ export class ApiGatewayClientSettings {
     ApiGatewayBaseUrl?: string;
     IsDEVMode?: boolean;
     UseHttps?: boolean;
+    UseCertificate?: boolean;
     HttpsSettings?: HttpsSettings;
 }
 
