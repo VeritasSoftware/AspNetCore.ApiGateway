@@ -38,6 +38,7 @@ The microservices architecture uses an Api Gateway as shown below.
 *   Request aggregation
 *   Middleware service
 *   Logging
+*   Clients available in .NET, Typescript
 
 ## Gateway as a Microservice Facade
 
@@ -255,3 +256,4 @@ A Client library is provided for:
 
 * [.Net](Docs/README_Net_Client.md)
 
+* [Typescript](Docs/README_Typescript_Client.md)
