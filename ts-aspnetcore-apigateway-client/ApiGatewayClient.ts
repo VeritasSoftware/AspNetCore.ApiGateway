@@ -60,7 +60,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         return <TResponse> res;        
     }
 
-    async PostAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse> {
+    async PostAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse | null> {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
         let headers = { 'Content-Type': 'application/json' };
@@ -70,12 +70,17 @@ export class ApiGatewayClient implements IApiGatewayClient {
                                                                                 : {method: 'POST', body: body, headers: headers};
         
         const response = await fetch(gatewayUrl, options);
-        const res = await response.json();
 
-        return <TResponse> res;        
+        if (response.ok) {
+            const res = await response.json();
+
+            return <TResponse> res;
+        }
+
+        return null;        
     }
     
-    async PutAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse> {
+    async PutAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse | null> {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
         let headers = { 'Content-Type': 'application/json' };
@@ -92,10 +97,10 @@ export class ApiGatewayClient implements IApiGatewayClient {
             return <TResponse> res;
         }
                 
-        return <TResponse>{};
+        return null;
     }    
     
-    async PatchAsync<TResponse>(parameters: ApiGatewayParameters, data: JsonPatchOperation[]): Promise<TResponse> {
+    async PatchAsync<TResponse>(parameters: ApiGatewayParameters, data: JsonPatchOperation[]): Promise<TResponse | null> {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
         let headers = { 'Content-Type': 'application/json-patch+json' };
@@ -112,10 +117,10 @@ export class ApiGatewayClient implements IApiGatewayClient {
             return <TResponse> res;
         }
                 
-        return <TResponse>{};
+        return null;
     } 
 
-    async DeleteAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse> {
+    async DeleteAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse | null> {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;     
         
         var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'DELETE', agent: this._httpsAgent} : {method: 'DELETE'};
@@ -128,7 +133,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
             return <TResponse> res;
         }
 
-        return <TResponse>{};        
+        return null;        
     }
 
     async GetOrchestrationAsync(parameters: ApiGatewayParameters): Promise<Orchestration[]> {

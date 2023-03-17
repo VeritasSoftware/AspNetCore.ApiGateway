@@ -47,7 +47,9 @@ describe('Api Gateway Client Tests', function() {
 
         let weatherTypes = await client.PostAsync<AddWeatherTypeRequest, string[]>(params, payload);
 
-        expect(weatherTypes[weatherTypes.length - 1]).toBe("Windy");
+        expect(weatherTypes).not.toBe(null);
+        if (weatherTypes)
+            expect(weatherTypes[weatherTypes.length - 1]).toBe("Windy");
     });
     
     it('put', async function() {
@@ -109,7 +111,9 @@ describe('Api Gateway Client Tests', function() {
 
         let weatherForecast = await client.PatchAsync<WeatherForecast>(params, jsonPatch);
 
-        expect(weatherForecast.temperatureC).toBe(35);
+        expect(weatherForecast).not.toBe(null);
+        if (weatherForecast)
+            expect(weatherForecast.temperatureC).toBe(35);
     });
     
     it('delete', async function() {
