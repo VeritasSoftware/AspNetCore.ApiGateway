@@ -1,8 +1,8 @@
 import { Dictionary } from "ts-generic-collections-linq";
-import { ApiGatewayClient } from "../ApiGatewayClient";
-import { ApiGatewayClientSettings } from "../ApiGatewayClientSettings";
-import { ApiGatewayParameters } from "../ApiGatewayParameters";
-import { JsonPatchOperation, Operation } from "../JsonPatch";
+import { ApiGatewayClient } from "../src/ApiGatewayClient";
+import { ApiGatewayClientSettings } from "../src/ApiGatewayClientSettings";
+import { ApiGatewayParameters } from "../src/ApiGatewayParameters";
+import { JsonPatchOperation, Operation } from "../src/JsonPatch";
 
 describe('Api Gateway Client Tests', function() {
     it('get', async function() {
