@@ -34,18 +34,18 @@ export class ApiGatewayClient implements IApiGatewayClient {
                 });
             }
             else {
-                if (this._settings.UseCertificate && this._settings.HttpsSettings) {
+                if (this._settings.UseCertificate && this._settings.CertificateSettings) {
                     const options = {
                         cert: fs.readFileSync(
-                          path.resolve(__dirname, this._settings.HttpsSettings.PfxPath!),
+                          path.resolve(__dirname, this._settings.CertificateSettings.PfxPath!),
                           `utf-8`,
                         ),
                         key: fs.readFileSync(
-                          path.resolve(__dirname, this._settings.HttpsSettings.PrivateKeyPath!),
+                          path.resolve(__dirname, this._settings.CertificateSettings.PrivateKeyPath!),
                           'utf-8',
                         ),
                         passphrase:
-                            this._settings.HttpsSettings.Passphrase!,
+                            this._settings.CertificateSettings.Passphrase!,
                     
                         rejectUnauthorized: true,
                     

@@ -3,7 +3,7 @@ export class ApiGatewayClientSettings {
     IsDEVMode?: boolean;
     UseHttps?: boolean;
     UseCertificate?: boolean;
-    HttpsSettings?: HttpsSettings;
+    CertificateSettings?: HttpsSettings;
 }
 
 export class HttpsSettings {
