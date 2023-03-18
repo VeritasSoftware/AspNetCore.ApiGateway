@@ -15,6 +15,14 @@ export class ApiGatewayClient implements IApiGatewayClient {
     constructor(settings: ApiGatewayClientSettings) {
         this._settings = settings;
 
+        var baseUrl = this._settings.ApiGatewayBaseUrl;
+        if (baseUrl) {
+            if (baseUrl.charAt(baseUrl.length - 1) === '/') {
+                baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+                this._settings.ApiGatewayBaseUrl = baseUrl;
+            }
+        }
+
         if (this._settings.UseHttps) {
             const https = require('https');
 
@@ -26,18 +34,18 @@ export class ApiGatewayClient implements IApiGatewayClient {
                 });
             }
             else {
-                if (this._settings.UseCertificate) {
+                if (this._settings.UseCertificate && this._settings.HttpsSettings) {
                     const options = {
                         cert: fs.readFileSync(
-                          path.resolve(__dirname, this._settings.HttpsSettings?.PfxPath!),
+                          path.resolve(__dirname, this._settings.HttpsSettings.PfxPath!),
                           `utf-8`,
                         ),
                         key: fs.readFileSync(
-                          path.resolve(__dirname, this._settings.HttpsSettings?.PrivateKeyPath!),
+                          path.resolve(__dirname, this._settings.HttpsSettings.PrivateKeyPath!),
                           'utf-8',
                         ),
                         passphrase:
-                            this._settings.HttpsSettings?.Passphrase!,
+                            this._settings.HttpsSettings.Passphrase!,
                     
                         rejectUnauthorized: true,
                     
