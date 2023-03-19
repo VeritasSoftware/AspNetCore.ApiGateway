@@ -4,6 +4,11 @@ import { ApiGatewayClientSettings } from "../src/ApiGatewayClientSettings";
 import { ApiGatewayParameters } from "../src/ApiGatewayParameters";
 import { JsonPatchOperation, Operation } from "../src/JsonPatch";
 
+//Below import is for running compiled code in build folder.
+//To compile the project run: npx tsc in the terminal window.
+
+//import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "../build/index"
+
 describe('Api Gateway Client Tests', function() {
     it('get', async function() {
         let settings = new ApiGatewayClientSettings();
