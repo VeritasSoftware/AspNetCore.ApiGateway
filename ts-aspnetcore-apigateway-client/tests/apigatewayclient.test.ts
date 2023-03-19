@@ -1,13 +1,11 @@
 import { Dictionary } from "ts-generic-collections-linq";
-import { ApiGatewayClient } from "../src/ApiGatewayClient";
-import { ApiGatewayClientSettings } from "../src/ApiGatewayClientSettings";
-import { ApiGatewayParameters } from "../src/ApiGatewayParameters";
-import { JsonPatchOperation, Operation } from "../src/JsonPatch";
+
+import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "../src"
 
 //Below import is for running compiled code in build folder.
 //To compile the project run: npx tsc in the terminal window.
 
-//import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "../build/index"
+//import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "../build"
 
 describe('Api Gateway Client Tests', function() {
     it('get', async function() {
