@@ -6,7 +6,7 @@
     "types": "build/index.d.ts",
     "author": "Shantanu",
     "license": "MIT",
-    "homepage": "https://github.com/VeritasSoftware/AspNetCore.ApiGateway",
+    "homepage": "https://github.com/VeritasSoftware/AspNetCore.ApiGateway#readme",
     "dependencies": {
         "node-fetch": "^2.6.9",
         "ts-generic-collections-linq": "^1.0.7"
@@ -22,5 +22,10 @@
     "scripts": {
         "build": "npx tsc",
         "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json"
+    },
+    "files": ["build/**/*"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/VeritasSoftware/AspNetCore.ApiGateway"
     }
 }
