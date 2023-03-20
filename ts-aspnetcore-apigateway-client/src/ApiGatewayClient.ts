@@ -1,6 +1,4 @@
 import fetch from 'node-fetch';
-import path from 'path';
-import fs from 'fs';
 import { ApiGatewayClientSettings } from './ApiGatewayClientSettings';
 import { ApiGatewayParameters } from "./ApiGatewayParameters";
 import { IApiGatewayClient } from "./IApiGatewayClient";
@@ -24,7 +22,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         }
 
         if (this._settings.UseHttps) {
-            const https = require('https');
+            const https = require('https');            
 
             if (this._settings.IsDEVMode) {
                 this._httpsAgent = new https.Agent({
@@ -34,6 +32,9 @@ export class ApiGatewayClient implements IApiGatewayClient {
                 });
             }
             else {
+                const fs = require('fs');
+                const path = require('path');
+                
                 if (this._settings.UseCertificate && this._settings.CertificateSettings) {
                     const options = {
                         cert: fs.readFileSync(

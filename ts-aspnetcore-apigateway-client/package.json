@@ -1,14 +1,23 @@
 {
     "name": "ts-aspnetcore-apigateway-client",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "description": "TypeScript Client for Api Gateway built using AspNetCore.ApiGateway package.",
     "main": "build/index.js",
     "types": "build/index.d.ts",
     "author": "Shantanu",
     "license": "MIT",
     "homepage": "https://github.com/VeritasSoftware/AspNetCore.ApiGateway#readme",
+    "keywords": [
+        "Api",
+        "Gateway",
+        "AspNetCore",
+        "Client"
+    ],
     "dependencies": {
+        "https": "^1.0.0",
         "node-fetch": "^2.6.9",
+        "node-fs": "^0.1.7",
+        "path": "^0.12.7",
         "ts-generic-collections-linq": "^1.0.7"
     },
     "devDependencies": {
@@ -23,9 +32,16 @@
         "build": "npx tsc",
         "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json"
     },
-    "files": ["build/**/*"],
+    "files": [
+        "build/**/*"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/VeritasSoftware/AspNetCore.ApiGateway"
+    },
+    "browser": {
+        "fs": false,
+        "path": false,
+        "os": false
     }
 }
