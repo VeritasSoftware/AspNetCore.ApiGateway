@@ -19,42 +19,43 @@ export class ApiGatewayClient implements IApiGatewayClient {
                 baseUrl = baseUrl.substring(0, baseUrl.length - 1);
                 this._settings.ApiGatewayBaseUrl = baseUrl;
             }
+        }                    
+
+        if (this._settings.IsDEVMode) {
+            const https = require('https');
+
+            this._httpsAgent = new https.Agent({
+                rejectUnauthorized: false,
+                requestCert: true,
+                agent: false            
+            });
         }
-
-        if (this._settings.UseHttps) {
-            const https = require('https');            
-
-            if (this._settings.IsDEVMode) {
-                this._httpsAgent = new https.Agent({
-                    rejectUnauthorized: false,
-                    requestCert: true,
-                    agent: false            
-                });
-            }
-            else {
+        else {                        
+            if (this._settings.UseCertificate && this._settings.CertificateSettings) {
                 const fs = require('fs');
                 const path = require('path');
+
+                const options = {
+                    cert: fs.readFileSync(
+                      path.resolve(__dirname, this._settings.CertificateSettings.PfxPath!),
+                      `utf-8`,
+                    ),
+                    key: fs.readFileSync(
+                      path.resolve(__dirname, this._settings.CertificateSettings.PrivateKeyPath!),
+                      'utf-8',
+                    ),
+                    passphrase:
+                        this._settings.CertificateSettings.Passphrase!,
                 
-                if (this._settings.UseCertificate && this._settings.CertificateSettings) {
-                    const options = {
-                        cert: fs.readFileSync(
-                          path.resolve(__dirname, this._settings.CertificateSettings.PfxPath!),
-                          `utf-8`,
-                        ),
-                        key: fs.readFileSync(
-                          path.resolve(__dirname, this._settings.CertificateSettings.PrivateKeyPath!),
-                          'utf-8',
-                        ),
-                        passphrase:
-                            this._settings.CertificateSettings.Passphrase!,
-                    
-                        rejectUnauthorized: true,
-                    
-                        keepAlive: true,
-                      };
-                      this._httpsAgent = new https.Agent(options);
-                }                
-            }            
+                    rejectUnauthorized: true,
+                
+                    keepAlive: true,
+                  };
+                  
+                  const https = require('https');
+
+                  this._httpsAgent = new https.Agent(options);
+            }                
         }      
     }
 
