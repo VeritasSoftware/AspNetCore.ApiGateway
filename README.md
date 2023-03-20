@@ -8,7 +8,7 @@
 |---------------------------|:---:|
 |*AspNetCore.ApiGateway*|[![NuGet Version and Downloads count](https://buildstats.info/nuget/AspNetCore.ApiGateway)](https://www.nuget.org/packages/AspNetCore.ApiGateway)|
 |*AspNetCore.ApiGateway.Client*|[![NuGet Version and Downloads count](https://buildstats.info/nuget/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|
-|*ts-aspnetcore-apigateway-client|[![NPM Downloads count](https://img.shields.io/npm/dw/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|
+|*ts-aspnetcore-apigateway-client*|[![NPM Downloads count](https://img.shields.io/npm/dw/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|
 
 ```diff
 + This project has been on-boarded by the .NET Foundation, in the Seed category.
