@@ -27,7 +27,7 @@ import { Dictionary } from "ts-aspnetcore-apigateway-client/node_modules/ts-gene
 import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "ts-aspnetcore-apigateway-client"
 ```
 
-2. Use the Client.
+3. Use the Client.
 
 ```javascript
   it('get', async function() {

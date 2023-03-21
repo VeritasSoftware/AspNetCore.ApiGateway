@@ -255,6 +255,6 @@ The Client application has to talk to these endpoints of the Api Gateway.
 
 A Client library is provided for:
 
-* [.Net](Docs/README_Net_Client.md)
+* [**.Net**](Docs/README_Net_Client.md)
 
-* [Typescript](Docs/README_Typescript_Client.md)
+* [**Typescript**](Docs/README_Typescript_Client.md)
