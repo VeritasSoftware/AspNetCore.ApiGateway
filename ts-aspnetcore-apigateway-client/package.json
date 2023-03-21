@@ -1,6 +1,6 @@
 {
     "name": "ts-aspnetcore-apigateway-client",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "TypeScript Client for Api Gateway built using AspNetCore.ApiGateway package.",
     "main": "build/index.js",
     "types": "build/index.d.ts",

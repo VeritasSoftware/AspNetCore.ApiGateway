@@ -1,4 +1,6 @@
 import fetch from 'node-fetch';
+import { Headers } from 'node-fetch';
+import { Dictionary } from 'ts-generic-collections-linq';
 import { ApiGatewayClientSettings } from './ApiGatewayClientSettings';
 import { ApiGatewayParameters } from "./ApiGatewayParameters";
 import { IApiGatewayClient } from "./IApiGatewayClient";
@@ -60,9 +62,14 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }
 
     async GetAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;    
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
-        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent} : {method: 'GET'};
+        let headers = new Headers();
+        if (parameters.Headers)
+            headers = this.getHeaders(parameters.Headers);
+        
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent, headers: headers} 
+                                                                                : {method: 'GET', headers: headers};                                                                    
         
         const response = await fetch(gatewayUrl, options);
         const res = await response.json();
@@ -73,7 +80,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
     async PostAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse | null> {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
-        let headers = { 'Content-Type': 'application/json' };
+        let headers = new Headers();
+        if (parameters.Headers)
+            headers = this.getHeaders(parameters.Headers);        
+        headers.append("Content-Type", "application/json");
+
         let body = JSON.stringify(data);
 
         var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'POST', body: body, headers: headers, agent: this._httpsAgent} 
@@ -93,7 +104,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
     async PutAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse | null> {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
-        let headers = { 'Content-Type': 'application/json' };
+        let headers = new Headers();
+        if (parameters.Headers)
+            headers = this.getHeaders(parameters.Headers);        
+        headers.append("Content-Type", "application/json");
+
         let body = JSON.stringify(data);
 
         var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'PUT', body: body, headers: headers, agent: this._httpsAgent} 
@@ -113,7 +128,11 @@ export class ApiGatewayClient implements IApiGatewayClient {
     async PatchAsync<TResponse>(parameters: ApiGatewayParameters, data: JsonPatchOperation[]): Promise<TResponse | null> {
         let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
-        let headers = { 'Content-Type': 'application/json-patch+json' };
+        let headers = new Headers();
+        if (parameters.Headers)
+            headers = this.getHeaders(parameters.Headers);        
+        headers.append("Content-Type", "application/json-patch+json");
+
         let body = JSON.stringify(data);
 
         var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'PATCH', body: body, headers: headers, agent: this._httpsAgent} 
@@ -131,9 +150,14 @@ export class ApiGatewayClient implements IApiGatewayClient {
     } 
 
     async DeleteAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse | null> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;     
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
         
-        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'DELETE', agent: this._httpsAgent} : {method: 'DELETE'};
+        let headers = new Headers();
+        if (parameters.Headers)
+            headers = this.getHeaders(parameters.Headers);
+
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'DELETE', agent: this._httpsAgent, headers: headers} 
+                                                                                : {method: 'DELETE', headers: headers};
         
         const response = await fetch(gatewayUrl, options);
         
@@ -147,13 +171,26 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }
 
     async GetOrchestrationAsync(parameters: ApiGatewayParameters): Promise<Orchestration[]> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/orchestration?api=${parameters.Api}&key=${parameters.Key}`;   
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/orchestration?api=${parameters.Api}&key=${parameters.Key}`;
         
-        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent} : {method: 'GET'};
+        let headers = new Headers();
+        if (parameters.Headers)
+            headers = this.getHeaders(parameters.Headers);        
+        
+        var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent, headers: headers} 
+                                                                                : {method: 'GET', headers: headers};
         
         const response = await fetch(gatewayUrl, options);
         const res = await response.json();
 
         return <Orchestration[]> res;        
+    }
+    
+    getHeaders(requestHeaders: Dictionary<string, string>) : Headers {
+        var headers = new Headers();
+        if (requestHeaders) {
+            requestHeaders.forEach(header => headers.append(header.key, header.value));
+        }
+        return headers;
     }    
 }
