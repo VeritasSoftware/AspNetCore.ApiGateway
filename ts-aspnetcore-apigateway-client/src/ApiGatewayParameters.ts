@@ -1,8 +1,8 @@
-import { Dictionary } from "ts-generic-collections-linq";
+import { ApiGatewayHeaders } from "./ApiGatewayHeaders";
 
 export class ApiGatewayParameters {
     Api?: string = "";
     Key?: string = "";
     Parameters?: string = "";
-    Headers?: Dictionary<string, string>;
+    Headers?: ApiGatewayHeaders;
 }

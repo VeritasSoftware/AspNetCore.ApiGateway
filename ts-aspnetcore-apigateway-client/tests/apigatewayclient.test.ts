@@ -1,11 +1,9 @@
-import { Dictionary } from "ts-generic-collections-linq";
-
-import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "../src"
+import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders, ApiGatewayParameters, JsonPatchOperation, Operation } from "../src"
 
 //Below import is for running compiled code in build folder.
 //To compile the project run: npx tsc in the terminal window.
 
-//import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "../build"
+//import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders, ApiGatewayParameters, JsonPatchOperation, Operation } from "../build"
 
 describe('Api Gateway Client Tests', function() {
     it('get', async function() {
@@ -15,7 +13,7 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
-        let headers = new Dictionary<string, string>();
+        let headers = new ApiGatewayHeaders();
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
@@ -35,7 +33,7 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
-        let headers = new Dictionary<string, string>();
+        let headers = new ApiGatewayHeaders();
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
@@ -60,7 +58,7 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
-        let headers = new Dictionary<string, string>();
+        let headers = new ApiGatewayHeaders();
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
@@ -91,7 +89,7 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
-        let headers = new Dictionary<string, string>();
+        let headers = new ApiGatewayHeaders();
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
@@ -122,7 +120,7 @@ describe('Api Gateway Client Tests', function() {
 
         let client = new ApiGatewayClient(settings);
 
-        let headers = new Dictionary<string, string>();
+        let headers = new ApiGatewayHeaders();
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();

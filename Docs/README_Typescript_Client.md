@@ -14,17 +14,16 @@ The Client uses [node-fetch](https://www.npmjs.com/package/node-fetch) library u
 
 ## Instructions
 
-1. Add the package to your project from NPM.
+1. Install the package in your project, from NPM.
 
 ```javascript
 npm i ts-aspnetcore-apigateway-client
 ```
-2. Import the required classes
+
+2. Import the required classes.
 
 ```javascript
-import { Dictionary } from "ts-aspnetcore-apigateway-client/node_modules/ts-generic-collections-linq";
-
-import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonPatchOperation, Operation} from "ts-aspnetcore-apigateway-client"
+import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders, ApiGatewayParameters, JsonPatchOperation, Operation } from "ts-aspnetcore-apigateway-client"
 ```
 
 3. Use the Client.
@@ -36,7 +35,7 @@ import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayParameters, JsonP
 
     let client = new ApiGatewayClient(settings);
 
-    let headers = new Dictionary<string, string>();
+    let headers = new ApiGatewayHeaders();
     headers.add("Authorization", "bearer wq298cjwosos==");
 
     var params = new ApiGatewayParameters();

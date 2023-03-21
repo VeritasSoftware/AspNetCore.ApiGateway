@@ -66,7 +66,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = new Headers();
         if (parameters.Headers)
-            headers = this.getHeaders(parameters.Headers);
+            headers = this.getHeaders(parameters.Headers.toHeaders());
         
         var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent, headers: headers} 
                                                                                 : {method: 'GET', headers: headers};                                                                    
@@ -82,7 +82,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = new Headers();
         if (parameters.Headers)
-            headers = this.getHeaders(parameters.Headers);        
+            headers = this.getHeaders(parameters.Headers.toHeaders());        
         headers.append("Content-Type", "application/json");
 
         let body = JSON.stringify(data);
@@ -106,7 +106,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = new Headers();
         if (parameters.Headers)
-            headers = this.getHeaders(parameters.Headers);        
+            headers = this.getHeaders(parameters.Headers.toHeaders());        
         headers.append("Content-Type", "application/json");
 
         let body = JSON.stringify(data);
@@ -130,7 +130,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = new Headers();
         if (parameters.Headers)
-            headers = this.getHeaders(parameters.Headers);        
+            headers = this.getHeaders(parameters.Headers.toHeaders());        
         headers.append("Content-Type", "application/json-patch+json");
 
         let body = JSON.stringify(data);
@@ -154,7 +154,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = new Headers();
         if (parameters.Headers)
-            headers = this.getHeaders(parameters.Headers);
+            headers = this.getHeaders(parameters.Headers.toHeaders());
 
         var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'DELETE', agent: this._httpsAgent, headers: headers} 
                                                                                 : {method: 'DELETE', headers: headers};
@@ -175,7 +175,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         
         let headers = new Headers();
         if (parameters.Headers)
-            headers = this.getHeaders(parameters.Headers);        
+            headers = this.getHeaders(parameters.Headers.toHeaders());        
         
         var options = this._settings.IsDEVMode || this._settings.UseCertificate ? {method: 'GET', agent: this._httpsAgent, headers: headers} 
                                                                                 : {method: 'GET', headers: headers};
