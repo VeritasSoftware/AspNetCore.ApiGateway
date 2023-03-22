@@ -23,7 +23,8 @@ npm i ts-aspnetcore-apigateway-client
 2. Import the required classes.
 
 ```javascript
-import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders, ApiGatewayParameters, JsonPatchOperation, Operation } from "ts-aspnetcore-apigateway-client"
+import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders, 
+            ApiGatewayParameters, JsonPatchOperation, Operation } from "ts-aspnetcore-apigateway-client"
 ```
 
 3. Use the Client.
@@ -31,7 +32,7 @@ import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders, ApiGatew
 ```javascript
   it('get', async function() {
     let settings = new ApiGatewayClientSettings();
-    settings.ApiGatewayBaseUrl = "https://localhost:5001"
+    settings.ApiGatewayBaseUrl = "https://localhost:5001";
 
     let client = new ApiGatewayClient(settings);
 
