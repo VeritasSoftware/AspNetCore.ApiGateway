@@ -24,7 +24,7 @@ npm i ts-aspnetcore-apigateway-client
 
 ```javascript
 import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders, 
-            ApiGatewayParameters, JsonPatchOperation, Operation } from "ts-aspnetcore-apigateway-client"
+            ApiGatewayParameters, JsonPatchOperation, Operation } from "ts-aspnetcore-apigateway-client";
 ```
 
 3. Use the Client.
@@ -39,7 +39,7 @@ import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders,
     let headers = new ApiGatewayHeaders();
     headers.add("Authorization", "bearer wq298cjwosos==");
 
-    var params = new ApiGatewayParameters();
+    let params = new ApiGatewayParameters();
     params.Api = "weatherservice";
     params.Key = "forecast";
     params.Headers = headers;

@@ -1,6 +1,5 @@
 import fetch from 'node-fetch';
 import { Headers } from 'node-fetch';
-import { Dictionary } from 'ts-generic-collections-linq';
 import { ApiGatewayClientSettings } from './ApiGatewayClientSettings';
 import { ApiGatewayParameters } from "./ApiGatewayParameters";
 import { IApiGatewayClient } from "./IApiGatewayClient";
@@ -186,7 +185,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
         return <Orchestration[]> res;        
     }
     
-    getHeaders(requestHeaders: Dictionary<string, string>) : Headers {
+    getHeaders(requestHeaders: any[]) : Headers {
         var headers = new Headers();
         if (requestHeaders) {
             requestHeaders.forEach(header => headers.append(header.key, header.value));

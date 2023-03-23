@@ -1,17 +1,11 @@
-import { Dictionary } from "ts-generic-collections-linq";
-
 export class ApiGatewayHeaders {
-    headers: Dictionary<string, string>;
-
-    constructor() {
-        this.headers = new Dictionary<string, string>();
-    }
+    headers: any[] = [];
 
     add(key: string, value: string) : void {
-        this.headers.add(key, value);
+        this.headers.push({key: key, value: value});
     }
 
-    toHeaders() : Dictionary<string, string> {
+    toHeaders() : any[] {
         return this.headers;
     }
 }
