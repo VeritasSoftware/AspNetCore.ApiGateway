@@ -26,6 +26,37 @@ describe('Api Gateway Client Tests', function() {
         expect(forecasts.length).toBe(5);
     });
 
+    it('getWithParams', async function() {
+        let settings = new ApiGatewayClientSettings();
+        settings.ApiGatewayBaseUrl = "https://localhost:5001"
+        settings.IsDEVMode = true;
+
+        let client = new ApiGatewayClient(settings);
+
+        let headers = new ApiGatewayHeaders();
+        headers.add("Authorization", "bearer wq298cjwosos==");
+
+        var params = new ApiGatewayParameters();
+        params.Api = "weatherservice";
+        params.Key = "type";
+        params.Parameters = "3";
+        params.Headers = headers;
+
+        let weatherType = await client.GetAsync<WeatherTypeResponse>(params);
+
+        expect(weatherType.type).toBe("Cool");
+
+        params = new ApiGatewayParameters();
+        params.Api = "weatherservice";
+        params.Key = "typewithparams";
+        params.Parameters = "index=3";
+        params.Headers = headers;
+
+        weatherType = await client.GetAsync<WeatherTypeResponse>(params);
+
+        expect(weatherType.type).toBe("Cool");
+    });    
+
     it('post', async function() {
         let settings = new ApiGatewayClientSettings();
         settings.ApiGatewayBaseUrl = "https://localhost:5001"
@@ -170,4 +201,8 @@ class AddWeatherTypeRequest {
 class UpdateWeatherTypeRequest {
     weatherType?: string;
     index?: number;
+}
+
+class WeatherTypeResponse {
+    type?: string;
 }

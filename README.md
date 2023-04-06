@@ -183,7 +183,7 @@ The Gateway Swagger appears as shown below:
 
 To call the **forecast** Route on the **weather service** Api,
 
-you can enter the Api key and Route key into Swagger as below:
+you can enter the **Api key** and **Route key** into Swagger as below:
 
 ![API Gateway Swagger](/Docs/ApiGatewayCall.PNG)
 
