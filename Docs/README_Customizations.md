@@ -79,7 +79,7 @@ Then, they are hooked up to **routes** in the **Api Orchestrator**.
                                 //Get using customize default HttpClient or your own custom HttpClient
                                 .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get using custom implementation
-                                .AddRoute("typescustom", GatewayVerb.GET, weatherService.GetTypes);
+                                .AddRoute("forecasts-custom", GatewayVerb.GET, weatherService.GetForecasts);
         }
     }
 ```

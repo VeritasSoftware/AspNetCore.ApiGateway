@@ -37,7 +37,7 @@ namespace ApiGateway.API
                                 //Get with param using custom HttpClient
                                 .AddRoute("type", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types/", ResponseType = typeof(WeatherTypeResponse), HttpClientConfig = weatherApiClientConfig })
                                 //Get using custom implementation
-                                .AddRoute("typescustom", GatewayVerb.GET, weatherService.GetForecasts)
+                                .AddRoute("forecasts-custom", GatewayVerb.GET, weatherService.GetForecasts)
                                 //Post
                                 .AddRoute("add", GatewayVerb.POST, new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[]) })
                                 //Put
