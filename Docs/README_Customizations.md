@@ -39,7 +39,7 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
         /// <param name="apiInfo">The api info</param>
         /// <param name="request">The gateway's incoming request</param>
         /// <returns></returns>
-        public async Task<object> GetTypes(ApiInfo apiInfo, HttpRequest request)
+        public async Task<object> GetForecasts(ApiInfo apiInfo, HttpRequest request)
         {
             //Create your own implementation to hit the backend.
             using (var client = new HttpClient())
@@ -53,6 +53,8 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
         }
     }
 ```
+
+See **HttpRequest** [here](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httprequest?view=aspnetcore-6.0).
 
 Wire up the WeatherService for injection.
 

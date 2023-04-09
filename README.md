@@ -107,7 +107,7 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
                                 //Get with param using custom HttpClient
                                 .AddRoute("type", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types/", ResponseType = typeof(WeatherTypeResponse), HttpClientConfig = weatherApiClientConfig })
                                 //Get using custom implementation
-                                .AddRoute("typescustom", GatewayVerb.GET, weatherService.GetTypes)
+                                .AddRoute("typescustom", GatewayVerb.GET, weatherService.GetForecasts)
                                 //Post
                                 .AddRoute("add", GatewayVerb.POST, new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
                                 //Put
