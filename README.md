@@ -39,7 +39,9 @@ The microservices architecture uses an Api Gateway as shown below.
 *   Request aggregation
 *   Middleware service
 *   Logging
-*   Clients available in .NET, Typescript
+*   Clients available in
+    *   .NET
+    *   Typescript
 
 ## Gateway as a Microservice Facade
 
@@ -107,7 +109,7 @@ You add a Route for the backend GET call in the **Api Orchrestrator**.
                                 //Get with param using custom HttpClient
                                 .AddRoute("type", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types/", ResponseType = typeof(WeatherTypeResponse), HttpClientConfig = weatherApiClientConfig })
                                 //Get using custom implementation
-                                .AddRoute("forecasts-custom", GatewayVerb.GET, weatherService.GetForecasts)
+                                .AddRoute("forecast-custom", GatewayVerb.GET, weatherService.GetForecast)
                                 //Post
                                 .AddRoute("add", GatewayVerb.POST, new RouteInfo { Path = "weatherforecast/types/add", RequestType = typeof(AddWeatherTypeRequest), ResponseType = typeof(string[])})
                                 //Put

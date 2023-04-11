@@ -39,7 +39,7 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
         /// <param name="apiInfo">The api info</param>
         /// <param name="request">The gateway's incoming request</param>
         /// <returns></returns>
-        public async Task<object> GetForecasts(ApiInfo apiInfo, HttpRequest request)
+        public async Task<object> GetForecast(ApiInfo apiInfo, HttpRequest request)
         {
             //Create your own implementation to hit the backend.
             using (var client = new HttpClient())
@@ -79,7 +79,7 @@ Then, they are hooked up to **routes** in the **Api Orchestrator**.
                                 //Get using customize default HttpClient or your own custom HttpClient
                                 .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get using custom implementation
-                                .AddRoute("forecasts-custom", GatewayVerb.GET, weatherService.GetForecasts);
+                                .AddRoute("forecast-custom", GatewayVerb.GET, weatherService.GetForecast);
         }
     }
 ```

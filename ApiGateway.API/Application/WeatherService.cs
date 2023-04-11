@@ -32,7 +32,7 @@ namespace ApiGateway.API
         /// <param name="apiInfo">The api info</param>
         /// <param name="request">The gateway's incoming request</param>
         /// <returns></returns>
-        public async Task<object> GetForecasts(ApiInfo apiInfo, HttpRequest request)
+        public async Task<object> GetForecast(ApiInfo apiInfo, HttpRequest request)
         {
             //Create your own implementation to hit the backend.
             using (var client = new HttpClient())

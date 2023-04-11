@@ -119,7 +119,7 @@ The endpoint response is like below:
         }
       },
       {
-        "key": "forecasts-custom",
+        "key": "forecast-custom",
         "verb": "GET",
         "downstreamPath": null,
         "requestJsonSchema": null,
