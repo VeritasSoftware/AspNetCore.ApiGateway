@@ -39,7 +39,14 @@ namespace AspNetCore.ApiGateway
                     .AddResultFilters()
                     .AddHubFilters();
 
-            services.AddHttpClient<IHttpService, HttpService>();
+            if (Options.DefaultHttpClientConfigure != null)
+            {
+                services.AddHttpClient<IHttpService, HttpService>(Options.DefaultHttpClientConfigure);
+            }
+            else
+            {
+                services.AddHttpClient<IHttpService, HttpService>();
+            }            
 
             services.AddApiGatewayResponseCaching();
 

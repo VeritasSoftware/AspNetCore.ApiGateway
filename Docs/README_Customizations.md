@@ -2,11 +2,21 @@
 
 You may want to customize your calls to the back end Apis.
 
-The library provides hooks to
+You can customize the default **HttpClient** used by all the routes, to hit the backend Api.
 
-*   Customize the default HttpClient which the endpoints use to hit the backend api.
-*	Use your own **HttpClient**.
-*	Use your own custom implementation of the back end Api call.
+```C#
+    //Api gateway
+    services.AddApiGateway(options =>
+    {
+        options.DefaultHttpClientConfigure = (sp, httpClient) => httpClient.DefaultRequestHeaders.Add("My header", "My header value");
+    });
+```
+
+Also, the library provides hooks to
+
+*   Customize the default HttpClient which each route uses to hit the backend Api.
+*	Use your own **HttpClient** for each route.
+*	Use your own custom implementation to hit the backend Api.
 
 For eg.
 
