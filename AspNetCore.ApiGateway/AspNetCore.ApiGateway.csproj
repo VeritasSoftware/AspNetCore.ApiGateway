@@ -4,7 +4,7 @@
     <TargetFrameworks>net6.0;net5.0</TargetFrameworks>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <Description>Framework to help build your own Api Gateway. Out of the box, simple Gateway facade. Swagger, Authorization, Event sourcing, Load balancing, Response caching, Web sockets, Logging and more support.</Description>
+    <Description>Framework to help build your own Api Gateway. Out of the box, simple Gateway as a Microservice facade. Swagger, Authorization, Event sourcing, Load balancing, Response caching, Web sockets, Logging and more support.</Description>
     <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
     <PackageTags>AspNetCore.ApiGateway Api Gateway asp net core 5, 6 library framework facade freeware swagger authorization, load balancing, event sourcing, Event Store, response caching, web sockets, action filters</PackageTags>
@@ -13,8 +13,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>3.6.1</Version>
-    <PackageReleaseNotes>Improved viewing api orchestration. No breaking changes.</PackageReleaseNotes>
+    <Version>3.6.2</Version>
+    <PackageReleaseNotes>Enhancements. No breaking changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
