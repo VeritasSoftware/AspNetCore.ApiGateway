@@ -16,7 +16,7 @@
 
 Read [more](https://github.com/dotnet-foundation/projects/issues/255).
 
-|**More of my open-source projects**|:---:|:---:|
+|**More of my open-source projects**|||
 |---------------------------|:---:|:---:|
 |*Live Health Checks*|Real-Time Api Health Check Monitoring system|[Live Health Checks](https://github.com/VeritasSoftware/LiveHealthChecks)|
 
