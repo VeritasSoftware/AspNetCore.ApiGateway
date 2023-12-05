@@ -1,15 +1,15 @@
-﻿using Newtonsoft.Json;
-using NJsonSchema;
+﻿using NJsonSchema;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace AspNetCore.ApiGateway
 {
     public class Orchestration
     {
-        [JsonProperty(Order = 1)]
+        [JsonPropertyOrder(1)]
         public string Api { get; set; }
 
-        [JsonProperty(Order = 2)]
+        [JsonPropertyOrder(2)]
         public OrchestationType OrchestrationType { get; set; }
 
         [JsonIgnore()]
@@ -30,7 +30,7 @@ namespace AspNetCore.ApiGateway
             OrchestrationType = OrchestationType.Api;
         }
 
-        [JsonProperty(Order = 2)]
+        [JsonPropertyOrder(2)]
         public IEnumerable<Route> ApiRoutes { get; set; }        
     }
 
@@ -41,7 +41,7 @@ namespace AspNetCore.ApiGateway
             OrchestrationType = OrchestationType.Hub;
         }
 
-        [JsonProperty(Order = 2)]
+        [JsonPropertyOrder(2)]
         public IEnumerable<HubRoute> HubRoutes { get; set; }
     }
 
@@ -52,64 +52,64 @@ namespace AspNetCore.ApiGateway
             OrchestrationType = OrchestationType.EventSource;
         }
 
-        [JsonProperty(Order = 2)]
+        [JsonPropertyOrder(2)]
         public IEnumerable<EventSourceRoute> EventSourceRoutes { get; set; }
     }
 
     public class RouteBase
     {
-        [JsonProperty(Order = 1)]
+        [JsonPropertyOrder(1)]
         public string Key { get; set; }
     }
 
     public class Route : RouteBase
     {
-        [JsonProperty(Order = 3)]
+        [JsonPropertyOrder(3)]
         public string Verb { get; set; }
 
-        [JsonProperty(Order = 4)]
+        [JsonPropertyOrder(4)]
         public string DownstreamPath { get; set; }
 
-        [JsonProperty(Order = 5)]
+        [JsonPropertyOrder(5)]
         public JsonSchema RequestJsonSchema { get; set; }
 
-        [JsonProperty(Order = 6)]
+        [JsonPropertyOrder(6)]
         public JsonSchema ResponseJsonSchema { get; set; }
     }
 
     public class HubRoute : RouteBase
     {
-        [JsonProperty(Order = 3)]
+        [JsonPropertyOrder(3)]
         public string InvokeMethod { get; set; }
 
-        [JsonProperty(Order = 4)]
-        public string ReceiveMethod { get; set; }        
+        [JsonPropertyOrder(4)]
+        public string ReceiveMethod { get; set; }
 
-        [JsonProperty(Order = 5)]
+        [JsonPropertyOrder(5)]
         public string ReceiveGroup { get; set; }
 
-        [JsonProperty(Order = 6)]
+        [JsonPropertyOrder(6)]
         public string BroadcastType { get; set; }
 
-        [JsonProperty(Order = 7)]
+        [JsonPropertyOrder(7)]
         public IEnumerable<string> ReceiveParameterTypes { get; set; }
     }
 
     public class EventSourceRoute : RouteBase
     {
-        [JsonProperty(Order = 3)]
+        [JsonPropertyOrder(3)]
         public string Type { get; set; }
 
-        [JsonProperty(Order = 4)]
+        [JsonPropertyOrder(4)]
         public string ReceiveMethod { get; set; }
 
-        [JsonProperty(Order = 5)]
+        [JsonPropertyOrder(5)]
         public string OperationType { get; set; }
 
-        [JsonProperty(Order = 6)]
+        [JsonPropertyOrder(6)]
         public string StreamName { get; set; }
 
-        [JsonProperty(Order = 7)]
+        [JsonPropertyOrder(7)]
         public string GroupName { get; set; }
     }
 

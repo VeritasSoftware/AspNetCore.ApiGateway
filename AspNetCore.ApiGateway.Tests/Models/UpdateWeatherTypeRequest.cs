@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AspNetCore.ApiGateway.Tests
 {
     public class UpdateWeatherTypeRequest
     {
-        [JsonProperty("weatherType")]
+        [JsonPropertyName("weatherType")]
         public string WeatherType { get; set; }
 
-        [JsonProperty("index")]
+        [JsonPropertyName("index")]
         public int Index { get; set; }
     }
 }

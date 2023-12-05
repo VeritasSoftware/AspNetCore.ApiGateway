@@ -1,7 +1,7 @@
 ﻿using AspNetCore.ApiGateway;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ApiGateway.API
@@ -41,7 +41,7 @@ namespace ApiGateway.API
 
                 response.EnsureSuccessStatusCode();
 
-                return JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+                return JsonSerializer.Deserialize<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
             }
         }
     }

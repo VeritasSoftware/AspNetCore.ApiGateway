@@ -3,10 +3,10 @@ using EventStore.ClientAPI.SystemData;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway.Application
@@ -130,7 +130,7 @@ namespace AspNetCore.ApiGateway.Application
 
         private async void EventAppeared(EventStorePersistentSubscriptionBase subscription, ResolvedEvent resolvedEvent)
         {
-            var strResolvedEvent = JsonConvert.SerializeObject(resolvedEvent, Formatting.Indented);
+            var strResolvedEvent = JsonSerializer.Serialize(resolvedEvent, new JsonSerializerOptions {  WriteIndented = true });
 
             await _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, strResolvedEvent);
         }

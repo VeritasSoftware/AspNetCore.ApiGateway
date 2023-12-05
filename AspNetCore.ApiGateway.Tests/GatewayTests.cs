@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Newtonsoft.Json;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -13,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Linq;
 using Microsoft.AspNetCore.JsonPatch;
+using System.Text.Json;
 
 namespace AspNetCore.ApiGateway.Tests
 {
@@ -68,7 +68,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var forecasts = JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+            var forecasts = JsonSerializer.Deserialize<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(forecasts.Length > 0);
         }
@@ -86,7 +86,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var forecasts = JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+            var forecasts = JsonSerializer.Deserialize<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(forecasts.Length > 0);
 
@@ -99,7 +99,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var stockQuotes = JsonConvert.DeserializeObject<StockQuote[]>(await response.Content.ReadAsStringAsync());
+            var stockQuotes = JsonSerializer.Deserialize<StockQuote[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(stockQuotes.Length > 0);
         }
@@ -116,7 +116,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var weatherType = JsonConvert.DeserializeObject<WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
+            var weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
 
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
@@ -127,7 +127,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            weatherType = JsonConvert.DeserializeObject<WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
+            weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
 
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
@@ -146,7 +146,7 @@ namespace AspNetCore.ApiGateway.Tests
                 WeatherType = "Windy"
             };
 
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var httprequest = new HttpRequestMessage
@@ -160,7 +160,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
+            var weatherTypes = JsonSerializer.Deserialize<string[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(weatherTypes.Last() == "Windy");
         }
@@ -179,7 +179,7 @@ namespace AspNetCore.ApiGateway.Tests
                 Index = 3
             };
 
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var httprequest = new HttpRequestMessage
@@ -200,7 +200,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
+            var weatherTypes = JsonSerializer.Deserialize<string[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(weatherTypes[3] == "Coooooooool");
         }        
@@ -216,7 +216,9 @@ namespace AspNetCore.ApiGateway.Tests
             JsonPatchDocument<WeatherForecast> jsonPatch = new JsonPatchDocument<WeatherForecast>();
             jsonPatch.Add(x => x.TemperatureC, 35);
 
-            var content = new StringContent(JsonConvert.SerializeObject(jsonPatch), Encoding.UTF8, "application/json-patch+json");
+            var jsonContent = JsonSerializer.Serialize(jsonPatch.Operations);
+
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
 
             var httprequest = new HttpRequestMessage
@@ -230,7 +232,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var weatherForecast = JsonConvert.DeserializeObject<WeatherForecast>(await response.Content.ReadAsStringAsync());
+            var weatherForecast = JsonSerializer.Deserialize<WeatherForecast>(await response.Content.ReadAsStringAsync());
 
             Assert.True(weatherForecast.TemperatureC == 35);
         }
@@ -254,7 +256,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var weatherTypes = JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync());
+            var weatherTypes = JsonSerializer.Deserialize<string[]>(await response.Content.ReadAsStringAsync());
 
             Assert.DoesNotContain(weatherTypes, x => x == "Freezing");
         }
@@ -297,7 +299,7 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var orchestration = JsonConvert.DeserializeObject<Orchestration[]>(await response.Content.ReadAsStringAsync());
+            var orchestration = JsonSerializer.Deserialize<Orchestration[]>(await response.Content.ReadAsStringAsync());
 
             Assert.True(orchestration.Length > 0);
         }

@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -82,9 +82,11 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
+                    var returnedContent = await response.Content.ReadAsStringAsync();
+
                     return Ok(routeInfo.ResponseType != null
-                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
-                        : await response.Content.ReadAsStringAsync());
+                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
+                        : returnedContent);
                 }
             }
         }
@@ -146,9 +148,11 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     response.EnsureSuccessStatusCode();
 
+                    var returnedContent = await response.Content.ReadAsStringAsync();
+
                     return Ok(routeInfo.ResponseType != null
-                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
-                        : await response.Content.ReadAsStringAsync());
+                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
+                        : returnedContent);
                 }
             }
         }
@@ -233,10 +237,12 @@ namespace AspNetCore.ApiGateway.Controllers
                     _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
 
                     response.EnsureSuccessStatusCode();
+                    
+                    var returnedContent = await response.Content.ReadAsStringAsync();
 
                     return Ok(routeInfo.ResponseType != null
-                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
-                        : await response.Content.ReadAsStringAsync());
+                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
+                        : returnedContent);
                 }
             }
         }
@@ -278,7 +284,7 @@ namespace AspNetCore.ApiGateway.Controllers
                     }
                     else
                     {
-                        var p = JsonConvert.SerializeObject(patch);
+                        var p = JsonSerializer.Serialize(patch.Operations);
 
                         content = new StringContent(p, Encoding.UTF8, "application/json-patch+json");
                     }
@@ -298,9 +304,11 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     response.EnsureSuccessStatusCode();
 
+                    var returnedContent = await response.Content.ReadAsStringAsync();
+
                     return Ok(routeInfo.ResponseType != null
-                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
-                        : await response.Content.ReadAsStringAsync());
+                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
+                        : returnedContent);
                 }
             }
         }
@@ -351,9 +359,11 @@ namespace AspNetCore.ApiGateway.Controllers
 
                     response.EnsureSuccessStatusCode();
 
+                    var returnedContent = await response.Content.ReadAsStringAsync();
+
                     return Ok(routeInfo.ResponseType != null
-                        ? JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType)
-                        : await response.Content.ReadAsStringAsync());
+                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
+                        : returnedContent);
                 }
             }
         }

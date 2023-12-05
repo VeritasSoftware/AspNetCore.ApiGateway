@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Net;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -19,7 +19,7 @@ namespace AspNetCore.ApiGateway
 
         private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
-            var result = JsonConvert.SerializeObject(new { error = ex.InnerException?.Message ?? ex.Message });
+            var result = JsonSerializer.Serialize(new { error = ex.InnerException?.Message ?? ex.Message });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             await context.Response.WriteAsync(result);

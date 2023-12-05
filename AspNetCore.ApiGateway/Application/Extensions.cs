@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net.Http.Headers;
 using AspNetCore.ApiGateway.Application.HubFilters;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
 
 namespace AspNetCore.ApiGateway
 {
@@ -252,7 +252,7 @@ namespace AspNetCore.ApiGateway
         internal static void LogApiInfo(this ILogger<ApiGatewayLog> logger, string api, string key, string parameters, object request = null)
         {
             if (request != null)
-                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {JsonConvert.SerializeObject(request)}, parameters: {parameters}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {JsonSerializer.Serialize(request)}, parameters: {parameters}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
             else
                 logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
         }

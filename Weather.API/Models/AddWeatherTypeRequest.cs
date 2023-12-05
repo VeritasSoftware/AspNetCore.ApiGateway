@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Weather.API
 {
     public class AddWeatherTypeRequest
     {
-        [JsonProperty("weatherType")]
+        [JsonPropertyName("weatherType")]
         public string WeatherType { get; set; }
     }
 }
