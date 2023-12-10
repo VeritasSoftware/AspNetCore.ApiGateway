@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -46,49 +49,13 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncResultFilterAttribute))]
         public async Task<IActionResult> Get(string api, string key, string parameters = null)
         {
-            if (parameters != null)
-                parameters = HttpUtility.UrlDecode(parameters);
-            else
-                parameters = string.Empty;
-
-            _logger.LogApiInfo(api, key, parameters);
-
-            var apiInfo = _apiOrchestrator.GetApi(api, true);
-
-            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
-
-            var routeInfo = gwRouteInfo.Route;
-
-            if (routeInfo.Exec != null)
-            {
-                return Ok(await routeInfo.Exec(apiInfo, this.Request));
-            }
-            else
-            {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient())
-                {                    
-                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
-
-                    if (client == null)
-                    {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
-                    }
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
-
-                    var response = await (client??_httpService.Client).GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}");
-
-                    response.EnsureSuccessStatusCode();
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
-
-                    var returnedContent = await response.Content.ReadAsStringAsync();
-
-                    return Ok(routeInfo.ResponseType != null
-                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
-                        : returnedContent);
-                }
-            }
+            return await ProcessAsync(
+                                        api,
+                                        key,
+                                        (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}"),
+                                        null,
+                                        parameters
+                                     );           
         }
 
         [HttpPost]
@@ -98,63 +65,14 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayPostAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPostAsyncResultFilterAttribute))]
         public async Task<IActionResult> Post(string api, string key, object request, string parameters = null)
-        {            
-            if (parameters != null)
-                parameters = HttpUtility.UrlDecode(parameters);
-            else
-                parameters = string.Empty;
-
-            _logger.LogApiInfo(api, key, parameters, request);
-
-            var apiInfo = _apiOrchestrator.GetApi(api, true);
-
-            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
-
-            var routeInfo = gwRouteInfo.Route;
-
-            if (routeInfo.Exec != null)
-            {
-                return Ok(await routeInfo.Exec(apiInfo, this.Request));
-            }
-            else
-            {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient())
-                {                    
-                    HttpContent content = null;
-
-                    if (routeInfo.HttpClientConfig?.HttpContent != null)
-                    {
-                        content = routeInfo.HttpClientConfig.HttpContent();
-                    }
-                    else
-                    {
-                        content = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
-
-                        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    }
-
-                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
-
-                    if (client == null)
-                    {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
-                    }
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
-
-                    var response = await (client ?? _httpService.Client).PostAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content);
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
-
-                    response.EnsureSuccessStatusCode();
-
-                    var returnedContent = await response.Content.ReadAsStringAsync();
-
-                    return Ok(routeInfo.ResponseType != null
-                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
-                        : returnedContent);
-                }
-            }
+        {
+            return await ProcessAsync(
+                                        api,
+                                        key,
+                                        (client, apiInfo, routeInfo, content) => client.PostAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
+                                        request, 
+                                        parameters
+                                     );            
         }
 
         [HttpPost]
@@ -164,7 +82,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayHubPostAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayHubPostAsyncResultFilterAttribute))]
         public async Task PostHub(string api, string key, params object[] request)
-        {
+        {            
             _logger.LogApiInfo(api, key, "", request);
 
             var hubInfo = _apiOrchestrator.GetHub(api);
@@ -188,63 +106,14 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayPutAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPutAsyncResultFilterAttribute))]
         public async Task<IActionResult> Put(string api, string key, object request, string parameters = null)
-        {            
-            if (parameters != null)
-                parameters = HttpUtility.UrlDecode(parameters);
-            else
-                parameters = string.Empty;
-
-            _logger.LogApiInfo(api, key, parameters, request);
-
-            var apiInfo = _apiOrchestrator.GetApi(api, true);
-
-            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
-
-            var routeInfo = gwRouteInfo.Route;
-
-            if (routeInfo.Exec != null)
-            {
-                return Ok(await routeInfo.Exec(apiInfo, this.Request));
-            }
-            else
-            {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient())
-                {                    
-                    HttpContent content = null;
-
-                    if (routeInfo.HttpClientConfig?.HttpContent != null)
-                    {
-                        content = routeInfo.HttpClientConfig.HttpContent();
-                    }
-                    else
-                    {
-                        content = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
-
-                        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    }
-
-                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
-
-                    if (client == null)
-                    {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
-                    }
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
-
-                    var response = await (client ?? _httpService.Client).PutAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content);
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
-
-                    response.EnsureSuccessStatusCode();
-                    
-                    var returnedContent = await response.Content.ReadAsStringAsync();
-
-                    return Ok(routeInfo.ResponseType != null
-                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
-                        : returnedContent);
-                }
-            }
+        {
+            return await ProcessAsync(
+                                        api,
+                                        key,
+                                        (client, apiInfo, routeInfo, content) => client.PutAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
+                                        request,
+                                        parameters
+                                     );            
         }
 
         [HttpPatch]
@@ -254,7 +123,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayPatchAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPatchAsyncResultFilterAttribute))]
         public async Task<IActionResult> Patch(string api, string key, [FromBody] JsonPatchDocument<object> patch, string parameters = null)
-        {
+        {            
             if (parameters != null)
                 parameters = HttpUtility.UrlDecode(parameters);
             else
@@ -321,51 +190,13 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayDeleteAsyncResultFilterAttribute))]
         public async Task<IActionResult> Delete(string api, string key, string parameters = null)
         {
-            if (parameters != null)
-            {
-                parameters = HttpUtility.UrlDecode(parameters);
-            }
-            else
-                parameters = string.Empty;
-
-            _logger.LogApiInfo(api, key, parameters);
-
-            var apiInfo = _apiOrchestrator.GetApi(api, true);
-
-            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
-
-            var routeInfo = gwRouteInfo.Route;
-
-            if (routeInfo.Exec != null)
-            {
-                return Ok(await routeInfo.Exec(apiInfo, this.Request));
-            }
-            else
-            {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient())
-                {                    
-                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
-
-                    if (client == null)
-                    {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
-                    }
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
-
-                    var response = await (client ?? _httpService.Client).DeleteAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}");
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
-
-                    response.EnsureSuccessStatusCode();
-
-                    var returnedContent = await response.Content.ReadAsStringAsync();
-
-                    return Ok(routeInfo.ResponseType != null
-                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
-                        : returnedContent);
-                }
-            }
+            return await ProcessAsync(
+                                        api,
+                                        key,
+                                        (client, apiInfo, routeInfo, content) => client.DeleteAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}"),
+                                        null,
+                                        parameters
+                                     );
         }
 
         [HttpGet]
@@ -392,5 +223,73 @@ namespace AspNetCore.ApiGateway.Controllers
 
             return Ok(orchestrations);
         }
+
+    private async Task<IActionResult> ProcessAsync(
+                        string api,
+                        string key,
+                        Func<HttpClient, ApiInfo, RouteInfo, HttpContent, Task<HttpResponseMessage>> backEndCall,
+                        object request = null,
+                        string parameters = null)
+    {
+        if (parameters != null)
+            parameters = HttpUtility.UrlDecode(parameters);
+        else
+            parameters = string.Empty;
+
+        _logger.LogApiInfo(api, key, parameters, request);
+
+        var apiInfo = _apiOrchestrator.GetApi(api, true);
+
+        var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
+
+        var routeInfo = gwRouteInfo.Route;
+
+        if (routeInfo.Exec != null)
+        {
+            return Ok(await routeInfo.Exec(apiInfo, this.Request));
+        }
+        else
+        {
+            using (var client = routeInfo.HttpClientConfig?.HttpClient())
+            {
+                HttpContent content = null;
+
+                if (request != null)
+                {
+                    if (routeInfo.HttpClientConfig?.HttpContent != null)
+                    {
+                        content = routeInfo.HttpClientConfig.HttpContent();
+                    }
+                    else
+                    {
+                        content = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
+
+                        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    }
+                }
+
+                this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
+
+                if (client == null)
+                {
+                    routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
+                }
+
+                _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
+
+                var response = await backEndCall((client ?? _httpService.Client), apiInfo, routeInfo, content);
+
+                _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
+
+                response.EnsureSuccessStatusCode();
+
+                var returnedContent = await response.Content.ReadAsStringAsync();
+
+                return Ok(routeInfo.ResponseType != null
+                    ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
+                    : returnedContent);
+            }
+        }
+    }
     }
 }
