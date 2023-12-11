@@ -54,6 +54,7 @@ namespace AspNetCore.ApiGateway.Controllers
                                         key,
                                         (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}"),
                                         null,
+                                        null,
                                         parameters
                                      );           
         }
@@ -70,6 +71,7 @@ namespace AspNetCore.ApiGateway.Controllers
                                         api,
                                         key,
                                         (client, apiInfo, routeInfo, content) => client.PostAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
+                                        null,
                                         request, 
                                         parameters
                                      );            
@@ -111,6 +113,7 @@ namespace AspNetCore.ApiGateway.Controllers
                                         api,
                                         key,
                                         (client, apiInfo, routeInfo, content) => client.PutAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
+                                        null,
                                         request,
                                         parameters
                                      );            
@@ -123,63 +126,20 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayPatchAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPatchAsyncResultFilterAttribute))]
         public async Task<IActionResult> Patch(string api, string key, [FromBody] JsonPatchDocument<object> patch, string parameters = null)
-        {            
-            if (parameters != null)
-                parameters = HttpUtility.UrlDecode(parameters);
-            else
-                parameters = string.Empty;
+        {
+            return await ProcessAsync(
+                                        api,
+                                        key,
+                                        (client, apiInfo, routeInfo, content) => client.PatchAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
+                                        request =>
+                                        {
+                                            var p = JsonSerializer.Serialize(request);
 
-            _logger.LogApiInfo(api, key, parameters, patch.ToString());
-
-            var apiInfo = _apiOrchestrator.GetApi(api, true);
-
-            var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
-
-            var routeInfo = gwRouteInfo.Route;
-
-            if (routeInfo.Exec != null)
-            {
-                return Ok(await routeInfo.Exec(apiInfo, this.Request));
-            }
-            else
-            {
-                using (var client = routeInfo.HttpClientConfig?.HttpClient())
-                {                    
-                    HttpContent content = null;
-
-                    if (routeInfo.HttpClientConfig?.HttpContent != null)
-                    {
-                        content = routeInfo.HttpClientConfig.HttpContent();
-                    }
-                    else
-                    {
-                        var p = JsonSerializer.Serialize(patch.Operations);
-
-                        content = new StringContent(p, Encoding.UTF8, "application/json-patch+json");
-                    }
-
-                    this.Request.Headers?.AddRequestHeaders((client ?? _httpService.Client).DefaultRequestHeaders);
-
-                    if (client == null)
-                    {
-                        routeInfo.HttpClientConfig?.CustomizeDefaultHttpClient?.Invoke(_httpService.Client, this.Request);
-                    }
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}");
-
-                    var response = await (client ?? _httpService.Client).PatchAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content);
-
-                    _logger.LogApiInfo($"{apiInfo.BaseUrl}{routeInfo.Path}{parameters}", false);
-
-                    response.EnsureSuccessStatusCode();
-
-                    var returnedContent = await response.Content.ReadAsStringAsync();
-
-                    return Ok(routeInfo.ResponseType != null
-                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
-                        : returnedContent);
-                }
-            }
+                                            return new StringContent(p, Encoding.UTF8, "application/json-patch+json");
+                                        },
+                                        patch.Operations,
+                                        parameters
+                                     );            
         }
 
         [HttpDelete]
@@ -194,6 +154,7 @@ namespace AspNetCore.ApiGateway.Controllers
                                         api,
                                         key,
                                         (client, apiInfo, routeInfo, content) => client.DeleteAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}"),
+                                        null,
                                         null,
                                         parameters
                                      );
@@ -228,6 +189,7 @@ namespace AspNetCore.ApiGateway.Controllers
                         string api,
                         string key,
                         Func<HttpClient, ApiInfo, RouteInfo, HttpContent, Task<HttpResponseMessage>> backEndCall,
+                        Func<object, StringContent> getContent = null,
                         object request = null,
                         string parameters = null)
     {
@@ -262,9 +224,16 @@ namespace AspNetCore.ApiGateway.Controllers
                     }
                     else
                     {
-                        content = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
+                        if (getContent != null)
+                        {
+                            content = getContent(request);
+                        }
+                        else
+                        {
+                            content = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
 
-                        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                        }                        
                     }
                 }
 
