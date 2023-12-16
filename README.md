@@ -47,7 +47,7 @@ The microservices architecture uses an Api Gateway as shown below.
     *   .NET
     *   Typescript
 
-## Gateway as a Microservice Facade
+## Gateway as a RESTful Microservice Facade
 
 ### Your **Gateway API** is a microservice which exposes endpoints that are a **facade** over your backend API endpoints.
 
