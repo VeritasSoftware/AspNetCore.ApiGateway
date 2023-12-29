@@ -22,7 +22,7 @@ Read [more](https://github.com/dotnet-foundation/projects/issues/255).
 
 ### Brief solution walkthrough and demo
 
-![](/Docs/SolutionWalkthroughAndDemo.mp4)
+![](https://watch.screencastify.com/v/eOVuccGGi1gRDNJRyNMA)
 
 ## Background
 
