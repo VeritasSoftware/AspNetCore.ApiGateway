@@ -20,7 +20,7 @@ Read [more](https://github.com/dotnet-foundation/projects/issues/255).
 |---------------------------|:---:|:---:|
 |*Live Health Checks*|Real-Time Api Health Check Monitoring system|[Live Health Checks](https://github.com/VeritasSoftware/LiveHealthChecks)|
 
-![Brief solution walkthrough and demo](https://watch.screencastify.com/v/eOVuccGGi1gRDNJRyNMA)
+[Brief solution walkthrough and demo](https://watch.screencastify.com/v/eOVuccGGi1gRDNJRyNMA)
 
 ## Background
 
