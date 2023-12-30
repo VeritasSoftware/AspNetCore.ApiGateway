@@ -9,7 +9,7 @@ In your Gateway API project,
 ### you can hook into a common result filter by implementing the below interface.
 
 ```C#
-Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key, string verb);
+Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey, string verb);
 ```
 
 See **ResultExecutingContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.resultexecutingcontext?view=aspnetcore-6.0).
@@ -23,7 +23,7 @@ In your Gateway API project,
 ```C#
     public class ResultFilterService : IGatewayResultFilter
     {
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key, string verb)
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey, string verb)
         {
             //modify result here
 
@@ -44,7 +44,7 @@ services.AddApiGateway();
 ### you can hook into each verb's endpoint result filter by implementing the below interfaces.
 
 ```C#
-Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key);
+Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey);
 ```
 
 ### GET / HEAD
@@ -85,7 +85,7 @@ In your Gateway API project,
 ```C#
     public class PostResultFilterService : IPostGatewayResultFilter
     {
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key)
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey)
         {
             //modify result here
 

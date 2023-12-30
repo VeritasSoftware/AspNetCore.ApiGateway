@@ -6,7 +6,7 @@ namespace ApiGateway.API.Application.ActionFilters
 {
     public class ExceptionFilterService : IGatewayExceptionFilter
     {
-        public async Task OnExceptionAsync(ExceptionContext context, string api, string key, string verb)
+        public async Task OnExceptionAsync(ExceptionContext context, string apiKey, string routeKey, string verb)
         {
             //handle exception here
 
@@ -16,7 +16,7 @@ namespace ApiGateway.API.Application.ActionFilters
 
     public class PostExceptionFilterService : IPostGatewayExceptionFilter
     {
-        public async Task OnExceptionAsync(ExceptionContext context, string api, string key)
+        public async Task OnExceptionAsync(ExceptionContext context, string apiKey, string routeKey)
         {
             //handle exception here
 

@@ -7,7 +7,7 @@ In your Gateway API project,
 ### you can hook into middleware service by implementing the below interface.
 
 ```C#
-Task Invoke(HttpContext context, string api, string key);
+Task Invoke(HttpContext context, string apiKey, string routeKey);
 ```
 
 ### Example
@@ -19,7 +19,7 @@ In your Gateway API project,
 ```C#
     public class GatewayMiddlewareService : IGatewayMiddleware
     {
-        public async Task Invoke(HttpContext context, string api, string key)
+        public async Task Invoke(HttpContext context, string apiKey, string routeKey)
         {
             //do your work here
 

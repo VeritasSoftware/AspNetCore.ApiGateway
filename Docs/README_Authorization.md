@@ -11,7 +11,7 @@ In your Gateway API project,
 ### you can hook into a common authorization by implementing the below interface.
 
 ```C#
-Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key, string verb);
+Task AuthorizeAsync(AuthorizationFilterContext context, string apiKey, string routeKey, string verb);
 ```
 
 See **AuthorizationFilterContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.authorizationfiltercontext?view=aspnetcore-6.0).
@@ -25,7 +25,7 @@ In your Gateway API project,
 ```C#
     public class AuthorizationService : IGatewayAuthorization
     {
-        public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key, string verb)
+        public async Task AuthorizeAsync(AuthorizationFilterContext context, string apiKey, string routeKey, string verb)
         {
             //Put your authorization here
 
@@ -46,7 +46,7 @@ services.AddApiGateway();
 ### you can hook into each verb's endpoint authorization by implementing the below interfaces.
 
 ```C#
-Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
+Task AuthorizeAsync(AuthorizationFilterContext context, string apiKey, string routeKey)
 ```
 
 ### GET / HEAD
@@ -82,7 +82,7 @@ In your Gateway API project,
 ```C#
     public class GetAuthorizationService : IGetOrHeadGatewayAuthorization
     {
-        public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
+        public async Task AuthorizeAsync(AuthorizationFilterContext context, string apiKey, string routeKey)
         {
             //Put your authorization here
 

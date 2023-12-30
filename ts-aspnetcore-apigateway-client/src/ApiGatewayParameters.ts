@@ -1,8 +1,8 @@
 import { ApiGatewayHeaders } from "./ApiGatewayHeaders";
 
 export class ApiGatewayParameters {
-    Api?: string = "";
-    Key?: string = "";
+    ApiKey?: string = "";
+    RouteKey?: string = "";
     Parameters?: string = "";
     Headers?: ApiGatewayHeaders;
 }

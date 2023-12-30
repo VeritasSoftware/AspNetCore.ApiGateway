@@ -42,16 +42,16 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         [HttpGetOrHead]
-        [Route("{api}/{key}")]
+        [Route("{apiKey}/{routeKey}")]
         [ServiceFilter(typeof(GatewayGetOrHeadAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncResultFilterAttribute))]
-        public async Task<IActionResult> Get(string api, string key, string parameters = null)
+        public async Task<IActionResult> Get(string apiKey, string routeKey, string parameters = null)
         {
             return await ProcessAsync(
-                                        api,
-                                        key,
+                                        apiKey,
+                                        routeKey,
                                         (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}"),
                                         null,
                                         null,
@@ -60,16 +60,16 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         [HttpPost]
-        [Route("{api}/{key}")]
+        [Route("{apiKey}/{routeKey}")]
         [ServiceFilter(typeof(GatewayPostAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayPostAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPostAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPostAsyncResultFilterAttribute))]
-        public async Task<IActionResult> Post(string api, string key, object request, string parameters = null)
+        public async Task<IActionResult> Post(string apiKey, string routeKey, object request, string parameters = null)
         {
             return await ProcessAsync(
-                                        api,
-                                        key,
+                                        apiKey,
+                                        routeKey,
                                         (client, apiInfo, routeInfo, content) => client.PostAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
                                         null,
                                         request, 
@@ -78,18 +78,18 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         [HttpPost]
-        [Route("hub/{api}/{key}")]
+        [Route("hub/{apiKey}/{routeKey}")]
         [ServiceFilter(typeof(GatewayHubPostAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayHubPostAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayHubPostAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayHubPostAsyncResultFilterAttribute))]
-        public async Task PostHub(string api, string key, params object[] request)
+        public async Task PostHub(string apiKey, string routeKey, params object[] request)
         {            
-            _logger.LogApiInfo(api, key, "", request);
+            _logger.LogApiInfo(apiKey, routeKey, "", request);
 
-            var hubInfo = _apiOrchestrator.GetHub(api);
+            var hubInfo = _apiOrchestrator.GetHub(apiKey);
 
-            var gwRouteInfo = hubInfo.Mediator.GetRoute(key);           
+            var gwRouteInfo = hubInfo.Mediator.GetRoute(routeKey);           
 
             var connection = hubInfo.Connection;
 
@@ -102,16 +102,16 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         [HttpPut]
-        [Route("{api}/{key}")]
+        [Route("{apiKey}/{routeKey}")]
         [ServiceFilter(typeof(GatewayPutAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayPutAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPutAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPutAsyncResultFilterAttribute))]
-        public async Task<IActionResult> Put(string api, string key, object request, string parameters = null)
+        public async Task<IActionResult> Put(string apiKey, string routeKey, object request, string parameters = null)
         {
             return await ProcessAsync(
-                                        api,
-                                        key,
+                                        apiKey,
+                                        routeKey,
                                         (client, apiInfo, routeInfo, content) => client.PutAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
                                         null,
                                         request,
@@ -120,16 +120,16 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         [HttpPatch]
-        [Route("{api}/{key}")]
+        [Route("{apiKey}/{routeKey}")]
         [ServiceFilter(typeof(GatewayPatchAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayPatchAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPatchAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayPatchAsyncResultFilterAttribute))]
-        public async Task<IActionResult> Patch(string api, string key, [FromBody] JsonPatchDocument<object> patch, string parameters = null)
+        public async Task<IActionResult> Patch(string apiKey, string routeKey, [FromBody] JsonPatchDocument<object> patch, string parameters = null)
         {
             return await ProcessAsync(
-                                        api,
-                                        key,
+                                        apiKey,
+                                        routeKey,
                                         (client, apiInfo, routeInfo, content) => client.PatchAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}", content),
                                         request =>
                                         {
@@ -143,16 +143,16 @@ namespace AspNetCore.ApiGateway.Controllers
         }
 
         [HttpDelete]
-        [Route("{api}/{key}")]
+        [Route("{apiKey}/{routeKey}")]
         [ServiceFilter(typeof(GatewayDeleteAuthorizeAttribute))]
         [ServiceFilter(typeof(GatewayDeleteAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayDeleteAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayDeleteAsyncResultFilterAttribute))]
-        public async Task<IActionResult> Delete(string api, string key, string parameters = null)
+        public async Task<IActionResult> Delete(string apiKey, string routeKey, string parameters = null)
         {
             return await ProcessAsync(
-                                        api,
-                                        key,
+                                        apiKey,
+                                        routeKey,
                                         (client, apiInfo, routeInfo, content) => client.DeleteAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(this.Request) : routeInfo.Path + parameters)}"),
                                         null,
                                         null,
@@ -167,27 +167,27 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayGetOrchestrationAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrchestrationAsyncResultFilterAttribute))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Orchestration>))]
-        public async Task<IActionResult> GetOrchestration(string api = null, string key = null)
+        public async Task<IActionResult> GetOrchestration(string apiKey = null, string routeKey = null)
         {
-            api = api?.ToLower();
-            key = key?.ToLower();
+            apiKey = apiKey?.ToLower();
+            routeKey = routeKey?.ToLower();
 
-            var orchestrations = await Task.FromResult(string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key)
+            var orchestrations = await Task.FromResult(string.IsNullOrEmpty(apiKey) && string.IsNullOrEmpty(routeKey)
                                                 ? _apiOrchestrator.Orchestration
-                                                : (!string.IsNullOrEmpty(api) && string.IsNullOrEmpty(key)
-                                                ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
-                                                : (string.IsNullOrEmpty(api) && !string.IsNullOrEmpty(key)
-                                                ? _apiOrchestrator.Orchestration?.Where(x => x.Routes.Any(y => y.Key.Contains(key.Trim())))
-                                                                                 .Select(x => x.FilterRoutes(key))
-                                                : _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(api.Trim()))
-                                                                                 .Select(x => x.FilterRoutes(key)))));
+                                                : (!string.IsNullOrEmpty(apiKey) && string.IsNullOrEmpty(routeKey)
+                                                ? _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(apiKey.Trim()))
+                                                : (string.IsNullOrEmpty(apiKey) && !string.IsNullOrEmpty(routeKey)
+                                                ? _apiOrchestrator.Orchestration?.Where(x => x.Routes.Any(y => y.Key.Contains(routeKey.Trim())))
+                                                                                 .Select(x => x.FilterRoutes(routeKey))
+                                                : _apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(apiKey.Trim()))
+                                                                                 .Select(x => x.FilterRoutes(routeKey)))));
 
             return Ok(orchestrations);
         }
 
-    private async Task<IActionResult> ProcessAsync(
-                        string api,
-                        string key,
+        private async Task<IActionResult> ProcessAsync(
+                        string apiKey,
+                        string routeKey,
                         Func<HttpClient, ApiInfo, RouteInfo, HttpContent, Task<HttpResponseMessage>> backEndCall,
                         Func<object, StringContent> getContent = null,
                         object request = null,
@@ -198,11 +198,11 @@ namespace AspNetCore.ApiGateway.Controllers
         else
             parameters = string.Empty;
 
-        _logger.LogApiInfo(api, key, parameters, request);
+        _logger.LogApiInfo(apiKey, routeKey, parameters, request);
 
-        var apiInfo = _apiOrchestrator.GetApi(api, true);
+        var apiInfo = _apiOrchestrator.GetApi(apiKey, true);
 
-        var gwRouteInfo = apiInfo.Mediator.GetRoute(key);
+        var gwRouteInfo = apiInfo.Mediator.GetRoute(routeKey);
 
         var routeInfo = gwRouteInfo.Route;
 

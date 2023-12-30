@@ -40,8 +40,8 @@ import { ApiGatewayClient, ApiGatewayClientSettings, ApiGatewayHeaders,
     headers.add("Authorization", "bearer wq298cjwosos==");
 
     let params = new ApiGatewayParameters();
-    params.Api = "weatherservice";
-    params.Key = "forecast";
+    params.ApiKey = "weatherservice";
+    params.RouteKey = "forecast";
     params.Headers = headers;
 
     let forecasts = await client.GetAsync<WeatherForecast[]>(params);

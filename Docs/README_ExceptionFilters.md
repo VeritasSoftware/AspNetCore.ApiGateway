@@ -9,7 +9,7 @@ In your Gateway API project,
 ### you can hook into a common exception filter by implementing the below interface.
 
 ```C#
-Task OnExceptionAsync(ExceptionContext context, string api, string key, string verb);
+Task OnExceptionAsync(ExceptionContext context, string apiKey, string routeKey, string verb);
 ```
 
 See **ExceptionContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.exceptioncontext?view=aspnetcore-6.0).
@@ -23,7 +23,7 @@ In your Gateway API project,
 ```C#
     public class ExceptionFilterService : IGatewayExceptionFilter
     {
-        public async Task OnExceptionAsync(ExceptionContext context, string api, string key, string verb)
+        public async Task OnExceptionAsync(ExceptionContext context, string apiKey, string routeKey, string verb)
         {
             //handle exception here
 
@@ -44,7 +44,7 @@ services.AddApiGateway();
 ### you can hook into each verb's endpoint exception filter by implementing the below interfaces.
 
 ```C#
-Task OnExceptionAsync(ExceptionContext context, string api, string key);
+Task OnExceptionAsync(ExceptionContext context, string apiKey, string routeKey);
 ```
 
 ### GET / HEAD
@@ -85,7 +85,7 @@ In your Gateway API project,
 ```C#
     public class PostExceptionFilterService : IPostGatewayExceptionFilter
     {
-        public async Task OnExceptionAsync(ExceptionContext context, string api, string key)
+        public async Task OnExceptionAsync(ExceptionContext context, string apiKey, string routeKey)
         {
             //handle exception here
 

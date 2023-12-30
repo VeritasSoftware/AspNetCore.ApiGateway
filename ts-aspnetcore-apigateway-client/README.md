@@ -15,7 +15,9 @@
 *   Request aggregation
 *   Middleware service
 *   Logging
-*   Clients available in .NET, Typescript
+*   Clients available in
+    *   .NET
+    *   Typescript
 
 ## Documentation on Client
 

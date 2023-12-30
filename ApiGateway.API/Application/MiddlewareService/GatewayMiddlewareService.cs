@@ -9,7 +9,7 @@ namespace ApiGateway.API.Application.MiddlewareService
 {
     public class GatewayMiddlewareService : IGatewayMiddleware
     {
-        public async Task Invoke(HttpContext context, string api, string key)
+        public async Task Invoke(HttpContext context, string apiKey, string routeKey)
         {
             //do your work here
 

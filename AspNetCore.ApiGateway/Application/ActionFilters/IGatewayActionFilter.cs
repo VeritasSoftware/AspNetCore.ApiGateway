@@ -5,12 +5,12 @@ namespace AspNetCore.ApiGateway.Application.ActionFilters
 {
     public interface IGatewayActionFilter
     {
-        Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key, string verb);
+        Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb);
     }
 
     public interface IGatewayVerbActionFilter
     {
-        Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key);
+        Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey);
     }
 
     public interface IGetOrHeadGatewayActionFilter : IGatewayVerbActionFilter

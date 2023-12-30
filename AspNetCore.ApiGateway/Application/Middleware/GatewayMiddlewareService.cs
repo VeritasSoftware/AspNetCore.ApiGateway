@@ -25,8 +25,8 @@ namespace AspNetCore.ApiGateway.Middleware
 
                 if (segmentsMatch.Success)
                 {
-                    var api = segmentsMatch.Groups["api"].Captures[0].Value;
-                    var key = segmentsMatch.Groups["key"].Captures[0].Value;
+                    var api = segmentsMatch.Groups["apiKey"].Captures[0].Value;
+                    var key = segmentsMatch.Groups["routeKey"].Captures[0].Value;
 
                     await gatewayMiddleware.Invoke(context, api.ToString(), key.ToString());
                 }

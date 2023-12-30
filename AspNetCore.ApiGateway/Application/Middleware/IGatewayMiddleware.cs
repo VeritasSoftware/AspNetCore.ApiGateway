@@ -5,6 +5,6 @@ namespace AspNetCore.ApiGateway.Middleware
 {
     public interface IGatewayMiddleware
     {
-        Task Invoke(HttpContext context, string api, string key);
+        Task Invoke(HttpContext context, string apiKey, string routeKey);
     }
 }

@@ -61,7 +61,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }
 
     async GetAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.ApiKey}/${parameters.RouteKey}?parameters=${parameters.Parameters??""}`;
         
         let headers = new Headers();
         if (parameters.Headers)
@@ -77,7 +77,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }
 
     async PostAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse | null> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.ApiKey}/${parameters.RouteKey}?parameters=${parameters.Parameters??""}`;
         
         let headers = new Headers();
         if (parameters.Headers)
@@ -101,7 +101,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }
     
     async PutAsync<TPayload, TResponse>(parameters: ApiGatewayParameters, data: TPayload): Promise<TResponse | null> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.ApiKey}/${parameters.RouteKey}?parameters=${parameters.Parameters??""}`;
         
         let headers = new Headers();
         if (parameters.Headers)
@@ -125,7 +125,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }    
     
     async PatchAsync<TResponse>(parameters: ApiGatewayParameters, data: JsonPatchOperation[]): Promise<TResponse | null> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.ApiKey}/${parameters.RouteKey}?parameters=${parameters.Parameters??""}`;
         
         let headers = new Headers();
         if (parameters.Headers)
@@ -149,7 +149,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
     } 
 
     async DeleteAsync<TResponse>(parameters: ApiGatewayParameters): Promise<TResponse | null> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.Api}/${parameters.Key}?parameters=${parameters.Parameters??""}`;
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/${parameters.ApiKey}/${parameters.RouteKey}?parameters=${parameters.Parameters??""}`;
         
         let headers = new Headers();
         if (parameters.Headers)
@@ -170,7 +170,7 @@ export class ApiGatewayClient implements IApiGatewayClient {
     }
 
     async GetOrchestrationAsync(parameters: ApiGatewayParameters): Promise<Orchestration[]> {
-        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/orchestration?api=${parameters.Api}&key=${parameters.Key}`;
+        let gatewayUrl = `${this._settings.ApiGatewayBaseUrl}/api/Gateway/orchestration?api=${parameters.ApiKey}&key=${parameters.RouteKey}`;
         
         let headers = new Headers();
         if (parameters.Headers)

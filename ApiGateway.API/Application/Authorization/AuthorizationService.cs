@@ -6,7 +6,7 @@ namespace ApiGateway.API.Application.Authorization
 {
     public class AuthorizationService : IGatewayAuthorization
     {
-        public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key, string verb)
+        public async Task AuthorizeAsync(AuthorizationFilterContext context, string apiKey, string routeKey, string verb)
         {
             //Put your authorization here
 
@@ -16,7 +16,7 @@ namespace ApiGateway.API.Application.Authorization
 
     public class GetAuthorizationService : IGetOrHeadGatewayAuthorization
     {
-        public async Task AuthorizeAsync(AuthorizationFilterContext context, string api, string key)
+        public async Task AuthorizeAsync(AuthorizationFilterContext context, string apiKey, string routeKey)
         {
             //Put your authorization here
 

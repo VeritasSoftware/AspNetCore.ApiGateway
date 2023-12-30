@@ -9,7 +9,7 @@ In your Gateway API project,
 ### you can hook into a common action filter by implementing the below interface.
 
 ```C#
-Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key, string verb);
+Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb);
 ```
 
 See **ActionExecutingContext** [here](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.actionexecutingcontext?view=aspnetcore-6.0).
@@ -23,7 +23,7 @@ In your Gateway API project,
 ```C#
     public class ValidationActionFilterService : IGatewayActionFilter
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key, string verb)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
         {
             //do your validation here
 
@@ -47,7 +47,7 @@ services.AddApiGateway();
 ### you can hook into each verb's endpoint action filter by implementing the below interfaces.
 
 ```C#
-Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key);
+Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey);
 ```
 
 ### GET / HEAD
@@ -88,7 +88,7 @@ In your Gateway API project,
 ```C#
     public class PostValidationActionFilterService : IPostGatewayActionFilter
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey)
         {
             //do your validation here
 

@@ -69,8 +69,8 @@ namespace AspNetCore.ApiGateway.Tests
 
             var parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "forecast",
+                ApiKey = "weatherservice",
+                RouteKey = "forecast",
                 Headers = new Dictionary<string, string>
                 {
                     { "Authorization", "bearer wq298cjwosos==" }
@@ -94,8 +94,8 @@ namespace AspNetCore.ApiGateway.Tests
 
             var parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "type",
+                ApiKey = "weatherservice",
+                RouteKey = "type",
                 Parameters = "3",
                 Headers = new Dictionary<string, string>
                 {
@@ -113,8 +113,8 @@ namespace AspNetCore.ApiGateway.Tests
             //Arrange
             parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "typewithparams",
+                ApiKey = "weatherservice",
+                RouteKey = "typewithparams",
                 Parameters = "index=3",
                 Headers = new Dictionary<string, string>
                 {
@@ -145,8 +145,8 @@ namespace AspNetCore.ApiGateway.Tests
             
             var parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "add",
+                ApiKey = "weatherservice",
+                RouteKey = "add",
                 Headers = new Dictionary<string, string>
                 {
                     { "Authorization", "bearer wq298cjwosos==" }
@@ -176,8 +176,8 @@ namespace AspNetCore.ApiGateway.Tests
 
             var parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "update",
+                ApiKey = "weatherservice",
+                RouteKey = "update",
                 Headers = new Dictionary<string, string>
                 {
                     { "Authorization", "bearer wq298cjwosos==" }
@@ -189,8 +189,8 @@ namespace AspNetCore.ApiGateway.Tests
 
             parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "types",
+                ApiKey = "weatherservice",
+                RouteKey = "types",
                 Headers = new Dictionary<string, string>
                 {
                     { "Authorization", "bearer wq298cjwosos==" }
@@ -216,8 +216,8 @@ namespace AspNetCore.ApiGateway.Tests
 
             var parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "patch",
+                ApiKey = "weatherservice",
+                RouteKey = "patch",
                 Headers = new Dictionary<string, string>
                 {
                     { "Authorization", "bearer wq298cjwosos==" }
@@ -241,8 +241,8 @@ namespace AspNetCore.ApiGateway.Tests
 
             var parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "remove",
+                ApiKey = "weatherservice",
+                RouteKey = "remove",
                 Parameters = "0",
                 Headers = new Dictionary<string, string>
                 {
@@ -255,8 +255,8 @@ namespace AspNetCore.ApiGateway.Tests
 
             parameters = new ApiGatewayParameters
             {
-                Api = "weatherservice",
-                Key = "types",
+                ApiKey = "weatherservice",
+                RouteKey = "types",
                 Headers = new Dictionary<string, string>
                 {
                     { "Authorization", "bearer wq298cjwosos==" }

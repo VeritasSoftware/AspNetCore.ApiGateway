@@ -6,7 +6,7 @@ namespace ApiGateway.API.Application.ResultFilters
 {
     public class ResultFilterService : IGatewayResultFilter
     {
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key, string verb)
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey, string verb)
         {
             //modify result here
 
@@ -16,7 +16,7 @@ namespace ApiGateway.API.Application.ResultFilters
 
     public class PostResultFilterService : IPostGatewayResultFilter
     {
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key)
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey)
         {
             //modify result here
 

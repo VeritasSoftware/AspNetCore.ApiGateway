@@ -5,12 +5,12 @@ namespace AspNetCore.ApiGateway.Application.ResultFilters
 {
     public interface IGatewayResultFilter
     {
-        Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key, string verb);
+        Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey, string verb);
     }
 
     public interface IGatewayVerbResultFilter
     {
-        Task OnResultExecutionAsync(ResultExecutingContext context, string api, string key);
+        Task OnResultExecutionAsync(ResultExecutingContext context, string apiKey, string routeKey);
     }
 
     public interface IGetOrHeadGatewayResultFilter : IGatewayVerbResultFilter

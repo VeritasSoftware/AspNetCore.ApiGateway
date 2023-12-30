@@ -10,7 +10,7 @@ namespace ApiGateway.API.Application.ActionFilters
 {
     public class ValidationActionFilterService : IGatewayActionFilter
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key, string verb)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
         {
             //do your validation here
 
@@ -23,7 +23,7 @@ namespace ApiGateway.API.Application.ActionFilters
 
     public class PostValidationActionFilterService : IPostGatewayActionFilter
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, string api, string key)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey)
         {
             //do your validation here
 
