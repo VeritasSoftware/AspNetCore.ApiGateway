@@ -22,10 +22,10 @@ namespace AspNetCore.ApiGateway.Authorization
             {
                 var routeData = context.HttpContext.GetRouteData();
 
-                routeData.Values.TryGetValue("apiKey", out var api);
-                routeData.Values.TryGetValue("routeKey", out var key);
+                routeData.Values.TryGetValue("apiKey", out var apiKey);
+                routeData.Values.TryGetValue("routeKey", out var routeKey);
 
-                await this._authorization.AuthorizeAsync(context, api?.ToString(), key?.ToString(), context.HttpContext.Request.Method);
+                await this._authorization.AuthorizeAsync(context, apiKey?.ToString(), routeKey?.ToString(), context.HttpContext.Request.Method);
             }
         }
     }
@@ -46,10 +46,10 @@ namespace AspNetCore.ApiGateway.Authorization
             {
                 var routeData = context.HttpContext.GetRouteData();
 
-                routeData.Values.TryGetValue("apiKey", out var api);
-                routeData.Values.TryGetValue("routeKey", out var key);
+                routeData.Values.TryGetValue("apiKey", out var apiKey);
+                routeData.Values.TryGetValue("routeKey", out var routeKey);
 
-                await this._authorization.AuthorizeAsync(context, api?.ToString(), key?.ToString());
+                await this._authorization.AuthorizeAsync(context, apiKey?.ToString(), routeKey?.ToString());
             }
         }
     }

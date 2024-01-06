@@ -23,10 +23,10 @@ namespace AspNetCore.ApiGateway.Application.ActionFilters
             {
                 var routeData = context.HttpContext.GetRouteData();
 
-                routeData.Values.TryGetValue("apiKey", out var api);
-                routeData.Values.TryGetValue("routeKey", out var key);
+                routeData.Values.TryGetValue("apiKey", out var apiKey);
+                routeData.Values.TryGetValue("routeKey", out var routeKey);
 
-                await _gatewayActionFilter.OnActionExecutionAsync(context, api?.ToString(), key?.ToString(), context.HttpContext.Request.Method);
+                await _gatewayActionFilter.OnActionExecutionAsync(context, apiKey?.ToString(), routeKey?.ToString(), context.HttpContext.Request.Method);
             }
 
             if (context.Result == null)
@@ -50,10 +50,10 @@ namespace AspNetCore.ApiGateway.Application.ActionFilters
             {
                 var routeData = context.HttpContext.GetRouteData();
 
-                routeData.Values.TryGetValue("apiKey", out var api);
-                routeData.Values.TryGetValue("routeKey", out var key);
+                routeData.Values.TryGetValue("apiKey", out var apiKey);
+                routeData.Values.TryGetValue("routeKey", out var routeKey);
 
-                await _gatewayActionFilter.OnActionExecutionAsync(context, api?.ToString(), key?.ToString());
+                await _gatewayActionFilter.OnActionExecutionAsync(context, apiKey?.ToString(), routeKey?.ToString());
             }
 
             if (context.Result == null)

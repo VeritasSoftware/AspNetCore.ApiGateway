@@ -21,10 +21,10 @@ namespace AspNetCore.ApiGateway.Application.ExceptionFilters
             {
                 var routeData = context.HttpContext.GetRouteData();
 
-                routeData.Values.TryGetValue("apiKey", out var api);
-                routeData.Values.TryGetValue("routeKey", out var key);
+                routeData.Values.TryGetValue("apiKey", out var apiKey);
+                routeData.Values.TryGetValue("routeKey", out var routeKey);
 
-                await _gatewayExceptionFilter.OnExceptionAsync(context, api?.ToString(), key?.ToString(), context.HttpContext.Request.Method);
+                await _gatewayExceptionFilter.OnExceptionAsync(context, apiKey?.ToString(), routeKey?.ToString(), context.HttpContext.Request.Method);
             }
         }
     }
@@ -45,10 +45,10 @@ namespace AspNetCore.ApiGateway.Application.ExceptionFilters
             {
                 var routeData = context.HttpContext.GetRouteData();
 
-                routeData.Values.TryGetValue("apiKey", out var api);
-                routeData.Values.TryGetValue("routeKey", out var key);
+                routeData.Values.TryGetValue("apiKey", out var apiKey);
+                routeData.Values.TryGetValue("routeKey", out var routeKey);
 
-                await _gatewayExceptionFilter.OnExceptionAsync(context, api?.ToString(), key?.ToString());
+                await _gatewayExceptionFilter.OnExceptionAsync(context, apiKey?.ToString(), routeKey?.ToString());
             }
         }
     }
