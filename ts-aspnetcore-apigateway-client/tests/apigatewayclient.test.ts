@@ -17,8 +17,8 @@ describe('Api Gateway Client Tests', function() {
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "forecast";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "forecast";
         params.Headers = headers;
 
         let forecasts = await client.GetAsync<WeatherForecast[]>(params);
@@ -37,8 +37,8 @@ describe('Api Gateway Client Tests', function() {
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "type";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "type";
         params.Parameters = "3";
         params.Headers = headers;
 
@@ -47,8 +47,8 @@ describe('Api Gateway Client Tests', function() {
         expect(weatherType.type).toBe("Cool");
 
         params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "typewithparams";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "typewithparams";
         params.Parameters = "index=3";
         params.Headers = headers;
 
@@ -68,8 +68,8 @@ describe('Api Gateway Client Tests', function() {
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "add";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "add";
         params.Headers = headers;
         
         let payload = new AddWeatherTypeRequest();
@@ -93,8 +93,8 @@ describe('Api Gateway Client Tests', function() {
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "update";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "update";
         params.Headers = headers;
         
         let payload = new UpdateWeatherTypeRequest();
@@ -104,8 +104,8 @@ describe('Api Gateway Client Tests', function() {
         await client.PutAsync(params, payload);
 
         params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "types";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "types";
         params.Headers = headers;
 
         var weatherTypes = await client.GetAsync<string[]>(params);
@@ -124,8 +124,8 @@ describe('Api Gateway Client Tests', function() {
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "patch";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "patch";
         params.Headers = headers;
 
         let jsonPatch = new Array<JsonPatchOperation>();
@@ -155,16 +155,16 @@ describe('Api Gateway Client Tests', function() {
         headers.add("Authorization", "bearer wq298cjwosos==");
 
         var params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "remove";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "remove";
         params.Parameters = "0"; 
         params.Headers = headers;      
 
         await client.DeleteAsync(params);
 
         params = new ApiGatewayParameters();
-        params.Api = "weatherservice";
-        params.Key = "types";
+        params.ApiKey = "weatherservice";
+        params.RouteKey = "types";
         params.Headers = headers;
 
         var weatherTypes = await client.GetAsync<string[]>(params);        
