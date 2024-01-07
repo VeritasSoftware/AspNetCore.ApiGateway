@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway.Client
@@ -34,7 +34,9 @@ namespace AspNetCore.ApiGateway.Client
 
             response.EnsureSuccessStatusCode();
 
-            return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+            var returnedContent = await response.Content.ReadAsStringAsync();
+
+            return !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize<TResponse>(returnedContent) : default(TResponse);
         }
 
         public async Task<TResponse> PostAsync<TPayload, TResponse>(ApiGatewayParameters parameters, TPayload data)
@@ -44,13 +46,15 @@ namespace AspNetCore.ApiGateway.Client
 
             _httpClient.AddHeaders(parameters);
 
-            var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(gatewayUrl, content);
 
             response.EnsureSuccessStatusCode();
 
-            return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+            var returnedContent = await response.Content.ReadAsStringAsync();
+
+            return !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize<TResponse>(returnedContent) : default(TResponse);
         }
 
         public async Task PutAsync<TPayload>(ApiGatewayParameters parameters, TPayload data)
@@ -65,14 +69,16 @@ namespace AspNetCore.ApiGateway.Client
 
             _httpClient.AddHeaders(parameters);
 
-            var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var response = await _httpClient.PutAsync(gatewayUrl, content);
 
             response.EnsureSuccessStatusCode();
 
-            return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+            var returnedContent = await response.Content.ReadAsStringAsync();
+
+            return !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize<TResponse>(returnedContent) : default(TResponse);
         }
 
         public async Task PatchAsync<TPayload>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
@@ -89,7 +95,7 @@ namespace AspNetCore.ApiGateway.Client
 
             _httpClient.AddHeaders(parameters);
 
-            var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json-patch+json");
+            var content = new StringContent(JsonSerializer.Serialize(data.Operations), Encoding.UTF8, "application/json-patch+json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
 
             var method = "PATCH";
@@ -106,7 +112,9 @@ namespace AspNetCore.ApiGateway.Client
 
             response.EnsureSuccessStatusCode();
 
-            return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+            var returnedContent = await response.Content.ReadAsStringAsync();
+
+            return !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize<TResponse>(returnedContent) : default(TResponse);
         }
 
         public async Task DeleteAsync(ApiGatewayParameters parameters)
@@ -125,7 +133,9 @@ namespace AspNetCore.ApiGateway.Client
 
             response.EnsureSuccessStatusCode();
 
-            return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
+            var returnedContent = await response.Content.ReadAsStringAsync();
+
+            return !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize<TResponse>(returnedContent) : default(TResponse);
         }
 
         public async Task<IEnumerable<Orchestration>> GetOrchestrationAsync(ApiGatewayParameters parameters)
