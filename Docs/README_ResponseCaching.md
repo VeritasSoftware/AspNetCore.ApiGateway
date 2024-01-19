@@ -10,7 +10,9 @@ You can confiure your Gateway Api to cache responses.
         options.ResponseCacheSettings = new ApiGatewayResponseCacheSettings
         {
             Duration = 120,
-            Location = ResponseCacheLocation.Any
+            Location = ResponseCacheLocation.Any,
+            //Use VaryByQueryKeys to vary the response for each apiKey & routeKey
+            VaryByQueryKeys = new[] { "apiKey", "routeKey" } 
         };
     });
 ```
