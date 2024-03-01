@@ -15,6 +15,7 @@
 ```
 
 Read [more](https://github.com/dotnet-foundation/projects/issues/255).
+Social Media: LinkedIn [post](https://www.linkedin.com/feed/update/urn:li:activity:7168255226624372736/).
 
 |**More of my open-source projects**|||
 |---------------------------|:---:|:---:|
