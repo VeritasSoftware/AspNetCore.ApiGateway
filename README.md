@@ -74,15 +74,28 @@ For eg. To make a GET call to the backend API, you would set up an Api and a GET
 
 Then, the client app would make a GET call to the Gateway API which would make a GET call to the backend API using HttpClient.
 
-## In your Backend API project
+## In your Backend API
 
 Let us say you have a GET endpoint like this.
 
 *	**HTTP GET - /weatherforecast/forecast**
 
-## In your Gateway API project
+## In your Gateway API
 
 You add a Route for the backend GET call in the **Api Orchrestrator**.
+
+You create a backend API with ApiKey called **weatherservice** for eg.
+And, a Route with RouteKey called **forecast** for eg.
+
+So, the call to the Gateway would become:
+
+*	**HTTP GET - /weatherservice/forecast**
+
+Also, if you want, you can keep the ApiKey, RouteKey, backend API base url and Route path,
+
+in an appsettings, read it using a Config Service,
+
+and pass it to the Api Orchestrator in the below Create method.
 
 **Add a reference to the package and...**
 
