@@ -18,6 +18,13 @@ namespace ApiGateway.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(configBuilder =>
+                {
+                    configBuilder.SetBasePath(Environment.CurrentDirectory)
+                                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)//To specify environment
+                                 .AddEnvironmentVariables();//You can add if you need to read environment variables.
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

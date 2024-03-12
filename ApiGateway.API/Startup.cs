@@ -1,3 +1,4 @@
+using ApiGateway.API.Application;
 using ApiGateway.API.Application.ActionFilters;
 using ApiGateway.API.Application.Authorization;
 using ApiGateway.API.Application.HubFilters;
@@ -66,6 +67,8 @@ namespace ApiGateway.API
 
             //Middleware service
             services.AddTransient<IGatewayMiddleware, GatewayMiddlewareService>();
+
+            services.AddSingleton<IConfigService, ConfigService>(); 
 
             //Api gateway
             services.AddApiGateway(options =>

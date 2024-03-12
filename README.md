@@ -91,9 +91,15 @@ So, the call to the Gateway would become:
 
 *	**HTTP GET - /weatherservice/forecast**
 
-Also, if you want, you can keep the ApiKey, RouteKey, backend API base url and Route path,
+**Note**
+
+If you want, you can keep the ApiKey, RouteKey, backend API base url and Route path,
+
 in an appsettings, read it using a Config Service,
-and pass it to the Api Orchestrator in the below Create method.
+
+and pass it to the Api Orchestrator in the below Create method. 
+
+Read [**more**](/Docs/README_ConfigSettings.md).
 
 **Add a reference to the package and...**
 
