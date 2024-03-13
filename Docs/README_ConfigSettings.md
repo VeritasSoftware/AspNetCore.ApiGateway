@@ -16,26 +16,30 @@ add a **Settings** section as shown below:
     {
       "Identifier": "API1",
       "ApiKey": "weatherservice",
-      "BackendAPIBaseUrl": "https://localhost:5003/",
+      "BackendAPIBaseUrls": [
+        "https://localhost:5003/"
+      ],
       "Routes": [
         {
           "Identifier": "ROUTE1",
           "RouteKey": "forecast",
           "BackendAPIRoutePath": "weatherforecast/forecast"
         }
-      ]      
+      ]
     },
     {
       "Identifier": "API2",
       "ApiKey": "stockservice",
-      "BackendAPIBaseUrl": "https://localhost:5005/",
+      "BackendAPIBaseUrls": [
+        "https://localhost:5005/"
+      ],
       "Routes": [
         {
-          "Identifier":  "ROUTE1",
+          "Identifier": "ROUTE1",
           "RouteKey": "stocks",
           "BackendAPIRoutePath": "stock"
         }
-      ]      
+      ]
     }
   ],
   "Logging": {
@@ -56,7 +60,7 @@ public class ApiSetting
 {
     public string Identifier { get; set; }
     public string ApiKey { get; set; }
-    public string BackendAPIBaseUrl { get; set; }
+    public string[] BackendAPIBaseUrls { get; set; }
     public RouteSetting[] Routes { get; set; }
     public RouteSetting this[string routeIdentifier]
     {
@@ -114,7 +118,7 @@ var settings = serviceProvider.GetRequiredService<IConfigService>();
 
 var api1 = settings["API1"];
 
-orchestrator.AddApi(api1.ApiKey, api1.BackendAPIBaseUrl)
-            //Get
-            .AddRoute(api1["ROUTE1"].RouteKey, GatewayVerb.GET, new RouteInfo { Path = api1["ROUTE1"].BackendAPIRoutePath, ResponseType = typeof(IEnumerable<WeatherForecast>) })
+orchestrator.AddApi(api1.ApiKey, api1.BackendAPIBaseUrls[0])
+                    //Get
+                    .AddRoute(api1["ROUTE1"].RouteKey, GatewayVerb.GET, new RouteInfo { Path = api1["ROUTE1"].BackendAPIRoutePath, ResponseType = typeof(IEnumerable<WeatherForecast>) })
 ```

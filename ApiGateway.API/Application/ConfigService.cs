@@ -8,7 +8,7 @@ namespace ApiGateway.API.Application
     {
         public string Identifier { get; set; }
         public string ApiKey { get; set; }
-        public string BackendAPIBaseUrl { get; set; }
+        public string[] BackendAPIBaseUrls { get; set; }
         public RouteSetting[] Routes { get; set; }
         public RouteSetting this[string routeIdentifier]
         {
