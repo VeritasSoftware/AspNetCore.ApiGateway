@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ApiGateway.API.Application
 {
-    public class Setting
+    public class ApiSetting
     {
         public string Identifier { get; set; }
         public string ApiKey { get; set; }
@@ -28,22 +28,22 @@ namespace ApiGateway.API.Application
 
     public interface IConfigService
     {
-        Setting this[string identifier] { get; }            
+        ApiSetting this[string identifier] { get; }            
     }
 
     public class ConfigService : IConfigService
     {
-        private IEnumerable<Setting> Settings { get; set; }
+        private IEnumerable<ApiSetting> Settings { get; set; }
 
         public ConfigService(IConfiguration configuration)
         {
             var settings = configuration.GetSection("Settings")
-                                        .Get<List<Setting>>();
+                                        .Get<List<ApiSetting>>();
 
             this.Settings = settings;
         }
 
-        public Setting this[string identifier]
+        public ApiSetting this[string identifier]
         {
             get
             {

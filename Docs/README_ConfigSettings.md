@@ -4,7 +4,7 @@ You can keep the ApiKey, RouteKey, Backend API Base Url and Backend API Route Pa
 
 in your appsettings.json file.
 
-The **Identifier** is used to identify each **Setting**.
+The **Identifier** is used to identify each **ApiSetting**.
 
 In your Gateway API project's appsettings.json file,
 
@@ -52,7 +52,7 @@ add a **Settings** section as shown below:
 You can read this information, using a **Config Service** like below:
 
 ```C#
-public class Setting
+public class ApiSetting
 {
     public string Identifier { get; set; }
     public string ApiKey { get; set; }
@@ -76,22 +76,22 @@ public class RouteSetting
 
 public interface IConfigService
 {
-    Setting this[string identifier] { get; }            
+    ApiSetting this[string identifier] { get; }            
 }
 
 public class ConfigService : IConfigService
 {
-    private IEnumerable<Setting> Settings { get; set; }
+    private IEnumerable<ApiSetting> Settings { get; set; }
 
     public ConfigService(IConfiguration configuration)
     {
         var settings = configuration.GetSection("Settings")
-                                    .Get<List<Setting>>();
+                                    .Get<List<ApiSetting>>();
 
         this.Settings = settings;
     }
 
-    public Setting this[string identifier]
+    public ApiSetting this[string identifier]
     {
         get
         {
