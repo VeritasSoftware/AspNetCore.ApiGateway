@@ -118,7 +118,7 @@ var settings = serviceProvider.GetRequiredService<IConfigService>();
 
 var api1 = settings["API1"];
 
-orchestrator.AddApi(api1.ApiKey, api1.BackendAPIBaseUrls[0])
+orchestrator.AddApi(api1.ApiKey, api1.BackendAPIBaseUrls)
                     //Get
                     .AddRoute(api1["ROUTE1"].RouteKey, GatewayVerb.GET, new RouteInfo { Path = api1["ROUTE1"].BackendAPIRoutePath, ResponseType = typeof(IEnumerable<WeatherForecast>) })
 ```
