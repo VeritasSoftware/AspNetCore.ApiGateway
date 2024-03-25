@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AspNetCore.ApiGateway;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +24,8 @@ namespace ApiGateway.API.Application
     {
         public string Identifier { get; set; }
         public string RouteKey { get; set; }
-        public string BackendAPIRoutePath { get; set; }
+        public GatewayVerb Verb { get; set; }
+        public string BackendAPIRoutePath { get; set; }        
     }
 
     public interface IConfigService
@@ -49,6 +51,6 @@ namespace ApiGateway.API.Application
             {
                 return Settings.Single(s => s.Identifier == identifier);
             }
-        }
+        }        
     }
 }

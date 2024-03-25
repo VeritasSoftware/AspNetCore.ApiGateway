@@ -75,6 +75,7 @@ public class RouteSetting
 {
     public string Identifier { get; set; }
     public string RouteKey { get; set; }
+    public GatewayVerb Verb { get; set; }
     public string BackendAPIRoutePath { get; set; }
 }
 
@@ -120,5 +121,5 @@ var api1 = settings["API1"];
 
 orchestrator.AddApi(api1.ApiKey, api1.BackendAPIBaseUrls)
                     //Get
-                    .AddRoute(api1["ROUTE1"].RouteKey, GatewayVerb.GET, new RouteInfo { Path = api1["ROUTE1"].BackendAPIRoutePath, ResponseType = typeof(IEnumerable<WeatherForecast>) })
+                    .AddRoute(api1["ROUTE1"].RouteKey, api1["ROUTE1"].Verb, new RouteInfo { Path = api1["ROUTE1"].BackendAPIRoutePath) })
 ```
