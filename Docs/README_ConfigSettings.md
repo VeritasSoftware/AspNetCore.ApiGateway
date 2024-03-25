@@ -23,6 +23,7 @@ add a **Settings** section as shown below:
         {
           "Identifier": "ROUTE1",
           "RouteKey": "forecast",
+          "Verb":  "GET",
           "BackendAPIRoutePath": "weatherforecast/forecast"
         }
       ]
@@ -37,6 +38,7 @@ add a **Settings** section as shown below:
         {
           "Identifier": "ROUTE1",
           "RouteKey": "stocks",
+          "Verb":  "GET",
           "BackendAPIRoutePath": "stock"
         }
       ]
