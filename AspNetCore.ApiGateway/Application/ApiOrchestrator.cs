@@ -75,11 +75,13 @@ namespace AspNetCore.ApiGateway
             _mediator = mediator;
             _hubMediator = hubMediator;
             _eventSourceMediator = eventSourceMediator;
+            _mediator.ApiOrchestrator = this;
+            _hubMediator.ApiOrchestrator = this;
+            _eventSourceMediator.ApiOrchestrator = this;
         }
 
         public IMediator AddApi(string apiKey, params string[] baseUrls)
-        {
-            _mediator.ApiOrchestrator = this;
+        {            
             var mediator = _mediator;
 
             apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
@@ -91,7 +93,6 @@ namespace AspNetCore.ApiGateway
 
         public IMediator AddApi(string apiKey, LoadBalancingType loadBalancingType, params string[] baseUrls)
         {
-            _mediator.ApiOrchestrator = this;
             var mediator = _mediator;
 
             apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
@@ -103,7 +104,6 @@ namespace AspNetCore.ApiGateway
 
         public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null)
         {
-            _hubMediator.ApiOrchestrator = this;
             var mediator = _hubMediator;
 
             var cb = new HubConnectionBuilder();
@@ -117,7 +117,6 @@ namespace AspNetCore.ApiGateway
 
         public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
         {
-            _eventSourceMediator.ApiOrchestrator = this;
             var mediator = _eventSourceMediator;
 
             var conn = connectionBuilder();
