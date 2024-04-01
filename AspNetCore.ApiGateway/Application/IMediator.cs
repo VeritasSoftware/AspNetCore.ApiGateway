@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.ApiGateway
 {
-    public interface IEventSourceMediator
+    public interface IMediatorBase
+    {
+        IApiOrchestrator ApiOrchestrator { get; set; }
+    }
+
+    public interface IEventSourceMediator : IMediatorBase
     {
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
@@ -23,7 +28,7 @@ namespace AspNetCore.ApiGateway
         Dictionary<string, GatewayEventSourceRouteInfo> Paths { get; }
     }
 
-    public interface IHubMediator
+    public interface IHubMediator: IMediatorBase
     {
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
@@ -40,7 +45,7 @@ namespace AspNetCore.ApiGateway
         Dictionary<string, GatewayHubRouteInfo> Paths { get; }
     }
 
-    public interface IMediator
+    public interface IMediator: IMediatorBase
     {
         IMediator AddRoute(string routeKey, GatewayVerb verb, RouteInfo routeInfo);
 

@@ -28,10 +28,15 @@ namespace AspNetCore.ApiGateway
             Options = new ApiGatewayOptions();
 
             options?.Invoke(Options);
-
-            var apis = new ApiOrchestrator();
             
-            services.AddTransient<IApiOrchestrator>(x => apis);
+            services.AddSingleton<IMediator, Mediator>();
+            services.AddSingleton<IHubMediator, HubMediator>();
+            services.AddSingleton<IEventSourceMediator, EventSourceMediator>();
+
+            services.AddSingleton<IApiOrchestrator>(sp => new ApiOrchestrator(
+                sp.GetRequiredService<IMediator>(),
+                sp.GetRequiredService<IHubMediator>(),
+                sp.GetRequiredService<IEventSourceMediator>()));
 
             services.AddAuthorizationFilters()
                     .AddActionFilters()
