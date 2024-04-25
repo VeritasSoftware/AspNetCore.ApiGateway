@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace ApiGateway.API
+namespace ApiGateway.API.Application.Services
 {
     public class WeatherService : IWeatherService
     {
@@ -19,7 +19,7 @@ namespace ApiGateway.API
             return new HttpClientConfig()
             {
                 //customize the default HttpClient. eg. add a header.
-                CustomizeDefaultHttpClient = (httpClient, request) => httpClient.DefaultRequestHeaders.Add("My header", "My header value"), 
+                CustomizeDefaultHttpClient = (httpClient, request) => httpClient.DefaultRequestHeaders.Add("My header", "My header value"),
                 //OR
                 //your own custom HttpClient
                 HttpClient = () => new HttpClient()

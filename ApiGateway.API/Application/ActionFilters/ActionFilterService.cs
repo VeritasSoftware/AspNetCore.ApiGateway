@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ApiGateway.API.Application.ActionFilters
 {
-    public class ValidationActionFilterService : IGatewayActionFilter
+    public class ActionFilterService : IGatewayActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
         {
-            //do your validation here
+            //do your work here eg. validation
 
             //set the result, eg below commented line
             //context.Result = new BadRequestObjectResult(context.ModelState);
@@ -21,11 +21,11 @@ namespace ApiGateway.API.Application.ActionFilters
         }
     }
 
-    public class PostValidationActionFilterService : IPostGatewayActionFilter
+    public class PostActionFilterService : IPostGatewayActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey)
         {
-            //do your validation here
+            //do your work here eg. validation
 
             //set the result, eg below commented line
             //context.Result = new BadRequestObjectResult(context.ModelState);

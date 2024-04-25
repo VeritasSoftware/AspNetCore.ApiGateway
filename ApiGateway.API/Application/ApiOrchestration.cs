@@ -1,4 +1,5 @@
-﻿using AspNetCore.ApiGateway;
+﻿using ApiGateway.API.Application.Services;
+using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Application;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.SystemData;

@@ -2,7 +2,7 @@
 using AspNetCore.ApiGateway;
 using Microsoft.AspNetCore.Http;
 
-namespace ApiGateway.API
+namespace ApiGateway.API.Application.Services
 {
     public interface IWeatherService
     {

@@ -129,28 +129,28 @@ orchestrator.AddApi(api1.ApiKey, api1.BackendAPIBaseUrls)
 In the **Filters** you can do as shown below:
 
 ```C#
-    public class GatewayActionFilterService : IGatewayActionFilter
-    {
-        private readonly IConfigService _settings;
+public class ActionFilterService : IGatewayActionFilter
+{
+    private readonly IConfigService _settings;
 
-        public GatewayActionFilterService(IConfigService settings) 
-        { 
-            _settings = settings;
-        }
-
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
-        {
-            var api1 = _settings["API1"];
-
-            if (apiKey == api1.ApiKey)
-            {
-                if (routeKey == api1["ROUTE1"].RouteKey)
-                {
-                    //Do your work here for API1 -> ROUTE1
-                }
-            }
-
-            await Task.CompletedTask;
-        }
+    public ActionFilterService(IConfigService settings) 
+    { 
+        _settings = settings;
     }
+
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
+    {
+        var api1 = _settings["API1"];
+
+        if (apiKey == api1.ApiKey)
+        {
+            if (routeKey == api1["ROUTE1"].RouteKey)
+            {
+                //Do your work here for API1 -> ROUTE1
+            }
+        }
+
+        await Task.CompletedTask;
+    }
+}
 ```

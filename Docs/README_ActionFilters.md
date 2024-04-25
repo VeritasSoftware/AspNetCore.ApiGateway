@@ -21,24 +21,24 @@ In your Gateway API project,
 *	Create a service like below
 
 ```C#
-    public class ValidationActionFilterService : IGatewayActionFilter
+public class ActionFilterService : IGatewayActionFilter
+{
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
-        {
-            //do your validation here
+        //do your work here eg. validation
 
-            //set the result, eg below commented line
-            //context.Result = new BadRequestObjectResult(context.ModelState);
+        //set the result, eg below commented line
+        //context.Result = new BadRequestObjectResult(context.ModelState);
 
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
     }
+}
 ```
 
 *	Wire it up for dependency injection in Startup.cs
 
 ```C#
-services.AddScoped<IGatewayActionFilter, ValidationActionFilterService>();
+services.AddScoped<IGatewayActionFilter, ActionFilterService>();
 .
 .
 services.AddApiGateway();
@@ -86,24 +86,24 @@ In your Gateway API project,
 *	Create a service like below
 
 ```C#
-    public class PostValidationActionFilterService : IPostGatewayActionFilter
+public class PostActionFilterService : IPostGatewayActionFilter
+{
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey)
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey)
-        {
-            //do your validation here
+        //do your work here eg. validation
 
-            //set the result, eg below commented line
-            //context.Result = new BadRequestObjectResult(context.ModelState);
+        //set the result, eg below commented line
+        //context.Result = new BadRequestObjectResult(context.ModelState);
 
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
     }
+}
 ```
 
 *	Wire it up for dependency injection in Startup.cs
 
 ```C#
-services.AddScoped<IPostGatewayActionFilter, PostValidationActionFilterService>();
+services.AddScoped<IPostGatewayActionFilter, PostActionFilterService>();
 .
 .
 services.AddApiGateway();

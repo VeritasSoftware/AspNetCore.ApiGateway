@@ -3,6 +3,7 @@ using ApiGateway.API.Application.ActionFilters;
 using ApiGateway.API.Application.Authorization;
 using ApiGateway.API.Application.HubFilters;
 using ApiGateway.API.Application.MiddlewareService;
+using ApiGateway.API.Application.Services;
 using ApiGateway.API.Application.ResultFilters;
 using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Application.ActionFilters;
@@ -51,8 +52,8 @@ namespace ApiGateway.API
             services.AddScoped<IGetOrHeadGatewayAuthorization, GetAuthorizationService>();
 
             //Action filters
-            services.AddScoped<IGatewayActionFilter, ValidationActionFilterService>();
-            services.AddScoped<IPostGatewayActionFilter, PostValidationActionFilterService>();
+            services.AddScoped<IGatewayActionFilter, ActionFilterService>();
+            services.AddScoped<IPostGatewayActionFilter, PostActionFilterService>();
 
             //Exception filters
             services.AddScoped<IGatewayExceptionFilter, ExceptionFilterService>();
