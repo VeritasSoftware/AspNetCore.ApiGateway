@@ -56,18 +56,6 @@ namespace ApiGateway.API.Application
 
     public static class ConfigProvider
     {
-        private static IConfigService _settings;
-
-        public static IConfigService MySettings
-        {
-            get
-            {
-                return _settings;
-            }
-            set
-            {
-                _settings = value;
-            }
-        }        
+        public static IConfigService MySettings { get; set; }       
     }
 }
