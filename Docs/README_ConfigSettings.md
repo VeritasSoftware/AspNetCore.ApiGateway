@@ -106,6 +106,23 @@ public class ConfigService : IConfigService
         }
     }
 }
+
+public static class ConfigProvider
+{
+    private static IConfigService _settings;
+
+    public static IConfigService MySettings
+    {
+        get
+        {
+            return _settings;
+        }
+        set
+        {
+            _settings = value;
+        }
+    }        
+}
 ```
 
 Wire up the Config Service for dependency injecton.
@@ -114,37 +131,44 @@ Wire up the Config Service for dependency injecton.
 services.AddSingleton<IConfigService, ConfigService>();
 ```
 
+Create a static **Settings** class like below:
+
+```C#
+public static class Settings
+{
+    private static IConfigService _settings = ConfigProvider.MySettings;
+
+    public static string API1_ApiKey = _settings["API1"].ApiKey;
+    public static string[] API1_BackendAPIBaseUrls = _settings["API1"].BackendAPIBaseUrls;
+
+    public static string API1_RouteKey = _settings["API1"]["ROUTE1"].RouteKey;
+    public static GatewayVerb API1_Verb = _settings["API1"]["ROUTE1"].Verb;
+    public static string API1_BackendAPIRoutePath = _settings["API1"]["ROUTE1"].BackendAPIRoutePath;
+}
+```
+
+
 Then, in the Create method, you can pass these settings to the **Api Orchestrator**.
 
 ```C#
 var settings = serviceProvider.GetRequiredService<IConfigService>();
+ConfigProvider.MySettings = settings;
 
-var api1 = settings["API1"];
-
-orchestrator.AddApi(api1.ApiKey, api1.BackendAPIBaseUrls)
-                    //Get
-                    .AddRoute(api1["ROUTE1"].RouteKey, api1["ROUTE1"].Verb, new RouteInfo { Path = api1["ROUTE1"].BackendAPIRoutePath) })
+orchestrator.AddApi(Settings.API1_ApiKey, Settings.API1_BackendAPIBaseUrls)
+                                //Get
+                                .AddRoute(Settings.API1_RouteKey, Settings.API1_Verb, new RouteInfo { Path = Settings.API1_BackendAPIRoutePath })
 ```
 
 In the **Filters** you can do as shown below:
 
 ```C#
 public class ActionFilterService : IGatewayActionFilter
-{
-    private readonly IConfigService _settings;
-
-    public ActionFilterService(IConfigService settings) 
-    { 
-        _settings = settings;
-    }
-
+{    
     public async Task OnActionExecutionAsync(ActionExecutingContext context, string apiKey, string routeKey, string verb)
     {
-        var api1 = _settings["API1"];
-
-        if (apiKey == api1.ApiKey)
+        if (apiKey == Settings.API1_ApiKey)
         {
-            if (routeKey == api1["ROUTE1"].RouteKey)
+            if (routeKey == Settings.API1_RouteKey)
             {
                 //Do your work here for API1 -> ROUTE1
             }
