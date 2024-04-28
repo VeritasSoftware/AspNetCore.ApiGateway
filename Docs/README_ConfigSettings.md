@@ -141,9 +141,9 @@ public static class Settings
     public static string API1_ApiKey = _settings["API1"].ApiKey;
     public static string[] API1_BackendAPIBaseUrls = _settings["API1"].BackendAPIBaseUrls;
 
-    public static string API1_RouteKey = _settings["API1"]["ROUTE1"].RouteKey;
-    public static GatewayVerb API1_Verb = _settings["API1"]["ROUTE1"].Verb;
-    public static string API1_BackendAPIRoutePath = _settings["API1"]["ROUTE1"].BackendAPIRoutePath;
+    public static string API1_ROUTE1_RouteKey = _settings["API1"]["ROUTE1"].RouteKey;
+    public static GatewayVerb API1_ROUTE1_Verb = _settings["API1"]["ROUTE1"].Verb;
+    public static string API1_ROUTE1_BackendAPIRoutePath = _settings["API1"]["ROUTE1"].BackendAPIRoutePath;
 }
 ```
 
@@ -155,8 +155,8 @@ var settings = serviceProvider.GetRequiredService<IConfigService>();
 ConfigProvider.MySettings = settings;
 
 orchestrator.AddApi(Settings.API1_ApiKey, Settings.API1_BackendAPIBaseUrls)
-                                //Get
-                                .AddRoute(Settings.API1_RouteKey, Settings.API1_Verb, new RouteInfo { Path = Settings.API1_BackendAPIRoutePath })
+                //Get
+                .AddRoute(Settings.API1_ROUTE1_RouteKey, Settings.API1_ROUTE1_Verb, new RouteInfo { Path = Settings.API1_ROUTE1_BackendAPIRoutePath })
 ```
 
 In the **Filters** you can do as shown below:
@@ -168,7 +168,7 @@ public class ActionFilterService : IGatewayActionFilter
     {
         if (apiKey == Settings.API1_ApiKey)
         {
-            if (routeKey == Settings.API1_RouteKey)
+            if (routeKey == Settings.API1_ROUTE1_RouteKey)
             {
                 //Do your work here for API1 -> ROUTE1
             }
