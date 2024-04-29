@@ -126,17 +126,23 @@ public static class Settings
 {
     private static IConfigService _settings = ConfigProvider.MySettings;
 
-    public static string API1_ApiKey = _settings["API1"].ApiKey;
-    public static string[] API1_BackendAPIBaseUrls = _settings["API1"].BackendAPIBaseUrls;
+    private const string API1 = "API1";
+    private const string API1_ROUTE1 = "ROUTE1";
 
-    public static string API1_ROUTE1_RouteKey = _settings["API1"]["ROUTE1"].RouteKey;
-    public static GatewayVerb API1_ROUTE1_Verb = _settings["API1"]["ROUTE1"].Verb;
-    public static string API1_ROUTE1_BackendAPIRoutePath = _settings["API1"]["ROUTE1"].BackendAPIRoutePath;
+    public static string API1_ApiKey = _settings[API1].ApiKey;
+    public static string[] API1_BackendAPIBaseUrls = _settings[API1].BackendAPIBaseUrls;
+
+    public static string API1_ROUTE1_RouteKey = _settings[API1][API1_ROUTE1].RouteKey;
+    public static GatewayVerb API1_ROUTE1_Verb = _settings[API1][API1_ROUTE1].Verb;
+    public static string API1_ROUTE1_BackendAPIRoutePath = _settings[API1][API1_ROUTE1].BackendAPIRoutePath;
 }
 ```
 
+Then, in the Create method, first set the **ConfigProvider** 
 
-Then, in the Create method, you can pass these settings to the **Api Orchestrator**.
+and then you can pass these Settings to the **Api Orchestrator**
+
+and where ever else you need them.
 
 ```C#
 var settings = serviceProvider.GetRequiredService<IConfigService>();
@@ -147,7 +153,7 @@ orchestrator.AddApi(Settings.API1_ApiKey, Settings.API1_BackendAPIBaseUrls)
                 .AddRoute(Settings.API1_ROUTE1_RouteKey, Settings.API1_ROUTE1_Verb, new RouteInfo { Path = Settings.API1_ROUTE1_BackendAPIRoutePath })
 ```
 
-In the **Filters** you can do as shown below:
+In the **Filters** you can use the Settings & do as shown below:
 
 ```C#
 public class ActionFilterService : IGatewayActionFilter
