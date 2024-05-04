@@ -1,14 +1,14 @@
 ### Api Gateway Config Settings
 
-You can keep the ApiKey, RouteKey, Backend API Base Url and Backend API Route Path,
+You can keep the ApiKey, RouteKey, Backend API Base Url and Route Path,
 
 in your appsettings.json file.
 
-The **Identifier** is used to identify each **ApiSetting**.
+The **Identifier** is used to identify each **ApiSetting** & **RouteSetting**.
 
 In your Gateway API project's appsettings.json file,
 
-add a **Settings** section as shown below:
+add a **Settings** section like shown below:
 
 ```JSON
 {
@@ -153,7 +153,7 @@ orchestrator.AddApi(Settings.API1_ApiKey, Settings.API1_BackendAPIBaseUrls)
                 .AddRoute(Settings.API1_ROUTE1_RouteKey, Settings.API1_ROUTE1_Verb, new RouteInfo { Path = Settings.API1_ROUTE1_BackendAPIRoutePath })
 ```
 
-In the **Filters** you can use the Settings & do as shown below:
+In the **Filters**, you can use the Settings & do like shown below:
 
 ```C#
 public class ActionFilterService : IGatewayActionFilter
