@@ -2,8 +2,6 @@
 
 ## Asp Net Core Api Gateway package.
 
-[![Build Status](https://travis-ci.com/VeritasSoftware/AspNetCore.ApiGateway.svg?branch=master)](https://travis-ci.com/VeritasSoftware/AspNetCore.ApiGateway)
-
 |Packages|Version & Downloads|
 |---------------------------|:---:|
 |*AspNetCore.ApiGateway*|[![NuGet Version and Downloads count](https://buildstats.info/nuget/AspNetCore.ApiGateway)](https://www.nuget.org/packages/AspNetCore.ApiGateway)|
