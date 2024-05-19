@@ -58,58 +58,65 @@ add a **Settings** section like shown below:
 You can read this information, using a **Config Service** like below:
 
 ```C#
-public class ApiSetting
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Gateway.API
 {
-    public string Identifier { get; set; }
-    public string ApiKey { get; set; }
-    public string[] BackendAPIBaseUrls { get; set; }
-    public RouteSetting[] Routes { get; set; }
-    public RouteSetting this[string routeIdentifier]
+    public class ApiSetting
     {
-        get
+        public string Identifier { get; set; }
+        public string ApiKey { get; set; }
+        public string[] BackendAPIBaseUrls { get; set; }
+        public RouteSetting[] Routes { get; set; }
+        public RouteSetting this[string routeIdentifier]
         {
-            return Routes.Single(r => r.Identifier == routeIdentifier);
-        }
-    }        
-}
-
-public class RouteSetting
-{
-    public string Identifier { get; set; }
-    public string RouteKey { get; set; }
-    public GatewayVerb Verb { get; set; }
-    public string BackendAPIRoutePath { get; set; }
-}
-
-public interface IConfigService
-{
-    ApiSetting this[string identifier] { get; }            
-}
-
-public class ConfigService : IConfigService
-{
-    private IEnumerable<ApiSetting> Settings { get; set; }
-
-    public ConfigService(IConfiguration configuration)
-    {
-        var settings = configuration.GetSection("Settings")
-                                    .Get<List<ApiSetting>>();
-
-        this.Settings = settings;
+            get
+            {
+                return Routes.Single(r => r.Identifier == routeIdentifier);
+            }
+        }        
     }
 
-    public ApiSetting this[string identifier]
+    public class RouteSetting
     {
-        get
-        {
-            return Settings.Single(s => s.Identifier == identifier);
-        }
+        public string Identifier { get; set; }
+        public string RouteKey { get; set; }
+        public GatewayVerb Verb { get; set; }
+        public string BackendAPIRoutePath { get; set; }        
     }
-}
 
-public static class ConfigProvider
-{
-    public static IConfigService MySettings { get; set; }       
+    public interface IConfigService
+    {
+        ApiSetting this[string identifier] { get; }            
+    }
+
+    public class ConfigService : IConfigService
+    {
+        private IEnumerable<ApiSetting> Settings { get; set; }
+
+        public ConfigService(IConfiguration configuration)
+        {
+            var settings = configuration.GetSection("Settings")
+                                        .Get<List<ApiSetting>>();
+
+            this.Settings = settings;
+        }
+
+        public ApiSetting this[string identifier]
+        {
+            get
+            {
+                return Settings.Single(s => s.Identifier == identifier);
+            }
+        }        
+    }
+
+    public static class ConfigProvider
+    {
+        public static IConfigService MySettings { get; set; }       
+    }
 }
 ```
 
