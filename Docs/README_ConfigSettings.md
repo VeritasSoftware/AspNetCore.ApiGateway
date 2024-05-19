@@ -58,6 +58,7 @@ add a **Settings** section like shown below:
 You can read this information, using a **Config Service** like below:
 
 ```C#
+using AspNetCore.ApiGateway;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
