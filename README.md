@@ -91,9 +91,9 @@ So, the call to the Gateway would become:
 
 *	**HTTP GET - /weatherservice/forecast**
 
-**Note**
+**Using appsettings.json**
 
-If you want, you can keep the ApiKey, RouteKey, backend API base url and Route path,
+If you want, you can keep the **ApiKey, RouteKey, backend API base urls and Route path**,
 
 in the **appsettings.json**, read it using a Config Service,
 

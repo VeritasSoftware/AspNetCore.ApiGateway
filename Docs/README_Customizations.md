@@ -102,3 +102,5 @@ Your Api Gateway gets one incoming request.
 Then, you can make multiple calls to back end, downstream Apis and aggregate their responses.
 
 You can do this in the **custom implementation**.
+
+Read [**more**](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/issues/7)
