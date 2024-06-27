@@ -1,4 +1,4 @@
-### Customizations
+# Customizations
 
 ## Customize HttpClient
 
