@@ -1,5 +1,7 @@
 ### Customizations
 
+## Customize HttpClient
+
 You may want to customize your calls to the back end Apis.
 
 You can customize the default **HttpClient** used by all the routes, to hit the backend Api.
@@ -16,7 +18,6 @@ Also, the library provides hooks to
 
 *   Customize the default HttpClient which each route uses to hit the backend Api.
 *	Use your own **HttpClient** for each route.
-*	Use your own custom implementation to hit the backend Api.
 
 For eg.
 
@@ -42,29 +43,8 @@ These hooks are implemented in your Gateway API project (eg. WeatherService belo
                 HttpClient = () => new HttpClient()
             };
         }
-
-        /// <summary>
-        /// If you want to completely customize your backend Api call, you can do this
-        /// </summary>
-        /// <param name="apiInfo">The api info</param>
-        /// <param name="request">The gateway's incoming request</param>
-        /// <returns></returns>
-        public async Task<object> GetForecast(ApiInfo apiInfo, HttpRequest request)
-        {
-            //Create your own implementation to hit the backend.
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetAsync($"{apiInfo.BaseUrl}weatherforecast/forecast");
-
-                response.EnsureSuccessStatusCode();
-
-                return JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
-            }
-        }
     }
 ```
-
-See **HttpRequest** [here](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httprequest?view=aspnetcore-6.0).
 
 Wire up the WeatherService for injection.
 
@@ -87,13 +67,60 @@ Then, they are hooked up to **routes** in the **Api Orchestrator**.
 
             orchestrator.AddApi("weatherservice", "http://localhost:63969/")                                
                                 //Get using customize default HttpClient or your own custom HttpClient
-                                .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
+                                .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig });        }
+    }
+```
+
+## Custom implementation
+
+*	Use your own custom implementation to hit the backend Api.
+
+Create a Service (like WeatherService).
+
+Add a method (like GetForecast) with the same method signature.
+See **HttpRequest** [here](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httprequest?view=aspnetcore-6.0).
+
+In the method, put your custom implementation.
+
+```C#
+    public class WeatherService : IWeatherService
+    {
+        /// <summary>
+        /// If you want to completely customize your backend Api call, you can do this
+        /// </summary>
+        /// <param name="apiInfo">The api info</param>
+        /// <param name="request">The gateway's incoming request</param>
+        /// <returns>The object to be returned</returns>
+        public async Task<object> GetForecast(ApiInfo apiInfo, HttpRequest request)
+        {
+            //Create your own implementation to hit the backend.
+        }
+    }
+```
+
+Wire up the WeatherService for injection.
+
+```C#
+	services.AddTransient<IWeatherService, WeatherService>();
+```
+
+Create a Route in the **ApiOrchestrator** as shown below:
+
+```C#
+    public static class ApiOrchestration
+    {
+        public static void Create(IApiOrchestrator orchestrator, IApplicationBuilder app)
+        {
+            var serviceProvider = app.ApplicationServices;
+
+            var weatherService = serviceProvider.GetService<IWeatherService>();
+
+            orchestrator.AddApi("weatherservice", "http://localhost:63969/")                                
                                 //Get using custom implementation
                                 .AddRoute("forecast-custom", GatewayVerb.GET, weatherService.GetForecast);
         }
     }
 ```
-
 
 ## Request aggregation
 
