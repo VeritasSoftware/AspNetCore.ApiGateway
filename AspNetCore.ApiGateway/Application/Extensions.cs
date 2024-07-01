@@ -44,7 +44,12 @@ namespace AspNetCore.ApiGateway
                     .AddResultFilters()
                     .AddHubFilters();
 
-            if (Options.DefaultHttpClientConfigure != null)
+            
+            if (Options.DefaultMyHttpClient != null)
+            {
+                services.AddHttpClient<IHttpService, MyHttpClient>();
+            }
+            else if (Options.DefaultHttpClientConfigure != null)
             {
                 services.AddHttpClient<IHttpService, HttpService>(Options.DefaultHttpClientConfigure);
             }

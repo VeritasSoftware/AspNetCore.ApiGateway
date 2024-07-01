@@ -4,7 +4,7 @@
 
 You may want to customize your calls to the back end Apis.
 
-You can customize the default **HttpClient** used by all the routes, to hit the backend Api.
+You can customize the default **HttpClient** used by **all the routes**, to hit the backend Api.
 
 ```C#
     //Api gateway
@@ -14,9 +14,39 @@ You can customize the default **HttpClient** used by all the routes, to hit the 
     });
 ```
 
+You can create the default **HttpClient** used by **all the routes**, to hit the backend Api.
+
+Eg. below code adds Proxy info to a new HttpClient.
+
+```C#
+    var proxy = new WebProxy
+    {
+        Address = new Uri($"http://{proxyHost}:{proxyPort}"),
+        BypassProxyOnLocal = false,
+        UseDefaultCredentials = false,
+
+        // *** These creds are given to the proxy server, not the web server ***
+        Credentials = new NetworkCredential(
+            userName: proxyUserName,
+            password: proxyPassword)
+    };
+
+    var httpClientHandler = new HttpClientHandler
+    {
+        Proxy = proxy,
+    };
+
+    //Api gateway
+    services.AddApiGateway(options =>
+    {
+        options.DefaultMyHttpClient = (sp => new MyHttpClient(httpClientHandler));
+    });
+
+```
+
 Also, the library provides hooks to
 
-*   Customize the default HttpClient which each route uses to hit the backend Api.
+*   Customize the default HttpClient which **each route** uses to hit the backend Api.
 *	Use your own **HttpClient** for each route.
 
 For eg.
@@ -126,8 +156,8 @@ Create a Route in the **ApiOrchestrator** as shown below:
 
 Your Api Gateway gets one incoming request.
 
-Then, you can make multiple calls to back end, downstream Apis and aggregate their responses.
+Then, you can make multiple requests to back end, downstream Apis and aggregate their responses.
 
-You can do this in the **custom implementation**.
+You can do this in a **custom implementation**.
 
 Read [**more**](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/issues/7)
