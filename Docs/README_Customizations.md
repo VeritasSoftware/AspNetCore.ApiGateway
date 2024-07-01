@@ -19,6 +19,11 @@ You can create the default **HttpClient** used by **all the routes**, to hit the
 Eg. below code adds Proxy info to a new HttpClient.
 
 ```C#
+    var proxyHost = "http://localhost";
+    var proxyPort = 80;
+    var proxyUserName = "testUser";
+    var proxyPassword = "testPwd";
+
     var proxy = new WebProxy
     {
         Address = new Uri($"http://{proxyHost}:{proxyPort}"),
@@ -33,15 +38,14 @@ Eg. below code adds Proxy info to a new HttpClient.
 
     var httpClientHandler = new HttpClientHandler
     {
-        Proxy = proxy,
+        Proxy = proxy
     };
 
     //Api gateway
     services.AddApiGateway(options =>
     {
-        options.DefaultMyHttpClient = (sp => new MyHttpClient(httpClientHandler));
+        options.DefaultMyHttpClientHandler = () => httpClientHandler;
     });
-
 ```
 
 Also, the library provides hooks to

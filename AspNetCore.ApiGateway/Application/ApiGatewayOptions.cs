@@ -8,6 +8,6 @@ namespace AspNetCore.ApiGateway
         public bool UseResponseCaching { get; set; }
         public ApiGatewayResponseCacheSettings ResponseCacheSettings { get; set; }
         public Action<IServiceProvider, HttpClient> DefaultHttpClientConfigure { get; set; }
-        public Func<IServiceProvider, MyHttpClient> DefaultMyHttpClient { get; set; }
+        public Func<HttpClientHandler> DefaultMyHttpClientHandler { get; set; }
     }
 }

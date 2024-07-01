@@ -1,20 +1,20 @@
 ﻿using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Application.ActionFilters;
 using AspNetCore.ApiGateway.Application.ExceptionFilters;
-using AspNetCore.ApiGateway.Middleware;
+using AspNetCore.ApiGateway.Application.HubFilters;
 using AspNetCore.ApiGateway.Application.ResultFilters;
 using AspNetCore.ApiGateway.Authorization;
+using AspNetCore.ApiGateway.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net.Http.Headers;
-using AspNetCore.ApiGateway.Application.HubFilters;
-using Microsoft.AspNetCore.SignalR;
 using System.Text.Json;
 
 namespace AspNetCore.ApiGateway
@@ -45,9 +45,11 @@ namespace AspNetCore.ApiGateway
                     .AddHubFilters();
 
             
-            if (Options.DefaultMyHttpClient != null)
+            if (Options.DefaultMyHttpClientHandler != null)
             {
-                services.AddHttpClient<IHttpService, MyHttpClient>();
+                services
+                    .AddHttpClient<IHttpService, HttpService>()
+                    .ConfigurePrimaryHttpMessageHandler(Options.DefaultMyHttpClientHandler);
             }
             else if (Options.DefaultHttpClientConfigure != null)
             {

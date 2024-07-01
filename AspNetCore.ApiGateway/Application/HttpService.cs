@@ -16,14 +16,4 @@ namespace AspNetCore.ApiGateway
 
         public HttpClient Client { get; }
     }
-
-    public class MyHttpClient : IHttpService
-    {
-        public HttpClient Client { get; private set; }
-
-        public MyHttpClient(HttpClientHandler clientHandler)
-        {
-            Client = new HttpClient(clientHandler);
-        }
-    }
 }
