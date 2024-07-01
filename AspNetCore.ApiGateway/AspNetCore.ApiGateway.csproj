@@ -14,7 +14,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <PackageReleaseNotes>1. Added feature to create new default HttpClient, using HttpClientHandler, to hit all backend routes.
 2. Various internal improvements.</PackageReleaseNotes>
     <Title>AspNetCore.ApiGateway</Title>
