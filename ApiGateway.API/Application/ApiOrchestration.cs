@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ApiGateway.API
@@ -32,7 +33,7 @@ namespace ApiGateway.API
                                 //Head
                                 .AddRoute("forecasthead", GatewayVerb.HEAD, new RouteInfo { Path = "weatherforecast/forecast" })
                                 //Get with params
-                                .AddRoute("typewithparams", GatewayVerb.GET, new RouteInfo {  Path = "weatherforecast/types/{index}"})
+                                .AddRoute("typewithparams", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types/{index}" })
                                 //Get using custom HttpClient
                                 .AddRoute("types", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/types", ResponseType = typeof(string[]), HttpClientConfig = weatherApiClientConfig })
                                 //Get with param using custom HttpClient
@@ -62,8 +63,8 @@ namespace ApiGateway.API
         public static HubConnection BuildHubConnection(HubConnectionBuilder builder)
         {
             return builder.WithUrl("https://localhost:5007/chathub")
-                          .AddNewtonsoftJsonProtocol()
-                          .Build();
+                .AddJsonProtocol()
+                .Build();
         }
 
         public static object BuildEventSourceConnection()

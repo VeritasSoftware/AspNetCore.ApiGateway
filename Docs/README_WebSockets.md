@@ -42,7 +42,7 @@ The **ReceiveKey** (eg. Guid) is to be specified if you want to receive notifica
 private static HubConnection BuildHubConnection(HubConnectionBuilder builder)
 {
     return builder.WithUrl("http://localhost:53353/ChatHub")
-                  .AddNewtonsoftJsonProtocol()
+                  .AddJsonProtocol()
                   .Build();
 }
 ```
@@ -88,7 +88,7 @@ To hook up the GatewayHub, in your Gateway API project Startup.cs:
 public void ConfigureServices(IServiceCollection services)
 {
     //Hook up GatewayHub using SignalR
-    services.AddSignalR().AddNewtonsoftJsonProtocol();          
+    services.AddSignalR().AddJsonProtocol();          
 
     //Api gateway
     services.AddApiGateway();
@@ -198,7 +198,7 @@ In your **Client**, connect to the GatewayHub and listen to **ReceiveMessage**.
 ```C#
 var conn = new HubConnectionBuilder()
                 .WithUrl("https://localhost:44360/GatewayHub")
-                .AddNewtonsoftJsonProtocol()
+                .AddJsonProtocol()
                 .Build();
 
 conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>

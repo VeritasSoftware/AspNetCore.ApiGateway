@@ -43,7 +43,7 @@ namespace ApiGateway.API
                     .AllowAnyHeader()
                     .AllowAnyOrigin();
             }));
-            services.AddSignalR().AddNewtonsoftJsonProtocol();
+            services.AddSignalR().AddJsonProtocol();
 
             services.AddTransient<IWeatherService, WeatherService>();
 

@@ -28,7 +28,7 @@ namespace AspNetCore.ApiGateway
             Options = new ApiGatewayOptions();
 
             options?.Invoke(Options);
-            
+
             services.AddSingleton<IMediator, Mediator>();
             services.AddSingleton<IHubMediator, HubMediator>();
             services.AddSingleton<IEventSourceMediator, EventSourceMediator>();
@@ -44,7 +44,7 @@ namespace AspNetCore.ApiGateway
                     .AddResultFilters()
                     .AddHubFilters();
 
-            
+
             if (Options.DefaultMyHttpClientHandler != null)
             {
                 services
@@ -58,11 +58,11 @@ namespace AspNetCore.ApiGateway
             else
             {
                 services.AddHttpClient<IHttpService, HttpService>();
-            }            
+            }
 
             services.AddApiGatewayResponseCaching();
 
-            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);            
+            services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles; });
         }
 
         public static void UseApiGateway(this IApplicationBuilder app, Action<IApiOrchestrator> setApis)
@@ -86,17 +86,17 @@ namespace AspNetCore.ApiGateway
                 app.UseMiddleware<GatewayMiddlewareService>();
             }
 
-            app.UseHubs(apiOrchestrator);            
+            app.UseHubs(apiOrchestrator);
         }
 
         internal static T GetServiceOrNull<T>(this IServiceProvider serviceProvider)
-            where T: class
+            where T : class
         {
             try
             {
                 return serviceProvider.GetService<T>();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -198,7 +198,7 @@ namespace AspNetCore.ApiGateway
                 var gatewayConn = new HubConnectionBuilder()
                     .WithUrl(apiOrchestrator.GatewayHubUrl)
                     .WithAutomaticReconnect()
-                    .AddNewtonsoftJsonProtocol()
+                    .AddJsonProtocol()
                     .Build();
 
                 gatewayConn.StartAsync().ConfigureAwait(false);
@@ -211,17 +211,17 @@ namespace AspNetCore.ApiGateway
                     {
                         await connection.StartAsync();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         try
                         {
                             var logger = app.ApplicationServices.GetService<ILogger<ApiGatewayLog>>();
                             logger.LogError(ex, $"Api Gateway error starting hub connection.");
                         }
-                        catch (Exception) 
-                        { 
+                        catch (Exception)
+                        {
                         }
-                    }                    
+                    }
 
                     hub.Value.Mediator.Paths.ToList().ForEach(path =>
                     {
@@ -236,8 +236,8 @@ namespace AspNetCore.ApiGateway
             }
         }
 
-        internal static void AddRequestHeaders (this IHeaderDictionary requestHeaders, HttpRequestHeaders headers)
-        { 
+        internal static void AddRequestHeaders(this IHeaderDictionary requestHeaders, HttpRequestHeaders headers)
+        {
             foreach (var item in requestHeaders)
             {
                 try
@@ -245,14 +245,14 @@ namespace AspNetCore.ApiGateway
                     if (!headers.Contains(item.Key))
                         headers.Add(item.Key, item.Value.ToString());
                 }
-                catch(Exception)
+                catch (Exception)
                 { }
             }
         }
 
         internal static Orchestration FilterRoutes(this Orchestration orchestration, string key)
         {
-            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim())).Cast<RouteBase>().ToList();            
+            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim())).Cast<RouteBase>().ToList();
             return orchestration;
         }
 
@@ -264,17 +264,17 @@ namespace AspNetCore.ApiGateway
         internal static void LogApiInfo(this ILogger<ApiGatewayLog> logger, string api, string key, string parameters, object request = null)
         {
             if (request != null)
-                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {JsonSerializer.Serialize(request)}, parameters: {parameters}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, object: {JsonSerializer.Serialize(request)}, parameters: {parameters}, UtcTime: {DateTime.UtcNow.ToUtcLongDateTime()}");
             else
-                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+                logger.LogInformation($"ApiGateway: Incoming POST request. api: {api}, key: {key}, UtcTime: {DateTime.UtcNow.ToUtcLongDateTime()}");
         }
 
         internal static void LogApiInfo(this ILogger<ApiGatewayLog> logger, string url, bool beforeBackendCall = true)
         {
             if (beforeBackendCall)
-                logger.LogInformation($"ApiGateway: Calling back end. Url: {url}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+                logger.LogInformation($"ApiGateway: Calling back end. Url: {url}, UtcTime: {DateTime.UtcNow.ToUtcLongDateTime()}");
             else
-                logger.LogInformation($"ApiGateway: Finished calling back end. Url: {url}, UtcTime: { DateTime.UtcNow.ToUtcLongDateTime() }");
+                logger.LogInformation($"ApiGateway: Finished calling back end. Url: {url}, UtcTime: {DateTime.UtcNow.ToUtcLongDateTime()}");
         }
 
     }

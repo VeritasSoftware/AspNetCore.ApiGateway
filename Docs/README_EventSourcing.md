@@ -88,7 +88,7 @@ To hook up the GatewayHub, in your Gateway API project Startup.cs:
 public void ConfigureServices(IServiceCollection services)
 {
     //Hook up GatewayHub using SignalR
-    services.AddSignalR().AddNewtonsoftJsonProtocol();          
+    services.AddSignalR().AddJsonProtocol();          
 
     //Api gateway
     services.AddApiGateway();
@@ -136,7 +136,7 @@ You have to subscribe to the route (stream) once, before you start receiving Eve
 ```C#
 var conn = new HubConnectionBuilder()
                 .WithUrl("https://localhost:44360/GatewayHub")
-                .AddNewtonsoftJsonProtocol()
+                .AddJsonProtocol()
                 .Build();
 
 conn.On("ReceiveMyStreamEvent", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>

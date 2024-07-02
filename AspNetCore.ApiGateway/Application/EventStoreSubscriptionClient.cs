@@ -36,10 +36,10 @@ namespace AspNetCore.ApiGateway.Application
         static readonly object _lockObject = new object();
 
         public static async Task CreateAsync(EventStoreSubscriptionClientSettings subscriptionClientSettings)
-        {            
-            if(!Subscriptions.Any(x => (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
+        {
+            if (!Subscriptions.Any(x => (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
                                             && (x.StoreUser.Key == subscriptionClientSettings.StoreUser.Key)
-                                            && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName) 
+                                            && (x.RouteInfo.StreamName == subscriptionClientSettings.RouteInfo.StreamName)
                                             && (x.RouteInfo.GroupName == subscriptionClientSettings.RouteInfo.GroupName)))
             {
                 var client = new EventStoreSubscriptionClient(subscriptionClientSettings);
@@ -51,10 +51,10 @@ namespace AspNetCore.ApiGateway.Application
                 lock (_lockObject)
                 {
                     Subscriptions.Add(subscriptionClientSettings);
-                }                
+                }
             }
 
-            lock(_lockObject)
+            lock (_lockObject)
             {
                 if (!ConnectedUsers.Any(x => (x.ConnectionId == subscriptionClientSettings.ConnectionId)
                                              && (x.StoreUser.Api == subscriptionClientSettings.StoreUser.Api)
@@ -66,7 +66,7 @@ namespace AspNetCore.ApiGateway.Application
                         StoreUser = subscriptionClientSettings.StoreUser
                     });
                 }
-            }            
+            }
         }
     }
 
@@ -98,14 +98,14 @@ namespace AspNetCore.ApiGateway.Application
             _hubConnection = new HubConnectionBuilder()
                     .WithUrl(_gatewayHubUrl)
                     .WithAutomaticReconnect()
-                    .AddNewtonsoftJsonProtocol()
+                    .AddJsonProtocol()
                     .Build();
 
             _hubConnection.StartAsync().ConfigureAwait(true);
         }
 
         public async Task ConnectAsync()
-        {            
+        {
             _logger?.LogInformation($"Connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");
 
             EventStorePersistentSubscriptionBase = await _eventStoreConnection.ConnectToPersistentSubscriptionAsync(
@@ -118,7 +118,7 @@ namespace AspNetCore.ApiGateway.Application
                    true
             );
 
-            _logger?.LogInformation($"Finished connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");            
+            _logger?.LogInformation($"Finished connecting to Persistent Subscription in the Event Store Server. Stream name: {_routeInfo.StreamName}, Group name: {_routeInfo.GroupName}.");
         }
 
         private async void SubscriptionDropped(EventStorePersistentSubscriptionBase subscription, SubscriptionDropReason reason, Exception ex)
@@ -130,7 +130,7 @@ namespace AspNetCore.ApiGateway.Application
 
         private async void EventAppeared(EventStorePersistentSubscriptionBase subscription, ResolvedEvent resolvedEvent)
         {
-            var strResolvedEvent = JsonSerializer.Serialize(resolvedEvent, new JsonSerializerOptions {  WriteIndented = true });
+            var strResolvedEvent = JsonSerializer.Serialize(resolvedEvent, new JsonSerializerOptions { WriteIndented = true });
 
             await _hubConnection.InvokeAsync("EventStoreEventAppeared", _storeUser, strResolvedEvent);
         }
@@ -141,10 +141,10 @@ namespace AspNetCore.ApiGateway.Application
             {
                 EventStorePersistentSubscriptionBase.Stop(TimeSpan.FromSeconds(15));
             }
-            catch(Exception)
+            catch (Exception)
             {
 
-            }            
+            }
         }
     }
 }

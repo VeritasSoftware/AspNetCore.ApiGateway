@@ -24,7 +24,7 @@ namespace Backend.Hubs
                     .AllowAnyHeader()
                     .AllowAnyOrigin();
             }));
-            services.AddSignalR().AddNewtonsoftJsonProtocol();
+            services.AddSignalR().AddJsonProtocol();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,30 +149,31 @@ namespace AspNetCore.ApiGateway.Client
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var orchs = JArray.Parse(content);
-
-            var orchestrations = new List<Orchestration>();
-
-            orchs.AsEnumerable().ToList().ForEach(item =>
+            using (JsonDocument jsonDocument = JsonDocument.Parse(content))
             {
-                var type = item.SelectToken("orchestrationType");
-                var orchestrationType = (OrchestationType)Enum.Parse(typeof(OrchestationType), type.ToString());
+                var orchestrations = new List<Orchestration>();
 
-                switch (orchestrationType)
+                foreach (var element in jsonDocument.RootElement.EnumerateArray())
                 {
-                    case OrchestationType.Api:
-                        orchestrations.Add(item.ToObject<ApiOrchestration>());
-                        break;
-                    case OrchestationType.Hub:
-                        orchestrations.Add(item.ToObject<HubOrchestration>());
-                        break;
-                    case OrchestationType.EventSource:
-                        orchestrations.Add(item.ToObject<EventSourceOrchestration>());
-                        break;
-                }
-            });
+                    var type = element.GetProperty("orchestrationType").GetString();
+                    var orchestrationType = (OrchestationType)Enum.Parse(typeof(OrchestationType), type);
 
-            return orchestrations;
+                    switch (orchestrationType)
+                    {
+                        case OrchestationType.Api:
+                            orchestrations.Add(JsonSerializer.Deserialize<ApiOrchestration>(element.GetRawText()));
+                            break;
+                        case OrchestationType.Hub:
+                            orchestrations.Add(JsonSerializer.Deserialize<HubOrchestration>(element.GetRawText()));
+                            break;
+                        case OrchestationType.EventSource:
+                            orchestrations.Add(JsonSerializer.Deserialize<EventSourceOrchestration>(element.GetRawText()));
+                            break;
+                    }
+                }
+
+                return orchestrations;
+            }
         }
 
         private static string UrlCombine(string baseUrl, params string[] segments)

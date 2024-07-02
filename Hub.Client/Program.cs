@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Text;
-using System.Threading;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Hub.Client
@@ -17,7 +14,7 @@ namespace Hub.Client
 
             var conn = new HubConnectionBuilder()
                             .WithUrl("https://localhost:5001/GatewayHub")
-                            .AddNewtonsoftJsonProtocol()
+                            .AddJsonProtocol()
                             .Build();
 
             conn.On("ReceiveMessage", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
@@ -27,8 +24,8 @@ namespace Hub.Client
 
             conn.On("ReceiveMyStreamEvent", new Type[] { typeof(object), typeof(object) }, (arg1, arg2) =>
             {
-                dynamic parsedJson = JsonConvert.DeserializeObject(arg1[0].ToString());
-                var evt = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+                dynamic parsedJson = System.Text.Json.JsonSerializer.Deserialize<dynamic>(arg1[0].ToString());
+                var evt = System.Text.Json.JsonSerializer.Serialize<string>(parsedJson, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
                 Console.WriteLine(evt);
                 return Task.CompletedTask;
             }, new object());
@@ -115,7 +112,7 @@ namespace Hub.Client
 
         static Task WriteToConsole(object[] arg1)
         {
-            var jArray = JArray.Parse(arg1[0].ToString());
+            var jArray = JsonArray.Parse(arg1[0].ToString());
 
             Console.WriteLine($"{jArray[0]} says {jArray[1]}");
             return Task.CompletedTask;
