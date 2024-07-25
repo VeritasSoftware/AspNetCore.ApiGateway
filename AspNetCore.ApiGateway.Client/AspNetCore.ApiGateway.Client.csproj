@@ -8,9 +8,12 @@
     <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
     <PackageTags>asp net core api gateway client</PackageTags>
-    <PackageReleaseNotes>Changes relating to re-named gateway url route variables.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated dependencies to .NET 8.</PackageReleaseNotes>
     <Authors>Shantanu</Authors>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
+    <Title>AspNetCore.ApiGateway.Client</Title>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
