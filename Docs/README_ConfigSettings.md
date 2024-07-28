@@ -1,14 +1,12 @@
 ### Api Gateway Config Settings
 
-You can keep the ApiKey, RouteKey, Backend API Base Url and Route Path,
+You can keep the **ApiKey**, **RouteKey**, **Backend API Base Urls** and **Route Paths**,
 
 in your appsettings.json file.
 
 The **Identifier** is used to identify each **ApiSetting** & **RouteSetting**.
 
-In your Gateway API project's appsettings.json file,
-
-add a **Settings** section like shown below:
+In your Gateway API project's appsettings.json file, add a **Settings** section like shown below:
 
 ```JSON
 {

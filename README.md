@@ -91,16 +91,6 @@ So, the call to the Gateway would become:
 
 *	**HTTP GET - /weatherservice/forecast**
 
-**Using appsettings.json**
-
-If you want, you can keep the **ApiKey, RouteKey, backend API base urls and Route path**,
-
-in the **appsettings.json**, read it using a Config Service,
-
-and pass it to the Api Orchestrator in the below Create method. 
-
-Read [**more**](/Docs/README_ConfigSettings.md).
-
 **Add a reference to the package and...**
 
 *	Create an **Api Orchestration**.
@@ -215,19 +205,34 @@ you can enter the **Api key** and **Route key** into Swagger as below:
 
 This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
 
-You can check out how the Api Gateway supported Verbs are used below.
+### Using appsettings.json
 
-### [Verbs Usage](Docs/README_VERBS.md)
+If you want, you can keep the **ApiKey, RouteKey, backend API base urls and Route path**,
 
-You can check out how the Api Gateway's endpoint Authorization support below.
+in the **appsettings.json**, read it using a Config Service,
+
+and pass it to the Api Orchestrator in the below Create method. 
+
+Read [**more**](/Docs/README_ConfigSettings.md).
+
+### Verbs usage & Routing
+
+You can check out how the Api Gateway supported Verbs are used & Routing below.
+
+### [Verbs Usage & Routing](Docs/README_VERBS.md)
+
+### Authorization
+
+Just like a Web API's Authorization Filter, the framework provides a **Gateway Authorization Filter**.
+
+Here you can perform any kind of Authorization you like. There is no prescribed Authorization.
 
 ### [Authorization](Docs/README_Authorization.md)
 
 ### Customizations
 
-*   Customize the default **HttpClient** used by all the routes, to hit the backend Api.
-*   Customize the default HttpClient which each route uses to hit the backend Api.
-*	Use your own **HttpClient** for each route.
+*   Create a new or customize the default **HttpClient** used by all the routes, to hit the backend Api.
+*   Create a new or customize the default **HttpClient** which each route uses to hit the backend Api.
 *	Use your own custom implementation to hit the backend Api.
 
 For **Request aggregation**, see this section.
