@@ -211,7 +211,7 @@ If you want, you can keep the **ApiKey, RouteKey, backend API base urls and Rout
 
 in the **appsettings.json**, read it using a Config Service,
 
-and pass it to the Api Orchestrator in the below Create method. 
+and pass it to the Api Orchestrator in the Create method. 
 
 Read [**more**](/Docs/README_ConfigSettings.md).
 
