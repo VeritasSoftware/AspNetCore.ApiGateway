@@ -215,6 +215,18 @@ and pass it to the Api Orchestrator in the Create method.
 
 Read [**more**](/Docs/README_ConfigSettings.md).
 
+### Deployment to Prod
+
+As with any Web API, when there is any code change, the API Gateway too is published and deployed using **Blue/Green deployment**.
+
+This is available in **Azure** & **AWS**.
+
+In Azure App Service, you use **deployment slots**. Read [more](https://learn.microsoft.com/en-us/azure/app-service/deploy-best-practices#use-deployment-slots).
+
+In AWS, you use **Elastic Beanstalk**. Read [more](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.CNAMESwap.html).
+
+So, there is no down time.
+
 ### Verbs usage & Routing
 
 You can check out how the Api Gateway supported Verbs are used & Routing below.
