@@ -185,7 +185,12 @@ As with any Web API, when there is any code change, the API Gateway too is publi
 
 This is available in **Azure** & **AWS**.
 
-In Azure App Service, you use **deployment slots**. Read [more](https://learn.microsoft.com/en-us/azure/app-service/deploy-best-practices#use-deployment-slots).
+In Azure App Service, you use **deployment slots** etc. 
+
+*   Read [more](https://learn.microsoft.com/en-us/azure/app-service/deploy-best-practices#use-deployment-slots).
+*   Read [more](https://learn.microsoft.com/en-us/azure/container-apps/blue-green-deployment?pivots=azure-cli).
+
+Azure Kubernetes Service (AKS) also supports Blue/Green deployment. Read [more](https://learn.microsoft.com/en-us/azure/architecture/guide/aks/blue-green-deployment-for-aks).
 
 In AWS, you use **Elastic Beanstalk**. Read [more](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.CNAMESwap.html).
 
