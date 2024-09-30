@@ -22,7 +22,8 @@ In your Gateway API project's appsettings.json file, add a **Settings** section 
           "Identifier": "ROUTE1",
           "RouteKey": "forecast",
           "Verb":  "GET",
-          "BackendAPIRoutePath": "weatherforecast/forecast"
+          "BackendAPIRoutePath": "weatherforecast/forecast",
+          "ResponseCachingDurationInSeconds": 120
         }
       ]
     },
@@ -37,7 +38,8 @@ In your Gateway API project's appsettings.json file, add a **Settings** section 
           "Identifier": "ROUTE1",
           "RouteKey": "stocks",
           "Verb":  "GET",
-          "BackendAPIRoutePath": "stock"
+          "BackendAPIRoutePath": "stock",
+          "ResponseCachingDurationInSeconds": 180
         }
       ]
     }
@@ -83,7 +85,8 @@ namespace Gateway.API
         public string Identifier { get; set; }
         public string RouteKey { get; set; }
         public GatewayVerb Verb { get; set; }
-        public string BackendAPIRoutePath { get; set; }        
+        public string BackendAPIRoutePath { get; set; }
+        public int ResponseCachingDurationInSeconds { get; set; } = -1;
     }
 
     public interface IConfigService
@@ -141,6 +144,7 @@ public static class Settings
     public static string API1_ROUTE1_RouteKey = _settings[API1][API1_ROUTE1].RouteKey;
     public static GatewayVerb API1_ROUTE1_Verb = _settings[API1][API1_ROUTE1].Verb;
     public static string API1_ROUTE1_BackendAPIRoutePath = _settings[API1][API1_ROUTE1].BackendAPIRoutePath;
+    public static int API1_ROUTE1_ResponseCachingDurationInSeconds = _settings[API1][API1_ROUTE1].ResponseCachingDurationInSeconds;
 }
 ```
 
@@ -156,7 +160,7 @@ ConfigProvider.MySettings = settings;
 
 orchestrator.AddApi(Settings.API1_ApiKey, Settings.API1_BackendAPIBaseUrls)
                 //Get
-                .AddRoute(Settings.API1_ROUTE1_RouteKey, Settings.API1_ROUTE1_Verb, new RouteInfo { Path = Settings.API1_ROUTE1_BackendAPIRoutePath })
+                .AddRoute(Settings.API1_ROUTE1_RouteKey, Settings.API1_ROUTE1_Verb, new RouteInfo { Path = Settings.API1_ROUTE1_BackendAPIRoutePath, ResponseCachingDurationInSeconds = Settings.API1_ROUTE1_ResponseCachingDurationInSeconds })
 ```
 
 In the **Filters**, you can use the Settings & do like shown below:
