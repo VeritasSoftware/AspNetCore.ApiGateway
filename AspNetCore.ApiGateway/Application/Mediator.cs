@@ -75,6 +75,7 @@ namespace AspNetCore.ApiGateway
         public Type RequestType { get; set; }
         public Func<ApiInfo, HttpRequest, Task<object>> Exec { get; set; }
         public HttpClientConfig HttpClientConfig { get; set; }
+        public int ResponseCachingDurationInSeconds { get; set; } = -1;
         private IEnumerable<string> Params
         {
             get

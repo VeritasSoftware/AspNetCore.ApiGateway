@@ -9,13 +9,28 @@ You can confiure your Gateway Api to cache responses.
         options.UseResponseCaching = true;
         options.ResponseCacheSettings = new ApiGatewayResponseCacheSettings
         {
-            Duration = 120,
+            Duration = 60, //default for all routes
             Location = ResponseCacheLocation.Any,
             //Use VaryByQueryKeys to vary the response for each apiKey & routeKey
             VaryByQueryKeys = new[] { "apiKey", "routeKey" } 
         };
     });
 ```
+
+### Varying Duration based on apiKey, routeKey
+
+The Duration specified above will be the default for all routes.
+
+For varying the Duration based on Route, in the Api Orchestrator Route, specify **ResponseCachingDurationInSeconds**.
+
+```C#
+orchestrator.AddApi("stockservice", "https://localhost:5005/")
+                .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>), ResponseCachingDurationInSeconds = 120 })
+```
+
+If ResponseCachingDurationInSeconds is specified, it will override the default and will be applied for that route.
+
+ResponseCachingDurationInSeconds should be 0 or greater.
 
 ### Response Cache Settings
 

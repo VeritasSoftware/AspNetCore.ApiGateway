@@ -44,7 +44,8 @@ namespace AspNetCore.ApiGateway
                     .AddResultFilters()
                     .AddHubFilters();
 
-            
+            services.AddHttpContextAccessor();
+
             if (Options.DefaultMyHttpClientHandler != null)
             {
                 services
@@ -178,15 +179,25 @@ namespace AspNetCore.ApiGateway
                 {
                     services.AddResponseCaching();
 
-                    services.AddMvc(o => o.Filters.Add(new ResponseCacheAttribute
+                    services.AddScoped(sp => new ResponseCacheTillAttribute(sp.GetRequiredService<IHttpContextAccessor>(),
+                                                                            sp.GetRequiredService<IApiOrchestrator>(),
+                                                                            Options)
                     {
                         NoStore = Options.ResponseCacheSettings.NoStore,
                         Location = Options.ResponseCacheSettings.Location,
-                        Duration = Options.ResponseCacheSettings.Duration,
                         VaryByHeader = Options.ResponseCacheSettings.VaryByHeader,
                         VaryByQueryKeys = Options.ResponseCacheSettings.VaryByQueryKeys,
                         CacheProfileName = Options.ResponseCacheSettings.CacheProfileName
-                    }));
+                    });
+                }
+                else
+                {
+                    services.AddScoped(sp => new ResponseCacheTillAttribute(sp.GetRequiredService<IHttpContextAccessor>(),
+                                                                            sp.GetRequiredService<IApiOrchestrator>(),
+                                                                            Options)
+                    {
+                        NoStore = true
+                    });
                 }
             }
         }

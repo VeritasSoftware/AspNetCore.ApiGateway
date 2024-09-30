@@ -77,10 +77,10 @@ namespace ApiGateway.API
                 options.UseResponseCaching = false;
                 options.ResponseCacheSettings = new ApiGatewayResponseCacheSettings
                 {
-                    Duration = 120,
+                    Duration = 60, //default for all routes
                     Location = ResponseCacheLocation.Any,
                     //Use VaryByQueryKeys to vary the response for each apiKey & routeKey
-                    VaryByQueryKeys = new[] { "apiKey", "routeKey" } 
+                    VaryByQueryKeys = new[] { "apiKey", "routeKey" }
                 };
             });
 

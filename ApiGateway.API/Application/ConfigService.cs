@@ -25,7 +25,8 @@ namespace ApiGateway.API.Application
         public string Identifier { get; set; }
         public string RouteKey { get; set; }
         public GatewayVerb Verb { get; set; }
-        public string BackendAPIRoutePath { get; set; }        
+        public string BackendAPIRoutePath { get; set; }
+        public int ResponseCachingDurationInSeconds { get; set; } = -1;
     }
 
     public interface IConfigService

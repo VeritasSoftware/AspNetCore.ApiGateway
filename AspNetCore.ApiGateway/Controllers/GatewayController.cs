@@ -47,6 +47,7 @@ namespace AspNetCore.ApiGateway.Controllers
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncActionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncExceptionFilterAttribute))]
         [ServiceFilter(typeof(GatewayGetOrHeadAsyncResultFilterAttribute))]
+        [ServiceFilter(typeof(ResponseCacheTillAttribute))]
         public async Task<IActionResult> Get(string apiKey, string routeKey, string parameters = null)
         {
             return await ProcessAsync(
@@ -255,7 +256,7 @@ namespace AspNetCore.ApiGateway.Controllers
                 var returnedContent = await response.Content.ReadAsStringAsync();
 
                 return Ok(routeInfo.ResponseType != null
-                    ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(await response.Content.ReadAsStringAsync(), routeInfo.ResponseType) : string.Empty
+                    ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(returnedContent, routeInfo.ResponseType) : string.Empty
                     : returnedContent);
             }
         }
