@@ -14,8 +14,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>4.4.0</Version>
-    <PackageReleaseNotes>1. Added support for .NET 8. Now, supports .NET 6/7/8.</PackageReleaseNotes>
+    <Version>4.5.0</Version>
+    <PackageReleaseNotes>Added feature to vary response caching duration based on route.</PackageReleaseNotes>
     <Title>AspNetCore.ApiGateway</Title>
   </PropertyGroup>
 
