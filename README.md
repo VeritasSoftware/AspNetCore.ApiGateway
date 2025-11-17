@@ -17,7 +17,7 @@ Social Media: LinkedIn [post](https://www.linkedin.com/feed/update/urn:li:activi
 
 [![LinkedIn post](/Docs/LinkedIn.png)](https://www.linkedin.com/feed/update/urn:li:activity:7168255226624372736/)
 
-|**More of my open-source projects**|||
+||**More of my open-source projects**||
 |---------------------------|---|:---:|
 |*Live Health Checks*|Real-Time Api Health Check Monitoring system|[Browse](https://github.com/VeritasSoftware/LiveHealthChecks)|
 |*.NET WebRTC*|A .NET library for WebRTC, enabling real-time communication in your web applications. Audio+video chat, screen sharing, text chat, file transfer etc.<br>`Angular`, `React` & `Blazor` clients.|[Browse](https://github.com/VeritasSoftware/WebRTC)|
