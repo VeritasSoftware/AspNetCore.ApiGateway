@@ -1,6 +1,6 @@
 ﻿using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Application.HubFilters;
-using EventStore.ClientAPI;
+//using EventStore.ClientAPI;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
@@ -82,108 +82,6 @@ namespace AspNetCore.ApiGateway.Hubs
             }
         }
 
-        public async Task PublishToEventStoreStream(GatewayHubEventStoreUser user)
-        {
-            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
-            {
-                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
-
-                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
-
-                if ((routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.PublishOnly || routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.PublishSubscribe) 
-                    && (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0))
-                {
-                    var connection = (IEventStoreConnection) eventSourceInfo.Connection;
-
-                    _logger?.LogInformation($"Start publishing Events to downstream Event Store stream {routeInfo.EventSourceRoute.StreamName}, for ConnectionId {this.Context.ConnectionId}.");
-
-                    await connection.AppendToStreamAsync(routeInfo.EventSourceRoute.StreamName, ExpectedVersion.StreamExists, user.Events);
-
-                    _logger?.LogInformation($"Start publishing Events to downstream Event Store stream {routeInfo.EventSourceRoute.StreamName}, for ConnectionId {this.Context.ConnectionId}.");
-                }
-            }
-        }
-
-        public async Task SubscribeToEventStoreStream(GatewayHubSubscribeEventStoreUser user)
-        {
-            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
-            {
-                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
-
-                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
-
-                if ((routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.SubscribeOnly || routeInfo.EventSourceRoute.OperationType == EventSourcingOperationType.PublishSubscribe) 
-                    && (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0))
-                {
-                    var connection = (IEventStoreConnection)eventSourceInfo.Connection;
-
-                    _logger?.LogInformation($"Start subscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
-
-                    await EventStoreClientFactory.CreateAsync(new EventStoreSubscriptionClientSettings
-                    {
-                        Connection = connection,
-                        RouteInfo = routeInfo.EventSourceRoute,
-                        GatewayUrl = _apiOrchestrator.GatewayHubUrl,
-                        StoreUser = user,
-                        ConnectionId = this.Context.ConnectionId,
-                        Logger = _logger
-                    });
-
-                    _logger?.LogInformation($"Finish subscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
-                }
-            }
-        }
-
-        public async Task UnsubscribeFromEventStoreStream(GatewayHubSubscribeEventStoreUser user)
-        {
-            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
-            {
-                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
-
-                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
-
-                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
-                {
-                    lock(this)
-                    {
-                        _logger?.LogInformation($"Start unsubscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
-
-                        EventStoreClientFactory.ConnectedUsers.RemoveAll(x => (x.ConnectionId == this.Context.ConnectionId)
-                                                                                && (x.StoreUser.Api == user.Api) && (x.StoreUser.Key == user.Key));
-
-                        _logger?.LogInformation($"Finish unsubscribing to downstream Event Store route {user.Api}:{user.Key} for ConnectionId {this.Context.ConnectionId}.");
-                    }                    
-                }
-            }
-
-            await Task.CompletedTask;
-        }
-
-        public async Task EventStoreEventAppeared(GatewayHubSubscribeEventStoreUser user, string resolvedEvent)
-        {
-            if (!string.IsNullOrEmpty(user.RouteKey) && !string.IsNullOrEmpty(user.Api) && !string.IsNullOrEmpty(user.Key))
-            {
-                var eventSourceInfo = _apiOrchestrator.GetEventSource(user.Api);
-
-                var routeInfo = eventSourceInfo.Mediator.GetRoute(user.Key);
-
-                if (!string.IsNullOrEmpty(user.RouteKey) && string.Compare(eventSourceInfo.RouteKey, user.RouteKey) == 0)
-                {
-                    var connectedUsers = EventStoreClientFactory.ConnectedUsers.Where(x => (x.StoreUser.Api == user.Api) && (x.StoreUser.Key == user.Key)).ToList();
-
-                    connectedUsers.ForEach(async connectedUser =>
-                    {
-                        _logger?.LogInformation($"Start sending Event to ConnectionId {connectedUser.ConnectionId}.");
-
-                        await base.Clients.Client(connectedUser.ConnectionId).SendAsync(routeInfo.EventSourceRoute.ReceiveMethod, resolvedEvent, new object());
-
-                        _logger?.LogInformation($"Finish sending Event to ConnectionId {connectedUser.ConnectionId}.");
-                    });                    
-                }
-            }
-
-            await Task.CompletedTask;
-        }
 
         public async Task SubscribeToRoute(GatewayHubUser user)
         {

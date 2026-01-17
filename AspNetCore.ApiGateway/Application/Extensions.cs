@@ -31,12 +31,10 @@ namespace AspNetCore.ApiGateway
             
             services.AddSingleton<IMediator, Mediator>();
             services.AddSingleton<IHubMediator, HubMediator>();
-            services.AddSingleton<IEventSourceMediator, EventSourceMediator>();
 
             services.AddSingleton<IApiOrchestrator>(sp => new ApiOrchestrator(
                 sp.GetRequiredService<IMediator>(),
-                sp.GetRequiredService<IHubMediator>(),
-                sp.GetRequiredService<IEventSourceMediator>()));
+                sp.GetRequiredService<IHubMediator>()));
 
             services.AddAuthorizationFilters()
                     .AddActionFilters()

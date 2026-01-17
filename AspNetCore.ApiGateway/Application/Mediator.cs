@@ -45,12 +45,7 @@ namespace AspNetCore.ApiGateway
     {
         public GatewayVerb Verb { get; set; } = GatewayVerb.POST;
         public HubRouteInfo HubRoute { get; set; }
-    }
-
-    public class GatewayEventSourceRouteInfo : GatewayRouteInfoBase
-    {
-        public EventSourceRouteInfo EventSourceRoute { get; set; }
-    }
+    }    
 
     public class RouteInfo
     {
@@ -137,81 +132,6 @@ namespace AspNetCore.ApiGateway
         public Type[] ReceiveParameterTypes { get; set; }
     }
 
-    public enum EventSourcingOperationType
-    {
-        PublishOnly,
-        SubscribeOnly,
-        PublishSubscribe
-    }
-
-    public class EventSourceRouteInfo
-    {
-        public EventSourcingType Type { get; set; } = EventSourcingType.EventStore;
-        public EventSourcingOperationType OperationType { get; set; } = EventSourcingOperationType.PublishSubscribe;
-        public string StreamName { get; set; }
-        public string GroupName { get; set; }
-
-        public string ReceiveMethod { get; set; }
-    }
-
-    public class EventSourceMediator : IEventSourceMediator
-    {
-        public IApiOrchestrator ApiOrchestrator
-        {
-            get => _apiOrchestrator;
-            set => _apiOrchestrator = value;
-        }
-
-        private IApiOrchestrator _apiOrchestrator;
-        Dictionary<string, GatewayEventSourceRouteInfo> paths = new Dictionary<string, GatewayEventSourceRouteInfo>();
-
-        public Dictionary<string, GatewayEventSourceRouteInfo> Paths => paths;
-        
-        public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null)
-        {
-            return _apiOrchestrator.AddHub(apiKey, connectionBuilder, receiveKey);
-        }
-
-        public IMediator AddApi(string apiKey, params string[] baseUrls)
-        {
-            return _apiOrchestrator.AddApi(apiKey, baseUrls);
-        }
-
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
-        {
-            _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, routeKey);
-
-            return this;
-        }
-
-        public IEventSourceMediator AddRoute(string key, EventSourceRouteInfo routeInfo)
-        {
-            var gatewayRouteInfo = new GatewayEventSourceRouteInfo
-            {
-                EventSourceRoute = routeInfo
-            };
-
-            paths.Add(key.ToLower(), gatewayRouteInfo);
-
-            return this;
-        }
-
-        public GatewayEventSourceRouteInfo GetRoute(string key)
-        {
-            return paths[key.ToLower()];
-        }
-
-        public IEnumerable<EventSourceRoute> Routes => paths.Select(x => new EventSourceRoute
-        {
-            Key = x.Key,
-            GroupName = x.Value.EventSourceRoute.GroupName,
-            OperationType = x.Value.EventSourceRoute.OperationType.ToString(),
-            ReceiveMethod = x.Value.EventSourceRoute.ReceiveMethod,
-            StreamName = x.Value.EventSourceRoute.StreamName,
-            Type = x.Value.EventSourceRoute.Type.ToString(),
-        });
-    }
-
     public class HubMediator : IHubMediator
     {
         private IApiOrchestrator _apiOrchestrator;
@@ -237,11 +157,6 @@ namespace AspNetCore.ApiGateway
             _apiOrchestrator.AddApi(apiKey, baseUrls);
 
             return _apiOrchestrator.GetApi(apiKey).Mediator;
-        }
-
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
-        {
-            return _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, routeKey);
         }
 
         public IHubMediator AddRoute(string key, HubRouteInfo routeInfo)
@@ -347,11 +262,6 @@ namespace AspNetCore.ApiGateway
         public IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null)
         {
             return _apiOrchestrator.AddHub(apiKey, connectionBuilder, receiveKey);
-        }
-
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
-        {
-            return _apiOrchestrator.AddEventSource(apiKey, connectionBuilder, routeKey);
         }
 
         #endregion

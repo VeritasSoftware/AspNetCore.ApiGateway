@@ -283,7 +283,7 @@ namespace AspNetCore.ApiGateway.Tests
             var orchestrations = await client.GetOrchestrationAsync(parameters);
 
             //Assert
-            Assert.True(orchestrations.Count() == 4);
+            Assert.True(orchestrations.Count() == 3);
         }
     }
 }

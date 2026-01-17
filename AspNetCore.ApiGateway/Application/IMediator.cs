@@ -11,30 +11,11 @@ namespace AspNetCore.ApiGateway
         IApiOrchestrator ApiOrchestrator { get; set; }
     }
 
-    public interface IEventSourceMediator : IMediatorBase
-    {
-        IMediator AddApi(string apiKey, params string[] baseUrls);
-
-        IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
-
-        IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey);
-
-        IEventSourceMediator AddRoute(string routeKey, EventSourceRouteInfo routeInfo);
-
-        GatewayEventSourceRouteInfo GetRoute(string routeKey);
-
-        IEnumerable<EventSourceRoute> Routes { get; }
-
-        Dictionary<string, GatewayEventSourceRouteInfo> Paths { get; }
-    }
-
     public interface IHubMediator: IMediatorBase
     {
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
         IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
-
-        IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey);
 
         IHubMediator AddRoute(string routeKey, HubRouteInfo routeInfo);
 
@@ -56,8 +37,6 @@ namespace AspNetCore.ApiGateway
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
         IHubMediator AddHub(string apiKey, Func<HubConnectionBuilder, HubConnection> connectionBuilder, string receiveKey = null);
-
-        IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string receiveKey);
 
         IEnumerable<Route> Routes { get; }
     }

@@ -24,16 +24,6 @@ namespace AspNetCore.ApiGateway
         public string ReceiveKey { get; set; }
     }
 
-    public class EventSourcingInfo
-    {
-        public string BaseUrl { get; set; }
-
-        public IEventSourceMediator Mediator { get; set; }
-
-        public object Connection { get; set; }
-
-        public string RouteKey { get; set; }
-    }
 
     internal class LoadBalancing
     {
@@ -54,8 +44,6 @@ namespace AspNetCore.ApiGateway
 
         Dictionary<string, HubInfo> hubs = new Dictionary<string, HubInfo>();
 
-        Dictionary<string, EventSourcingInfo> eventSources = new Dictionary<string, EventSourcingInfo>();
-
         Dictionary<string, LoadBalancing> apiLoadBalancing = new Dictionary<string, LoadBalancing>();
 
         private static Random _random = new Random();
@@ -63,21 +51,18 @@ namespace AspNetCore.ApiGateway
 
         private readonly IMediator _mediator;
         private readonly IHubMediator _hubMediator;
-        private readonly IEventSourceMediator _eventSourceMediator;
 
         public Dictionary<string, HubInfo> Hubs => hubs;
 
         public string GatewayHubUrl { get; set; }
         public bool StartGatewayHub { get; set; }
 
-        public ApiOrchestrator(IMediator mediator, IHubMediator hubMediator, IEventSourceMediator eventSourceMediator)
+        public ApiOrchestrator(IMediator mediator, IHubMediator hubMediator)
         {
             _mediator = mediator;
             _hubMediator = hubMediator;
-            _eventSourceMediator = eventSourceMediator;
             _mediator.ApiOrchestrator = this;
             _hubMediator.ApiOrchestrator = this;
-            _eventSourceMediator.ApiOrchestrator = this;
         }
 
         public IMediator AddApi(string apiKey, params string[] baseUrls)
@@ -115,17 +100,6 @@ namespace AspNetCore.ApiGateway
             return mediator;
         }
 
-        public IEventSourceMediator AddEventSource(string apiKey, Func<object> connectionBuilder, string routeKey)
-        {
-            var mediator = _eventSourceMediator;
-
-            var conn = connectionBuilder();
-
-            eventSources.Add(apiKey.ToLower(), new EventSourcingInfo() { Mediator = mediator, Connection = conn, RouteKey = routeKey });
-
-            return mediator;
-        }
-
         public ApiInfo GetApi(string apiKey, bool withLoadBalancing = false)
         {
             var apiInfo = apis[apiKey.ToLower()];
@@ -153,13 +127,6 @@ namespace AspNetCore.ApiGateway
             return apiInfo;
         }
 
-        public EventSourcingInfo GetEventSource(string apiKey)
-        {
-            var apiInfo = eventSources[apiKey.ToLower()];
-
-            return apiInfo;
-        }
-
         public IEnumerable<Orchestration> Orchestration => new List<Orchestration>().Union(apis?.Select(x => new ApiOrchestration
         {
             Api = x.Key,
@@ -170,13 +137,7 @@ namespace AspNetCore.ApiGateway
             Api = x.Key,
             Routes = x.Value.Mediator.Routes.Cast<RouteBase>().ToList(),
             HubRoutes = x.Value.Mediator.Routes
-        }))
-        .Union(eventSources?.Select(x => new EventSourceOrchestration
-        {
-            Api = x.Key,
-            Routes = x.Value.Mediator.Routes.Cast<RouteBase>().ToList(),
-            EventSourceRoutes = x.Value.Mediator.Routes
-        }));
+        }));        
 
         private string GetLoadBalancedUrl(LoadBalancing loadBalancing)
         {

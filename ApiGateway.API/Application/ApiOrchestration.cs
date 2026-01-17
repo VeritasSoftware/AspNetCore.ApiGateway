@@ -1,8 +1,6 @@
 ﻿using ApiGateway.API.Application.Services;
 using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Application;
-using EventStore.ClientAPI;
-using EventStore.ClientAPI.SystemData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,9 +49,7 @@ namespace ApiGateway.API
                                 .AddRoute("stocks", GatewayVerb.GET, new RouteInfo { Path = "stock", ResponseType = typeof(IEnumerable<StockQuote>) })
                                 .AddRoute("stock", GatewayVerb.GET, new RouteInfo { Path = "stock/", ResponseType = typeof(StockQuote) })
                         .AddHub("chatservice", ConnectionHelpers.BuildHubConnection, "2f85e3c6-66d2-48a3-8ff7-31a65073558b")
-                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", BroadcastType = HubBroadcastType.Group, ReceiveGroup = "ChatGroup", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } })
-                        .AddEventSource("eventsourceservice", ConnectionHelpers.BuildEventSourceConnection, "281802b8-6f19-4b9d-820c-9ed29ee127f3")
-                                .AddRoute("mystream", new EventSourceRouteInfo { ReceiveMethod = "ReceiveMyStreamEvent", Type = EventSourcingType.EventStore, OperationType = EventSourcingOperationType.PublishSubscribe, StreamName = "my-stream", GroupName = "my-group" });
+                                .AddRoute("room", new HubRouteInfo { InvokeMethod = "SendMessage", ReceiveMethod = "ReceiveMessage", BroadcastType = HubBroadcastType.Group, ReceiveGroup = "ChatGroup", ReceiveParameterTypes = new Type[] { typeof(string), typeof(string) } });
         }
     }
 
@@ -64,35 +60,6 @@ namespace ApiGateway.API
             return builder.WithUrl("https://localhost:5007/chathub")
                           .AddNewtonsoftJsonProtocol()
                           .Build();
-        }
-
-        public static object BuildEventSourceConnection()
-        {
-            var address = IPAddress.Parse("127.0.0.1");
-            var tcpPort = 1113;
-
-            var userName = "admin";
-            var password = "********";
-
-            var _connectionSettings = ConnectionSettings.Create();
-            _connectionSettings.EnableVerboseLogging()
-                .UseDebugLogger()
-                .UseConsoleLogger()
-                .KeepReconnecting()
-                .DisableServerCertificateValidation()
-                .DisableTls()
-                .LimitAttemptsForOperationTo(3)
-                .LimitRetriesForOperationTo(3)
-                .SetHeartbeatTimeout(TimeSpan.FromSeconds(3600))
-                .SetHeartbeatInterval(TimeSpan.FromSeconds(3600))
-                .WithConnectionTimeoutOf(TimeSpan.FromSeconds(3600))
-                .Build();
-
-            var connection = EventStoreConnection.Create(
-                $"ConnectTo=tcp://{address}:{tcpPort};DefaultUserCredentials={userName}:{password};",
-                _connectionSettings);
-
-            return connection;
-        }
+        }       
     }
 }
