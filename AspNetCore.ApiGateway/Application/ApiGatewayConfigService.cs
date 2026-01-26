@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApiGateway.API.Application
+namespace AspNetCore.ApiGateway
 {
     public class ApiSetting
     {
@@ -29,21 +29,23 @@ namespace ApiGateway.API.Application
         public int ResponseCachingDurationInSeconds { get; set; } = -1;
     }
 
-    public interface IConfigService
+    public interface IApiGatewayConfigService
     {
         ApiSetting this[string identifier] { get; }            
     }
 
-    public class ConfigService : IConfigService
+    public class ApiGatewayConfigService : IApiGatewayConfigService
     {
         private IEnumerable<ApiSetting> Settings { get; set; }
 
-        public ConfigService(IConfiguration configuration)
+        public ApiGatewayConfigService(IConfiguration configuration)
         {
             var settings = configuration.GetSection("Settings")
                                         .Get<List<ApiSetting>>();
 
             this.Settings = settings;
+
+            ApiGatewayConfigProvider.MySettings = this;
         }
 
         public ApiSetting this[string identifier]
@@ -55,8 +57,8 @@ namespace ApiGateway.API.Application
         }        
     }
 
-    public static class ConfigProvider
+    public static class ApiGatewayConfigProvider
     {
-        public static IConfigService MySettings { get; set; }       
+        public static IApiGatewayConfigService MySettings { get; set; }       
     }
 }

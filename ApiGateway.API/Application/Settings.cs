@@ -4,7 +4,7 @@ namespace ApiGateway.API.Application
 {
     public static class Settings
     {
-        private static IConfigService _settings = ConfigProvider.MySettings;
+        private static IApiGatewayConfigService _settings = ApiGatewayConfigProvider.MySettings;
 
         private const string API1 = "API1";
         private const string API1_ROUTE1 = "ROUTE1";

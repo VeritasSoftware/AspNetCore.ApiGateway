@@ -69,7 +69,7 @@ namespace ApiGateway.API
             //Middleware service
             services.AddTransient<IGatewayMiddleware, GatewayMiddlewareService>();
 
-            services.AddSingleton<IConfigService, ConfigService>(); 
+            services.AddSingleton<IApiGatewayConfigService, ApiGatewayConfigService>(); 
 
             //Api gateway
             services.AddApiGateway(options =>
