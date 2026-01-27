@@ -57,7 +57,7 @@ In your Gateway API project's appsettings.json file, add a **Settings** section 
 
 You can read this appsettings, using a **Config Service** like below:
 
-For Version 6.0 or higher, You can use the built-in **ApiGatewayConfigService**.
+For Version 6.0 or higher, you can use the built-in **ApiGatewayConfigService**.
 
 or you can make a copy of the Service, in your project.
 
@@ -97,7 +97,7 @@ and where ever else you need them.
 
 ```C#
 //Initialize
-var settings = serviceProvider.GetRequiredService<IApiGatewayConfigService>();
+var configService = serviceProvider.GetRequiredService<IApiGatewayConfigService>();
 
 orchestrator.AddApi(Settings.API1_ApiKey, Settings.API1_BackendAPIBaseUrls)
                 //Get
