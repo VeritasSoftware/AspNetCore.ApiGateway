@@ -4,9 +4,9 @@
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <Description>Endorsed by the .NET Foundation as a revolutionary Gateway! Out of the box, simple Gateway as a Microservice facade. Seamlessly transition your Web API skills to the API Gateway. Swagger, Authorization, Filters and a host of enhanced features. Supports .NET 8/9. </Description>
+	<Description>Endorsed by the .NET Foundation as a revolutionary Gateway! Out of the box, simple Gateway as a Microservice facade. Seamlessly transition your Web API skills to the API Gateway. Swagger, Authorization, Filters and a host of enhanced features. Supports .NET 8/9. </Description>
     <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
+    <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>	
     <PackageTags>AspNetCore.ApiGateway Api Gateway asp net core 8, 9 library framework restful micro service facade freeware swagger authorization, load balancing, event sourcing, Event Store, response caching, web sockets, action filters</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
@@ -14,10 +14,16 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shantanu</Authors>
     <Company>Veritas Software</Company>
-    <Version>5.0.0</Version>
-    <PackageReleaseNotes>Added support for .NET 10. Now, .NET 8/9/10 are supported. Removed support for EventStore.</PackageReleaseNotes>
+    <Version>6.0.0</Version>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <Title>AspNetCore.ApiGateway</Title>
   </PropertyGroup>
+
+	<Target Name="InjectPackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="Exists('CHANGELOG.md')">
+		<PropertyGroup>
+			<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/CHANGELOG.md"))</PackageReleaseNotes>
+		</PropertyGroup>
+	</Target>	
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.2" />
