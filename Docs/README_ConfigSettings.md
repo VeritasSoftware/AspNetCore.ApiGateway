@@ -61,7 +61,7 @@ For Version 6.0 or higher, You can use the built-in **ApiGatewayConfigService**.
 
 or you can make a copy of the Service, in your project.
 
-[**Api Gateway Config Service**](AspNetCore.ApiGateway/Application/ApiGatewayConfigService.cs)
+[**Api Gateway Config Service**](../AspNetCore.ApiGateway/Application/ApiGatewayConfigService.cs)
 
 Wire up the Config Service for dependency injecton.
 
