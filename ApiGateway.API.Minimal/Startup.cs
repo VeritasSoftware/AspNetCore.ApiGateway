@@ -39,35 +39,16 @@ namespace ApiGateway.API.Minimal
                     //Use VaryByQueryKeys to vary the response for each apiKey & routeKey
                     VaryByQueryKeys = new[] { "apiKey", "routeKey" }
                 };
-            });
+            });            
 
-            services.AddMvc();
-
-            //services.AddControllers();
-
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Api Gateway", Version = "v1" });
-            //});            
+            services.AddMvc();            
         }
 
         //public void Configure(IApplicationBuilder app, WebApplication webApplication)
         public void Configure(IApplicationBuilder app)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            ////}
-
             //webApplication.
             app.UseCors("CorsPolicy");
-
-            ////app.UseSwagger();
-
-            ////app.UseSwaggerUI(c =>
-            ////{
-            ////    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api Gateway");
-            ////});
 
             //Api gateway
             app.UseApiGateway(orchestrator => ApiOrchestration.Create(orchestrator, app));
@@ -80,10 +61,13 @@ namespace ApiGateway.API.Minimal
 
             app.UseEndpoints(endpoints =>
             {
-                //GatewayHub endpoint
-                //endpoints.MapHub<GatewayHub>("/gatewayhub");
-                //endpoints.MapControllers();
+                // Api Gateway Minimal API
+                endpoints.MapApiGatewayHead();
                 endpoints.MapApiGatewayGet();
+                endpoints.MapApiGatewayPost();
+                endpoints.MapApiGatewayPut();
+                endpoints.MapApiGatewayDelete();
+                endpoints.MapApiGatewayPatch();
             });
         }
     }

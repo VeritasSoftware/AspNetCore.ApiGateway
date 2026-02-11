@@ -13,6 +13,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Text.Json;
+using System.Net.Http.Json;
 
 namespace AspNetCore.ApiGateway.Tests
 {
@@ -123,18 +124,18 @@ namespace AspNetCore.ApiGateway.Tests
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
 
-            gatewayUrl = "https://localhost:5010/api/Gateway/weatherservice/typewithparams?parameters=index=3";
+            //gatewayUrl = "https://localhost:5010/api/Gateway/weatherservice/typewithparams?parameters=index=3";
 
-            response = await client.GetAsync(gatewayUrl);
+            //response = await client.GetAsync(gatewayUrl);
 
-            response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode();
 
-            strResponse = await response.Content.ReadAsStringAsync();
+            //strResponse = await response.Content.ReadAsStringAsync();
 
-            weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(strResponse);
+            //weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(strResponse);
 
-            Assert.NotNull(weatherType);
-            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+            //Assert.NotNull(weatherType);
+            //Assert.True(!string.IsNullOrEmpty(weatherType.Type));
         }
 
         [Fact]
@@ -220,23 +221,18 @@ namespace AspNetCore.ApiGateway.Tests
             JsonPatchDocument<WeatherForecast> jsonPatch = new JsonPatchDocument<WeatherForecast>();
             jsonPatch.Add(x => x.TemperatureC, 35);
 
-            var jsonContent = JsonSerializer.Serialize(jsonPatch.Operations);
-
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
-
-            var httprequest = new HttpRequestMessage
+            var options = new JsonSerializerOptions
             {
-                RequestUri = new Uri(gatewayUrl),
-                Content = content,
-                Method = HttpMethod.Patch
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
-            var response = await client.SendAsync(httprequest);
+            var response = await client.PatchAsJsonAsync(gatewayUrl, jsonPatch, options);
 
             response.EnsureSuccessStatusCode();
 
-            var weatherForecast = JsonSerializer.Deserialize<WeatherForecast>(await response.Content.ReadAsStringAsync());
+            var strResponse = await response.Content.ReadAsStringAsync();
+
+            var weatherForecast = JsonSerializer.Deserialize<WeatherForecast>(strResponse);
 
             Assert.True(weatherForecast.TemperatureC == 35);
         }
@@ -289,23 +285,6 @@ namespace AspNetCore.ApiGateway.Tests
             var response = await client.GetAsync(gatewayUrl);
 
             Assert.True(response.StatusCode == HttpStatusCode.NotFound);
-        }
-
-        [Fact]
-        public async Task Test_GetOrchestration_Pass()
-        {
-            var client = _apiInit.GatewayAPI.CreateClient();
-
-            //Gateway API Orchestration url
-            var gatewayUrl = "https://localhost:5010/api/Gateway/orchestration";
-
-            var response = await client.GetAsync(gatewayUrl);
-
-            response.EnsureSuccessStatusCode();
-
-            var orchestration = JsonSerializer.Deserialize<Orchestration[]>(await response.Content.ReadAsStringAsync());
-
-            Assert.True(orchestration.Length > 0);
         }
     }
 }

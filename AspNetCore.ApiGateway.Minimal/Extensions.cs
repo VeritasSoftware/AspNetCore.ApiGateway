@@ -1,4 +1,7 @@
 ﻿using AspNetCore.ApiGateway.Application;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -7,6 +10,22 @@ namespace AspNetCore.ApiGateway.Minimal
     public static class Extensions
     {
         static ApiGatewayOptions Options { get; set; }
+
+        private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
+        {
+            var builder = new ServiceCollection()
+                .AddLogging()
+                .AddMvc()
+                .AddNewtonsoftJson()
+                .Services.BuildServiceProvider();
+
+            return builder
+                .GetRequiredService<IOptions<MvcOptions>>()
+                .Value
+                .InputFormatters
+                .OfType<NewtonsoftJsonPatchInputFormatter>()
+                .First();
+        }
 
         public static void AddApiGateway(this IServiceCollection services, Action<ApiGatewayOptions> options = null)
         {
@@ -36,7 +55,15 @@ namespace AspNetCore.ApiGateway.Minimal
                 services.AddHttpClient<IHttpService, HttpService>();
             }            
 
-            services.AddApiGatewayResponseCaching();            
+            services.AddApiGatewayResponseCaching();
+
+            services.AddControllers()
+                    .AddNewtonsoftJson(); // Enables support for JsonPatchDocument
+
+            services.AddControllers(options =>
+            {
+                options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+            });
         }
 
         public static void UseApiGateway(this IApplicationBuilder app, Action<IApiOrchestrator> setApis)

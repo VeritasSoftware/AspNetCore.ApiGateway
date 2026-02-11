@@ -12,7 +12,7 @@ namespace AspNetCore.ApiGateway.Minimal
                                     Func<HttpClient, ApiInfo, RouteInfo, HttpContent, Task<HttpResponseMessage>> backEndCall,
                                     Func<object, StringContent> getContent = null,
                                     object request = null,
-                                    string parameters = null);
+                                    string? parameters = null);
     }
 
     public class ApiGatewayRequestProcessor : IApiGatewayRequestProcessor
@@ -36,7 +36,7 @@ namespace AspNetCore.ApiGateway.Minimal
                 Func<HttpClient, ApiInfo, RouteInfo, HttpContent, Task<HttpResponseMessage>> backEndCall,
                 Func<object, StringContent> getContent = null,
                 object request = null,
-                string parameters = null)
+                string? parameters = null)
         {
             if (parameters != null)
                 parameters = HttpUtility.UrlDecode(parameters);
