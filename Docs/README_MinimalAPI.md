@@ -2,7 +2,7 @@
 
 The API Gateway is engineered as a Minimal API facade.
 
-You can hook up **Authorization**, **Swagger** etc just like any any Minimal API.
+You can hook up **Authorization**, **Swagger** etc. just like any Minimal API.
 
 ## Implementation
 
