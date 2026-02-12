@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -81,13 +82,13 @@ namespace AspNetCore.ApiGateway.Client
             return !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize<TResponse>(returnedContent) : default(TResponse);
         }
 
-        public async Task PatchAsync<TPayload>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
+        public async Task PatchAsync<TPayload>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data, bool isMinimalAPIVersion = false)
             where TPayload : class
         {
-            await this.PatchAsync<TPayload, string>(parameters, data);
+            await this.PatchAsync<TPayload, string>(parameters, data, isMinimalAPIVersion);
         }
 
-        public async Task<TResponse> PatchAsync<TPayload, TResponse>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
+        public async Task<TResponse> PatchAsync<TPayload, TResponse>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data, bool isMinimalAPIVersion = false)
             where TPayload : class
         {
             var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, "api/Gateway", parameters.ApiKey, parameters.RouteKey);
@@ -95,20 +96,34 @@ namespace AspNetCore.ApiGateway.Client
 
             _httpClient.AddHeaders(parameters);
 
-            var content = new StringContent(JsonSerializer.Serialize(data.Operations), Encoding.UTF8, "application/json-patch+json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
+            HttpResponseMessage response;
 
-            var method = "PATCH";
-            var httpVerb = new HttpMethod(method);
-
-            var httprequest = new HttpRequestMessage
+            if (isMinimalAPIVersion)
             {
-                RequestUri = new Uri(gatewayUrl),
-                Content = content,
-                Method = httpVerb
-            };
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
 
-            var response = await _httpClient.SendAsync(httprequest);
+                response = await _httpClient.PatchAsJsonAsync(gatewayUrl, data, options);
+            }
+            else
+            {
+                var content = new StringContent(JsonSerializer.Serialize(data.Operations), Encoding.UTF8, "application/json-patch+json");
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
+
+                var method = "PATCH";
+                var httpVerb = new HttpMethod(method);
+
+                var httprequest = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(gatewayUrl),
+                    Content = content,
+                    Method = httpVerb
+                };
+
+                response = await _httpClient.SendAsync(httprequest);
+            }
 
             response.EnsureSuccessStatusCode();
 

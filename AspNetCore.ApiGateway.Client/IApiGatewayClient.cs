@@ -10,9 +10,9 @@ namespace AspNetCore.ApiGateway.Client
         Task<TResponse> PostAsync<TPayload, TResponse>(ApiGatewayParameters parameters, TPayload data);
         Task PutAsync<TPayload>(ApiGatewayParameters parameters, TPayload data);
         Task<TResponse> PutAsync<TPayload, TResponse>(ApiGatewayParameters parameters, TPayload data);
-        Task PatchAsync<TPayload>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
+        Task PatchAsync<TPayload>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data, bool isMinimalAPIVersion = false)
             where TPayload : class;
-        Task<TResponse> PatchAsync<TPayload, TResponse>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data)
+        Task<TResponse> PatchAsync<TPayload, TResponse>(ApiGatewayParameters parameters, JsonPatchDocument<TPayload> data, bool isMinimalAPIVersion = false)
             where TPayload : class;
         Task DeleteAsync(ApiGatewayParameters parameters);
         Task<TResponse> DeleteAsync<TResponse>(ApiGatewayParameters parameters);
