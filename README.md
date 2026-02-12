@@ -33,6 +33,10 @@ The microservices architecture uses an Api Gateway as shown below.
 
 *	Makes creating an Api Gateway a breeze!!
 
+## Gateway as a RESTful Minimal API Facade
+
+[**Read more**](/Docs/README_MinimalAPI.md)
+
 ## Features
 
 *	Swagger
@@ -50,10 +54,6 @@ The microservices architecture uses an Api Gateway as shown below.
 *   Clients available in
     *   .NET
     *   Typescript
-
-## Gateway as a RESTful Minimal API Facade
-
-[**Read more**](/Docs/README_MinimalAPI.md)
 
 ## Gateway as a RESTful Microservice Facade
 
