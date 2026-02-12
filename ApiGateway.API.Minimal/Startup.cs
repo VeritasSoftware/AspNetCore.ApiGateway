@@ -89,6 +89,7 @@ namespace ApiGateway.API.Minimal
                 endpoints.MapApiGatewayPut();
                 endpoints.MapApiGatewayDelete();
                 endpoints.MapApiGatewayPatch();
+                endpoints.MapApiGatewayGetOrchestration();
             });
         }
     }

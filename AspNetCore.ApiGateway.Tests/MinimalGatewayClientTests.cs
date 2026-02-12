@@ -268,5 +268,22 @@ namespace AspNetCore.ApiGateway.Tests
             //Assert
             Assert.DoesNotContain(weatherTypes, x => x == "Freezing");
         }
+
+        [Fact]
+        public async Task Test_GetOrchestration_Pass()
+        {
+            //Arrange
+
+            //Get Client from dependency injection container
+            var client = _serviceProvider.GetRequiredService<IApiGatewayClient>();
+
+            var parameters = new ApiGatewayParameters();
+
+            //Act
+            var orchestrations = await client.GetOrchestrationAsync(parameters);
+
+            //Assert
+            Assert.Equal(2, orchestrations.Count());
+        }
     }
 }
