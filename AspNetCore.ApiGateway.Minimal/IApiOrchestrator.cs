@@ -8,9 +8,5 @@
         ApiInfo GetApi(string apiKey, bool withLoadBalancing = false);
 
         IEnumerable<Orchestration> Orchestration { get; }
-
-        string GatewayHubUrl { get; set; }
-
-        public bool StartGatewayHub { get; set; }
     }
 }

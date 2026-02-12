@@ -12,9 +12,6 @@ namespace ApiGateway.API.Minimal
 
             var weatherApiClientConfig = weatherService.GetClientConfig();
 
-            orchestrator.StartGatewayHub = false;
-            orchestrator.GatewayHubUrl = "https://localhost:5010/GatewayHub";
-
             orchestrator.AddApi("weatherservice", "https://localhost:5003/")
                                 //Get
                                 .AddRoute("forecast", GatewayVerb.GET, new RouteInfo { Path = "weatherforecast/forecast", ResponseType = typeof(IEnumerable<WeatherForecast>) })
