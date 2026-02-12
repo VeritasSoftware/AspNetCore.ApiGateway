@@ -164,6 +164,7 @@ So, the call to the Gateway would become:
             endpoints.MapApiGatewayPut();
             endpoints.MapApiGatewayDelete();
             endpoints.MapApiGatewayPatch();
+            endpoints.MapApiGatewayGetOrchestration();
         });
     }
 ```
