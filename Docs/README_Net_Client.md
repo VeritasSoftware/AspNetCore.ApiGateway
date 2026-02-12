@@ -6,8 +6,6 @@
 
 The .Net client application can talk to the Api Gateway using the Client.
 
-![.Net Client](/Docs/NetClient.png)
-
 Wire up the Client for **dependency injection** in your app, using an extension.
 
 ```C#
