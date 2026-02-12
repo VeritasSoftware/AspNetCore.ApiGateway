@@ -1,6 +1,7 @@
 using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Minimal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi;
 
 namespace ApiGateway.API.Minimal
 {
@@ -24,6 +25,7 @@ namespace ApiGateway.API.Minimal
                     .AllowAnyHeader()
                     .AllowAnyOrigin();
             }));
+
             services.AddTransient<IWeatherService, WeatherService>();
 
             //services.AddSingleton<IApiGatewayConfigService, ApiGatewayConfigService>(); 
@@ -39,7 +41,18 @@ namespace ApiGateway.API.Minimal
                     //Use VaryByQueryKeys to vary the response for each apiKey & routeKey
                     VaryByQueryKeys = new[] { "apiKey", "routeKey" }
                 };
-            });            
+            });
+
+            services.AddEndpointsApiExplorer(); // Required for Minimal APIs
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "My Minimal API Gateway",
+                    Description = "A simple example of ASP.NET Core Minimal API with Swagger",
+                    Version = "v1"
+                });
+            });
 
             services.AddMvc();            
         }
@@ -47,6 +60,14 @@ namespace ApiGateway.API.Minimal
         //public void Configure(IApplicationBuilder app, WebApplication webApplication)
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Minimal API Gateway V1");
+                // Optional: set the UI to load at the app root URL
+                // c.RoutePrefix = string.Empty; 
+            });
+
             //webApplication.
             app.UseCors("CorsPolicy");
 
