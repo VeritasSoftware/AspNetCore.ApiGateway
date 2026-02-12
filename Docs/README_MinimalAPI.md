@@ -205,6 +205,24 @@ You can check out how the Api Gateway supported Verbs are used & Routing below.
 
 ### [Verbs Usage & Routing](Docs/README_VERBS.md)
 
+### Customizations
+
+*   Create a new or customize the default **HttpClient** used by all the routes, to hit the backend Api.
+*   Create a new or customize the default **HttpClient** which each route uses to hit the backend Api.
+*	Use your own custom implementation to hit the backend Api.
+
+For **Request aggregation**, see this section.
+
+### [Customizations](Docs/README_Customizations.md)
+
+### Load Balancing
+
+### [Load Balancing](Docs/README_LoadBalancing.md)
+
+### Response Caching
+
+### [Response Caching](Docs/README_ResponseCaching.md)
+
 ### Middleware Service
 
 ### [Middleware Service](Docs/README_Middleware_Service.md)
