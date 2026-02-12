@@ -194,3 +194,25 @@ So, there is no down time.
 You can check out how the Api Gateway supported Verbs are used & Routing below.
 
 ### [Verbs Usage & Routing](Docs/README_VERBS.md)
+
+### Middleware Service
+
+### [Middleware Service](Docs/README_Middleware_Service.md)
+
+## Clients
+
+The Api Gateway supports a fixed set of endpoints.
+
+All routes go through these endpoints.
+
+The Client application has to talk to these endpoints of the Api Gateway.
+
+A Client library is provided for:
+
+* [**.Net**](Docs/README_Net_Client.md)
+
+* [**Typescript**](Docs/README_Typescript_Client.md)
+
+## Making requests to Minimal API Gateway
+
+These [**Tests**](/AspNetCore.ApiGateway.Tests/MinimalAPIGatewayTests.cs) show how to make calls to the Minimal API Gateway.
