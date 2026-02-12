@@ -4,6 +4,19 @@ The API Gateway is engineered as a Minimal API facade.
 
 You can hook up **Authorization**, **Swagger** etc. just like any Minimal API.
 
+## Features
+
+*	Swagger
+*	Authorization
+*   Load balancing
+*   Response caching
+*   Request aggregation
+*   Middleware service
+*   Logging
+*   Clients available in
+    *   .NET
+    *   Typescript
+
 ## Implementation
 
 In the solution, there are 2 **back end APIs** : **Weather API** and **Stock API**.
