@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Weather.API.Controllers
 {
@@ -34,35 +35,42 @@ namespace Weather.API.Controllers
 
         [HttpGet]
         [Route("forecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IActionResult> Get()
         {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Ok(await Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
-            .ToArray();
+            .ToArray()));
         }
 
         [HttpGet]
         [Route("types")]
-        public string[] GetWeatherTypes()
+        public async Task<IActionResult> GetWeatherTypes()
         {
-            return Summaries;
+            return Ok(await Task.FromResult(Summaries));
         }
 
         [HttpGet]
         [Route("types/{index}")]
-        public WeatherTypeResponse GetWeatherTypes(int index)
+        public async Task<IActionResult> GetWeatherTypes(int index)
         {
-            return new WeatherTypeResponse { Type = Summaries[index] };
+            if (index < 0 || index >= Summaries.Length)
+            {
+                return BadRequest("Invalid index");
+            }
+
+            var result = new WeatherTypeResponse { Type = Summaries[index] };
+
+            return Ok(await Task.FromResult(result));
         }
 
         [HttpPost]
         [Route("types/add")]
-        public string[] AddWeatherType([FromBody]AddWeatherTypeRequest weatherType)
+        public async Task<IActionResult> AddWeatherType([FromBody]AddWeatherTypeRequest weatherType)
         {
             var list = Summaries.ToList();
             
@@ -70,21 +78,23 @@ namespace Weather.API.Controllers
 
             Summaries = list.ToArray();
 
-            return Summaries;
+            return Ok(await Task.FromResult(Summaries));
         }
 
         [HttpPut]
         [Route("types/update")]
-        public IActionResult UpdateWeatherType([FromBody]UpdateWeatherTypeRequest weatherType)
+        public async Task<IActionResult> UpdateWeatherType([FromBody]UpdateWeatherTypeRequest weatherType)
         {
             Summaries[weatherType.Index] = weatherType.WeatherType;
+
+            await Task.CompletedTask;
 
             return Ok();
         }
 
         [HttpDelete]
         [Route("types/remove/{index}")]
-        public IActionResult DeleteWeatherType(int index)
+        public async Task<IActionResult> DeleteWeatherType(int index)
         {
             var list = Summaries.ToList();
 
@@ -92,16 +102,20 @@ namespace Weather.API.Controllers
 
             Summaries = list.ToArray();
 
+            await Task.CompletedTask;
+
             return Ok();
         }
 
         [HttpPatch]
         [Route("forecast/patch")]
-        public IActionResult Patch([FromBody] JsonPatchDocument<WeatherForecast> patch)
+        public async Task<IActionResult> Patch([FromBody] JsonPatchDocument<WeatherForecast> patch)
         {
             if (patch != null)
             {                
                 patch.ApplyTo(now);
+
+                await Task.CompletedTask;
 
                 return Ok(now);
             }

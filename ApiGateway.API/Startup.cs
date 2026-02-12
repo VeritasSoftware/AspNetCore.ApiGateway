@@ -1,10 +1,9 @@
-using ApiGateway.API.Application;
 using ApiGateway.API.Application.ActionFilters;
 using ApiGateway.API.Application.Authorization;
 using ApiGateway.API.Application.HubFilters;
 using ApiGateway.API.Application.MiddlewareService;
-using ApiGateway.API.Application.Services;
 using ApiGateway.API.Application.ResultFilters;
+using ApiGateway.API.Application.Services;
 using AspNetCore.ApiGateway;
 using AspNetCore.ApiGateway.Application.ActionFilters;
 using AspNetCore.ApiGateway.Application.ExceptionFilters;
@@ -19,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace ApiGateway.API
 {
@@ -89,7 +88,7 @@ namespace ApiGateway.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Api Gateway", Version = "v1" });
-            });            
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

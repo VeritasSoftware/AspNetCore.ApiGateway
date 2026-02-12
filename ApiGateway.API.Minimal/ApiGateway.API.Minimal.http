@@ -1,0 +1,6 @@
+@ApiGateway.API.Minimal_HostAddress = http://localhost:5003
+
+GET {{ApiGateway.API.Minimal_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
