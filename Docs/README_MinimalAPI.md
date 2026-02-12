@@ -160,7 +160,7 @@ So, the call to the Gateway would become:
 
 The Gateway Swagger appears as shown below:
 
-![API Gateway Minimal Swagger](/Docs/ApiGatewayMinimal.png)
+![API Gateway Minimal Swagger](/Docs/APIGatewayMinimal.png)
 
 ### Using appsettings.json
 
