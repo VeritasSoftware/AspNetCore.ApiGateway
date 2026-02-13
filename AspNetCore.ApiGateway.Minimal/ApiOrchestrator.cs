@@ -86,8 +86,8 @@
         .GroupBy(x => x.Key).Select(x => new ApiOrchestration
         {
             Api = x.Key,
-            Routes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),
-            ApiRoutes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),            
+            ApiRoutes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),
+            Routes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),            
         });    
 
         private string GetLoadBalancedUrl(LoadBalancing loadBalancing)

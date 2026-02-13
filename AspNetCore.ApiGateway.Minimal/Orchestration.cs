@@ -9,7 +9,7 @@ namespace AspNetCore.ApiGateway.Minimal
         public string Api { get; set; }
 
         [JsonIgnore()]
-        public List<Route> Routes { get; set; }
+        public List<Route> ApiRoutes { get; set; }
     }
 
     public class ApiOrchestration : Orchestration
@@ -19,8 +19,8 @@ namespace AspNetCore.ApiGateway.Minimal
         }
 
         [JsonPropertyOrder(2)]
-        [JsonPropertyName("apiRoutes")]
-        public IEnumerable<Route> ApiRoutes { get; set; }
+        [JsonPropertyName("routes")]
+        public IEnumerable<Route> Routes { get; set; }
     }
 
     public class RouteBase

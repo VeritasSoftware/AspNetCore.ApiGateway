@@ -135,7 +135,7 @@ namespace AspNetCore.ApiGateway.Application
                                                     : (!string.IsNullOrEmpty(apiKey) && string.IsNullOrEmpty(routeKey)
                                                     ? apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(apiKey.Trim()))
                                                     : (string.IsNullOrEmpty(apiKey) && !string.IsNullOrEmpty(routeKey)
-                                                    ? apiOrchestrator.Orchestration?.Where(x => x.Routes.Any(y => y.Key.Contains(routeKey.Trim())))
+                                                    ? apiOrchestrator.Orchestration?.Where(x => x.ApiRoutes.Any(y => y.Key.Contains(routeKey.Trim())))
                                                                                      .Select(x => x.FilterRoutes(routeKey))
                                                     : apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(apiKey.Trim()))
                                                                                      .Select(x => x.FilterRoutes(routeKey)))));

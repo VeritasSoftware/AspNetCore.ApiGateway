@@ -148,8 +148,8 @@ namespace AspNetCore.ApiGateway.Minimal
 
         internal static ApiOrchestration FilterRoutes(this ApiOrchestration orchestration, string key)
         {
-            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim())).ToList();
-            orchestration.ApiRoutes = orchestration.Routes;
+            orchestration.ApiRoutes = orchestration.ApiRoutes.Where(y => y.Key.Contains(key.Trim())).ToList();
+            orchestration.Routes = orchestration.ApiRoutes;
             return orchestration;
         }
 

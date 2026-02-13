@@ -173,6 +173,14 @@ The Gateway Swagger appears as shown below:
 
 ![API Gateway Minimal Swagger](/Docs/APIGatewayMinimal.png)
 
+To call the **forecast** Route on the **weather service** Api,
+
+you can enter the **Api key** and **Route key** into Swagger as below:
+
+![API Gateway Minimal Swagger](/Docs/ApiGatewayMinimalCall.png)
+
+This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
+
 ### Using appsettings.json
 
 If you want, you can keep the **ApiKey, RouteKey, backend API base urls and Route path**,
