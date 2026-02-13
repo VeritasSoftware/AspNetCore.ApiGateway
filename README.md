@@ -40,7 +40,7 @@ The framework is available as a
 
 ## Gateway as a RESTful Minimal API Facade
 
-<a href="/Docs/README_MinimalAPI.md" target="_blank" rel="noopener noreferrer"><b>Read more</b></a>
+Read [**more**](/Docs/README_MinimalAPI.md)
 
 ## Gateway as a RESTful Microservice Facade
 
