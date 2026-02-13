@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.TestHost;
+using System;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 using GatewayAPI = ApiGateway.API.Minimal;
-using WeatherAPI = Weather.API;
 using StockAPI = Stock.API;
-using System.Net.Http;
-using System;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Linq;
-using Microsoft.AspNetCore.JsonPatch;
-using System.Text.Json;
-using System.Net.Http.Json;
+using WeatherAPI = Weather.API;
 
 namespace AspNetCore.ApiGateway.Tests
 {
@@ -299,7 +299,9 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var orchestration = JsonSerializer.Deserialize<Orchestration[]>(await response.Content.ReadAsStringAsync());
+            var strResponse = await response.Content.ReadAsStringAsync();
+
+            var orchestration = JsonSerializer.Deserialize<Orchestration[]>(strResponse);
 
             Assert.True(orchestration.Length > 0);
         }

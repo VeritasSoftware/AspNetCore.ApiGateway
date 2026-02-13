@@ -153,7 +153,7 @@ namespace AspNetCore.ApiGateway.Client
             return !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize<TResponse>(returnedContent) : default(TResponse);
         }
 
-        public async Task<IEnumerable<Orchestration>> GetOrchestrationAsync(ApiGatewayParameters parameters)
+        public async Task<IEnumerable<Orchestration>> GetOrchestrationAsync(ApiGatewayParameters parameters, bool isMinimalAPIVersion = false)
         {
             var gatewayUrl = UrlCombine(_settings.ApiGatewayBaseUrl, $"api/Gateway/orchestration?api={parameters.ApiKey}&key={parameters.RouteKey}");
 
@@ -169,25 +169,35 @@ namespace AspNetCore.ApiGateway.Client
 
             var orchestrations = new List<Orchestration>();
 
-            orchs.AsEnumerable().ToList().ForEach(item =>
+            if (isMinimalAPIVersion)
             {
-                var type = item.SelectToken("orchestrationType");
-                var orchestrationType = (OrchestationType)Enum.Parse(typeof(OrchestationType), type.ToString());
-
-                switch (orchestrationType)
+                orchs.AsEnumerable().ToList().ForEach(item =>
                 {
-                    case OrchestationType.Api:
-                        orchestrations.Add(item.ToObject<ApiOrchestration>());
-                        break;
-                    case OrchestationType.Hub:
-                        orchestrations.Add(item.ToObject<HubOrchestration>());
-                        break;
-                    case OrchestationType.EventSource:
-                        orchestrations.Add(item.ToObject<EventSourceOrchestration>());
-                        break;
-                }
-            });
+                    orchestrations.Add(item.ToObject<ApiOrchestration>());
+                });
+            }
+            else
+            {
+                orchs.AsEnumerable().ToList().ForEach(item =>
+                {
+                    var type = item.SelectToken("orchestrationType");
+                    var orchestrationType = (OrchestationType)Enum.Parse(typeof(OrchestationType), type.ToString());
 
+                    switch (orchestrationType)
+                    {
+                        case OrchestationType.Api:
+                            orchestrations.Add(item.ToObject<ApiOrchestration>());
+                            break;
+                        case OrchestationType.Hub:
+                            orchestrations.Add(item.ToObject<HubOrchestration>());
+                            break;
+                        case OrchestationType.EventSource:
+                            orchestrations.Add(item.ToObject<EventSourceOrchestration>());
+                            break;
+                    }
+                });
+            }
+                
             return orchestrations;
         }
 

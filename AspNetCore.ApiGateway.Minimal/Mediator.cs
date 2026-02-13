@@ -1,5 +1,4 @@
-﻿using NJsonSchema;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace AspNetCore.ApiGateway.Minimal
 {
@@ -24,7 +23,7 @@ namespace AspNetCore.ApiGateway.Minimal
 
     public abstract class GatewayRouteInfoBase
     {
-
+        public string ApiKey { get; set; }
     }
 
     public class GatewayRouteInfo : GatewayRouteInfoBase
@@ -98,27 +97,6 @@ namespace AspNetCore.ApiGateway.Minimal
         }
     }
 
-    public enum HubBroadcastType
-    {
-        All,
-        Group,
-        Individual
-    }
-
-    public enum EventSourcingType
-    {
-        EventStore
-    }
-
-    public class HubRouteInfo
-    {
-        public string InvokeMethod { get; set; }
-        public string ReceiveMethod { get; set; }
-        public string ReceiveGroup { get; set; }
-        public HubBroadcastType BroadcastType { get; set; } = HubBroadcastType.All;
-        public Type[] ReceiveParameterTypes { get; set; }
-    }
-
     public class Mediator : IMediator
     {
         IApiOrchestrator _apiOrchestrator;
@@ -135,6 +113,7 @@ namespace AspNetCore.ApiGateway.Minimal
             var gatewayRouteInfo = new GatewayRouteInfo
             {
                 Verb = verb,
+                ApiKey = this.CurrentApiKey,
                 Route = routeInfo
             };
 
@@ -148,6 +127,7 @@ namespace AspNetCore.ApiGateway.Minimal
             var gatewayRouteInfo = new GatewayRouteInfo
             {
                 Verb = verb,
+                ApiKey = this.CurrentApiKey,
                 Route = new RouteInfo
                 {
                     Exec = exec
@@ -173,24 +153,13 @@ namespace AspNetCore.ApiGateway.Minimal
 
         public IEnumerable<Route> Routes => paths.Select(x => new Route 
         { 
-            Key = x.Key, 
+            Key = x.Key,
+            ApiKey = x.Value?.ApiKey,
             Verb = x.Value?.Verb.ToString(),
             DownstreamPath = x.Value?.Route?.Path?.ToString(),
-            RequestJsonSchema = GetJsonSchema(x.Value?.Route?.RequestType),
-            ResponseJsonSchema = GetJsonSchema(x.Value?.Route?.ResponseType)
         });
 
-        #region Private Methods
-        private JsonSchema GetJsonSchema(Type type)
-        {
-            if (type == null)
-            {
-                return null;
-            }
-
-            return JsonSchema.FromType(type);
-        }
-        #endregion
+        public string CurrentApiKey { get; set; }
     }
 
 }

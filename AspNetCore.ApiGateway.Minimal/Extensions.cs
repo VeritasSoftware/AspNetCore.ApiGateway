@@ -148,7 +148,7 @@ namespace AspNetCore.ApiGateway.Minimal
 
         internal static Orchestration FilterRoutes(this Orchestration orchestration, string key)
         {
-            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim())).Cast<RouteBase>().ToList();            
+            orchestration.Routes = orchestration.Routes.Where(y => y.Key.Contains(key.Trim())).ToList();            
             return orchestration;
         }
 

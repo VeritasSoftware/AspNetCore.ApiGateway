@@ -280,7 +280,7 @@ namespace AspNetCore.ApiGateway.Tests
             var parameters = new ApiGatewayParameters();
 
             //Act
-            var orchestrations = await client.GetOrchestrationAsync(parameters);
+            var orchestrations = await client.GetOrchestrationAsync(parameters, true);
 
             //Assert
             Assert.Equal(2, orchestrations.Count());

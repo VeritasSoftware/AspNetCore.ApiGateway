@@ -125,7 +125,7 @@ namespace AspNetCore.ApiGateway.Application
         public static RouteHandlerBuilder MapApiGatewayGetOrchestration(this IEndpointRouteBuilder app)
         {
 
-            return app.MapGet("/api/Gateway/orchestration", async (HttpRequest requesty, IApiOrchestrator apiOrchestrator, string? apiKey = null, string? routeKey = null, string? parameters = null) =>
+            return app.MapGet("/api/Gateway/orchestration", async (HttpRequest requesty, IApiOrchestrator apiOrchestrator, string? apiKey = null, string? routeKey = null) =>
             {
                 apiKey = apiKey?.ToLower();
                 routeKey = routeKey?.ToLower();
@@ -139,7 +139,6 @@ namespace AspNetCore.ApiGateway.Application
                                                                                      .Select(x => x.FilterRoutes(routeKey))
                                                     : apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(apiKey.Trim()))
                                                                                      .Select(x => x.FilterRoutes(routeKey)))));
-
 
                 return Results.Ok(orchestrations);
             });

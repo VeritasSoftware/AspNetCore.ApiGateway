@@ -16,6 +16,6 @@ namespace AspNetCore.ApiGateway.Client
             where TPayload : class;
         Task DeleteAsync(ApiGatewayParameters parameters);
         Task<TResponse> DeleteAsync<TResponse>(ApiGatewayParameters parameters);
-        Task<IEnumerable<Orchestration>> GetOrchestrationAsync(ApiGatewayParameters parameters);
+        Task<IEnumerable<Orchestration>> GetOrchestrationAsync(ApiGatewayParameters parameters, bool isMinimalAPIVersion = false);
     }
 }

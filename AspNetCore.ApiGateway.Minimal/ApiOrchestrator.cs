@@ -32,9 +32,6 @@
 
         private readonly IMediator _mediator;
 
-        public string GatewayHubUrl { get; set; }
-        public bool StartGatewayHub { get; set; }
-
         public ApiOrchestrator(IMediator mediator)
         {
             _mediator = mediator;
@@ -48,6 +45,8 @@
             apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
 
             apiLoadBalancing.Add(apiKey.ToLower(), new LoadBalancing { BaseUrls = baseUrls });
+
+            mediator.CurrentApiKey = apiKey;
 
             return mediator;
         }
@@ -83,12 +82,13 @@
             return apiInfo;
         }
 
-        public IEnumerable<Orchestration> Orchestration => new List<Orchestration>().Union(apis?.Select(x => new ApiOrchestration
+        public IEnumerable<Orchestration> Orchestration => apis?
+        .GroupBy(x => x.Key).Select(x => new ApiOrchestration
         {
             Api = x.Key,
-            Routes = x.Value.Mediator.Routes.Cast<RouteBase>().ToList(),
-            ApiRoutes = x.Value.Mediator.Routes
-        }));        
+            Routes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),
+            ApiRoutes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),            
+        });    
 
         private string GetLoadBalancedUrl(LoadBalancing loadBalancing)
         {
