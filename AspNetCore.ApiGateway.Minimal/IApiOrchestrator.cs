@@ -7,6 +7,6 @@
 
         ApiInfo GetApi(string apiKey, bool withLoadBalancing = false);
 
-        IEnumerable<Orchestration> Orchestration { get; }
+        IEnumerable<ApiOrchestration> Orchestration { get; }
     }
 }

@@ -82,7 +82,7 @@
             return apiInfo;
         }
 
-        public IEnumerable<Orchestration> Orchestration => apis?
+        public IEnumerable<ApiOrchestration> Orchestration => apis?
         .GroupBy(x => x.Key).Select(x => new ApiOrchestration
         {
             Api = x.Key,
