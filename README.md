@@ -62,8 +62,6 @@ The framework is available as a
     *   .NET
     *   Typescript
 
-[**Read more**](/Docs/README_MinimalAPI.md)
-
 ## Gateway as a RESTful Microservice Facade
 
 ### Your **Gateway API** is a microservice which exposes endpoints that are a **facade** over your backend API endpoints.
