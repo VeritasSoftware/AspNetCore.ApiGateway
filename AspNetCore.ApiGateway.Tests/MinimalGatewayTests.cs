@@ -119,10 +119,12 @@ namespace AspNetCore.ApiGateway.Tests
 
             var strResponse = await response.Content.ReadAsStringAsync();
 
-            var weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(await response.Content.ReadAsStringAsync());
+            var weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(strResponse);
 
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+
+            //client = _apiInit.GatewayAPI.CreateClient();
 
             //gatewayUrl = "https://localhost:5010/api/Gateway/weatherservice/typewithparams?parameters=index=3";
 

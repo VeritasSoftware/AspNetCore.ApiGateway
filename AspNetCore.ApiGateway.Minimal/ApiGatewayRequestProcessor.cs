@@ -99,8 +99,14 @@ namespace AspNetCore.ApiGateway.Minimal
 
                     var returnedContent = await response.Content.ReadAsStringAsync();
 
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        WriteIndented = true
+                    };
+
                     return await Task.FromResult(routeInfo.ResponseType != null
-                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(returnedContent, routeInfo.ResponseType) : string.Empty
+                        ? !string.IsNullOrEmpty(returnedContent) ? JsonSerializer.Deserialize(returnedContent, routeInfo.ResponseType, options) : string.Empty
                         : returnedContent);
                 }
             }
