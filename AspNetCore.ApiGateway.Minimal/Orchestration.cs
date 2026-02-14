@@ -5,8 +5,8 @@ namespace AspNetCore.ApiGateway.Minimal
     public class Orchestration
     {
         [JsonPropertyOrder(1)]
-        [JsonPropertyName("api")]
-        public string Api { get; set; }
+        [JsonPropertyName("apiKey")]
+        public string ApiKey { get; set; }
 
         [JsonIgnore()]
         public List<Route> ApiRoutes { get; set; }
@@ -26,12 +26,13 @@ namespace AspNetCore.ApiGateway.Minimal
     public class RouteBase
     {
         [JsonPropertyOrder(1)]
-        [JsonPropertyName("key")]
+        [JsonPropertyName("routeKey")]
 
-        public string Key { get; set; }
+        public string RouteKey { get; set; }
 
         [JsonPropertyOrder(1)]
         [JsonPropertyName("apiKey")]
+        [JsonIgnore()]
 
         public string ApiKey { get; set; }
     }

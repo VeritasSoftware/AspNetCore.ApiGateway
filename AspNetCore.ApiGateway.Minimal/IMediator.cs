@@ -16,7 +16,5 @@
         IMediator AddApi(string apiKey, params string[] baseUrls);
 
         IEnumerable<Route> Routes { get; }
-
-        string CurrentApiKey { get; set;  }
     }
 }

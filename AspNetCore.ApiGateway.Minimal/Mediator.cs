@@ -113,7 +113,7 @@ namespace AspNetCore.ApiGateway.Minimal
             var gatewayRouteInfo = new GatewayRouteInfo
             {
                 Verb = verb,
-                ApiKey = this.CurrentApiKey,
+                ApiKey = MediatorHelper.CurrentApiKey,
                 Route = routeInfo
             };
 
@@ -127,7 +127,7 @@ namespace AspNetCore.ApiGateway.Minimal
             var gatewayRouteInfo = new GatewayRouteInfo
             {
                 Verb = verb,
-                ApiKey = this.CurrentApiKey,
+                ApiKey = MediatorHelper.CurrentApiKey,
                 Route = new RouteInfo
                 {
                     Exec = exec
@@ -153,13 +153,11 @@ namespace AspNetCore.ApiGateway.Minimal
 
         public IEnumerable<Route> Routes => paths.Select(x => new Route 
         { 
-            Key = x.Key,
+            RouteKey = x.Key,
             ApiKey = x.Value?.ApiKey,
             Verb = x.Value?.Verb.ToString(),
             DownstreamPath = x.Value?.Route?.Path?.ToString(),
         });
-
-        public string CurrentApiKey { get; set; }
     }
 
 }

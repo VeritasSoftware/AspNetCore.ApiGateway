@@ -133,11 +133,11 @@ namespace AspNetCore.ApiGateway.Application
                 var orchestrations = await Task.FromResult(string.IsNullOrEmpty(apiKey) && string.IsNullOrEmpty(routeKey)
                                                     ? apiOrchestrator.Orchestration
                                                     : (!string.IsNullOrEmpty(apiKey) && string.IsNullOrEmpty(routeKey)
-                                                    ? apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(apiKey.Trim()))
+                                                    ? apiOrchestrator.Orchestration?.Where(x => x.ApiKey.Contains(apiKey.Trim()))
                                                     : (string.IsNullOrEmpty(apiKey) && !string.IsNullOrEmpty(routeKey)
-                                                    ? apiOrchestrator.Orchestration?.Where(x => x.ApiRoutes.Any(y => y.Key.Contains(routeKey.Trim())))
+                                                    ? apiOrchestrator.Orchestration?.Where(x => x.ApiRoutes.Any(y => y.RouteKey.Contains(routeKey.Trim())))
                                                                                      .Select(x => x.FilterRoutes(routeKey))
-                                                    : apiOrchestrator.Orchestration?.Where(x => x.Api.Contains(apiKey.Trim()))
+                                                    : apiOrchestrator.Orchestration?.Where(x => x.ApiKey.Contains(apiKey.Trim()))
                                                                                      .Select(x => x.FilterRoutes(routeKey)))));
 
                 return Results.Ok(orchestrations);

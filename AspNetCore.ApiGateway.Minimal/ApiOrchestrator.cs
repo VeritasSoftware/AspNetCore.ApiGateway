@@ -46,7 +46,7 @@
 
             apiLoadBalancing.Add(apiKey.ToLower(), new LoadBalancing { BaseUrls = baseUrls });
 
-            mediator.CurrentApiKey = apiKey;
+            MediatorHelper.CurrentApiKey = apiKey;
 
             return mediator;
         }
@@ -58,6 +58,8 @@
             apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
 
             apiLoadBalancing.Add(apiKey.ToLower(), new LoadBalancing { Type = loadBalancingType,  BaseUrls = baseUrls });
+
+            MediatorHelper.CurrentApiKey = apiKey;
 
             return mediator;
         }
@@ -85,7 +87,7 @@
         public IEnumerable<ApiOrchestration> Orchestration => apis?
         .GroupBy(x => x.Key).Select(x => new ApiOrchestration
         {
-            Api = x.Key,
+            ApiKey = x.Key,
             ApiRoutes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),
             Routes = x.First().Value.Mediator.Routes.Where(y => y.ApiKey == x.Key).ToList(),            
         });    
