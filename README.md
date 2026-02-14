@@ -19,6 +19,7 @@ Social Media: LinkedIn [post](https://www.linkedin.com/feed/update/urn:li:activi
 
 ||**More of my open-source projects**||
 |---------------------------|---|:---:|
+|*Website AI Assistant*| AI Assistant built using ML .NET, Microsoft's machine learning platform, to help visitors to your website, narrow down which of the offered products or services suits their needs.|[Browse](https://github.com/VeritasSoftware/WebsiteAIAssistant)|
 |*Live Health Checks*|Real-Time Api Health Check Monitoring system|[Browse](https://github.com/VeritasSoftware/LiveHealthChecks)|
 |*.NET WebRTC*|A .NET library for WebRTC, enabling real-time communication in your web applications. Audio+video chat, screen sharing, text chat, file transfer etc.<br>`Angular`, `React` & `Blazor` clients.|[Browse](https://github.com/VeritasSoftware/WebRTC)|
 
