@@ -39,10 +39,19 @@
         }
 
         public IMediator AddApi(string apiKey, params string[] baseUrls)
-        {            
+        {
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                throw new ArgumentException("Api key must be specified.");
+            }
+            if (baseUrls == null || baseUrls.Length == 0)
+            {
+                throw new ArgumentException("At least one base url must be specified.");
+            }
+
             var mediator = _mediator;
 
-            apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
+            apis.Add(apiKey.Trim().ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
 
             apiLoadBalancing.Add(apiKey.ToLower(), new LoadBalancing { BaseUrls = baseUrls });
 
@@ -53,9 +62,18 @@
 
         public IMediator AddApi(string apiKey, LoadBalancingType loadBalancingType, params string[] baseUrls)
         {
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                throw new ArgumentException("Api key must be specified.");
+            }
+            if (baseUrls == null || baseUrls.Length == 0)
+            {
+                throw new ArgumentException("At least one base url must be specified.");
+            }
+
             var mediator = _mediator;
 
-            apis.Add(apiKey.ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
+            apis.Add(apiKey.Trim().ToLower(), new ApiInfo() { BaseUrl = baseUrls.First(), Mediator = mediator });
 
             apiLoadBalancing.Add(apiKey.ToLower(), new LoadBalancing { Type = loadBalancingType,  BaseUrls = baseUrls });
 

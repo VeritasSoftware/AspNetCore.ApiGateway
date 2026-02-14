@@ -38,8 +38,20 @@ namespace AspNetCore.ApiGateway.Minimal
         private IEnumerable<string> _routeParams = new List<string>();
         private bool _isPathTypeDetermined = false;
         private bool _isParameterizedRoute = false;
+        private string _path = string.Empty;
 
-        public string Path { get; set; }
+        public string Path
+        {
+            get => _path;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(Path));
+                }
+                _path = value.Trim();
+            }
+        }
         internal bool IsParameterizedRoute
         {
             get
@@ -110,6 +122,11 @@ namespace AspNetCore.ApiGateway.Minimal
 
         public IMediator AddRoute(string routeKey, GatewayVerb verb, RouteInfo routeInfo)
         {
+            if (string.IsNullOrWhiteSpace(routeKey))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(routeKey));
+            }
+
             var gatewayRouteInfo = new GatewayRouteInfo
             {
                 Verb = verb,
@@ -117,13 +134,23 @@ namespace AspNetCore.ApiGateway.Minimal
                 Route = routeInfo
             };
 
-            paths.Add(routeKey.ToLower(), gatewayRouteInfo);
+            paths.Add(routeKey.Trim().ToLower(), gatewayRouteInfo);
 
             return this;
         }
 
         public IMediator AddRoute(string routeKey, GatewayVerb verb, Func<ApiInfo, HttpRequest, Task<object>> exec)
         {
+            if (string.IsNullOrWhiteSpace(routeKey))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(routeKey));
+            }
+
+            if (exec == null)
+            {
+                throw new ArgumentNullException(nameof(exec));
+            }
+
             var gatewayRouteInfo = new GatewayRouteInfo
             {
                 Verb = verb,
@@ -134,7 +161,7 @@ namespace AspNetCore.ApiGateway.Minimal
                 }
             };
 
-            paths.Add(routeKey.ToLower(), gatewayRouteInfo);
+            paths.Add(routeKey.Trim().ToLower(), gatewayRouteInfo);
 
             return this;
         }
