@@ -5,7 +5,41 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<LangVersion>13</LangVersion>
+	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+	  <Description>Endorsed by the .NET Foundation as a revolutionary Gateway! Supports .NET 8/9/10. Out of the box, simple Gateway as a Minimal API facade. Seamlessly transition your Minimal API skills to the API Gateway. A host of enhanced features.</Description>
+	  <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
+	  <PackageTags>AspNetCore.ApiGateway.Minimal Api Gateway asp net core 8, 9, 10 library framework restful minimal API facade freeware swagger authorization, load balancing, response caching</PackageTags>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <IsPackable>true</IsPackable>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	  <Authors>Shantanu</Authors>
+	  <Company>Veritas Software</Company>
+	  <Version>1.0.0</Version>
+	  <PackageReleaseNotes></PackageReleaseNotes>
+	  <Title>AspNetCore.ApiGateway.Minimal</Title>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+	<Target Name="InjectPackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="Exists('CHANGELOG.md')">
+		<PropertyGroup>
+			<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/CHANGELOG.md"))</PackageReleaseNotes>
+		</PropertyGroup>
+	</Target>
+	
+  <ItemGroup>
+    <None Remove="README.md" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

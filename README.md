@@ -41,6 +41,12 @@ The framework is available as a
 
 ## Gateway as a RESTful Minimal API Facade
 
+A Minimal API in ASP.NET Core is designed to create lightweight HTTP APIs with minimal dependencies, making it ideal for microservices or small applications. 
+
+It uses concise syntax, top-level statements, and avoids the overhead of controllers.
+
+The API Gateway has be implemented as a Minimal API, which acts as a facade over your backend microservices.
+
 Read [**more**](/Docs/README_MinimalAPI.md)
 
 ## Gateway as a RESTful Microservice Facade
