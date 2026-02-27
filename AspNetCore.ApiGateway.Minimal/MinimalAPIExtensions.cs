@@ -6,7 +6,7 @@ namespace AspNetCore.ApiGateway.Application
 {
     public static class MinimalAPIExtensions
     {
-        public static void MapAllApiGatewayEndpoints(this IEndpointRouteBuilder app)
+        public static IEndpointRouteBuilder MapAllApiGatewayEndpoints(this IEndpointRouteBuilder app)
         {
             app.MapApiGatewayHead();
             app.MapApiGatewayGet();
@@ -15,9 +15,11 @@ namespace AspNetCore.ApiGateway.Application
             app.MapApiGatewayPatch();
             app.MapApiGatewayDelete();            
             app.MapApiGatewayGetOrchestration();
+
+            return app;
         }
 
-        public static void MapAllApiGatewayEndpoints(this WebApplication app)
+        public static WebApplication MapAllApiGatewayEndpoints(this WebApplication app)
         {
             app.MapApiGatewayHead();
             app.MapApiGatewayGet();
@@ -26,6 +28,8 @@ namespace AspNetCore.ApiGateway.Application
             app.MapApiGatewayPatch();
             app.MapApiGatewayDelete();
             app.MapApiGatewayGetOrchestration();
+
+            return app;
         }
 
         public static RouteHandlerBuilder MapApiGatewayHead(this IEndpointRouteBuilder app)
