@@ -6,6 +6,28 @@ namespace AspNetCore.ApiGateway.Application
 {
     public static class MinimalAPIExtensions
     {
+        public static void MapAllApiGatewayEndpoints(this IEndpointRouteBuilder app)
+        {
+            app.MapApiGatewayHead();
+            app.MapApiGatewayGet();
+            app.MapApiGatewayPost();
+            app.MapApiGatewayPut();
+            app.MapApiGatewayPatch();
+            app.MapApiGatewayDelete();            
+            app.MapApiGatewayGetOrchestration();
+        }
+
+        public static void MapAllApiGatewayEndpoints(this WebApplication app)
+        {
+            app.MapApiGatewayHead();
+            app.MapApiGatewayGet();
+            app.MapApiGatewayPost();
+            app.MapApiGatewayPut();
+            app.MapApiGatewayPatch();
+            app.MapApiGatewayDelete();
+            app.MapApiGatewayGetOrchestration();
+        }
+
         public static RouteHandlerBuilder MapApiGatewayHead(this IEndpointRouteBuilder app)
         {
             return app.MapMethods("/api/Gateway/{apiKey}/{routeKey}", new[] { "HEAD" }, async (HttpRequest request, string apiKey, string routeKey, IApiGatewayRequestProcessor requestProcessor, string? parameters = null) =>

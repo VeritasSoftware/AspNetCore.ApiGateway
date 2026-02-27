@@ -90,6 +90,9 @@ namespace ApiGateway.API.Minimal
                 endpoints.MapApiGatewayDelete();
                 endpoints.MapApiGatewayPatch();
                 endpoints.MapApiGatewayGetOrchestration();
+
+                // Maps all the endpoints
+                //endpoints.MapAllApiGatewayEndpoints();
             });
         }
     }
