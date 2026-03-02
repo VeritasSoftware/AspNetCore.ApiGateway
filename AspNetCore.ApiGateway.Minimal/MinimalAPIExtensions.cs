@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace AspNetCore.ApiGateway.Application
+namespace AspNetCore.ApiGateway.Minimal
 {
     public static class MinimalAPIExtensions
     {

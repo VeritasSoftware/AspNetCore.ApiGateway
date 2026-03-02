@@ -8,9 +8,9 @@
     <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
     <PackageTags>asp net core api gateway client</PackageTags>
-    <PackageReleaseNotes>Updated dependencies to .NET 10.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added support for Minimal API Gateway.</PackageReleaseNotes>
     <Authors>Shantanu</Authors>
-    <Version>3.0.0</Version>
+    <Version>4.0.0</Version>
     <Title>AspNetCore.ApiGateway.Client</Title>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

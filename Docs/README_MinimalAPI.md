@@ -1,8 +1,14 @@
-# API Gateway as Minimal API Facade
+# API Gateway as a RESTful Minimal API Facade
 
 The API Gateway is engineered as a Minimal API facade.
 
 You can hook up **Authorization**, **Swagger** etc. just like any Minimal API.
+
+|Packages|Version|Downloads|
+|---------------------------|:---:|:---:|
+|*Veritas.AspNetCore.ApiGateway.Minimal*|[![Nuget Version](https://img.shields.io/nuget/v/Veritas.AspNetCore.ApiGateway.Minimal)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.Minimal)|[![Downloads count](https://img.shields.io/nuget/dt/Veritas.AspNetCore.ApiGateway.Minimal)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.Minimal)|
+|*AspNetCore.ApiGateway.Client*|[![Nuget Version](https://img.shields.io/nuget/v/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|[![Downloads count](https://img.shields.io/nuget/dt/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|
+|*ts-aspnetcore-apigateway-client*|[![NPM Version](https://img.shields.io/npm/v/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|[![Downloads count](https://img.shields.io/npm/dy/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|
 
 ## Features
 
@@ -16,6 +22,17 @@ You can hook up **Authorization**, **Swagger** etc. just like any Minimal API.
 *   Clients available in
     *   .NET
     *   Typescript
+
+### Your **Gateway API** is a minimal API host which exposes endpoints that are a **facade** over your backend API endpoints.
+
+*   HEAD
+*	GET
+*	POST
+*	PUT
+*   PATCH
+*	DELETE
+
+<img src="/Docs/FacadeDesignPattern.PNG" style="width:60%;height:auto;max-width:500px;" alt="API Gateway Facade" >
 
 ## Implementation
 
@@ -165,6 +182,9 @@ So, the call to the Gateway would become:
             endpoints.MapApiGatewayDelete();
             endpoints.MapApiGatewayPatch();
             endpoints.MapApiGatewayGetOrchestration();
+
+            // Maps all the endpoints
+            //endpoints.MapAllApiGatewayEndpoints();
         });
     }
 ```

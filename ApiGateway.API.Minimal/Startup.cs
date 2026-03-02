@@ -1,4 +1,3 @@
-using AspNetCore.ApiGateway.Application;
 using AspNetCore.ApiGateway.Minimal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
