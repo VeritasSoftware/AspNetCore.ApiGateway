@@ -1,3 +1,3 @@
 ﻿# Changelog (Release Notes)
 
-- Initial release
+- Added support for reading from appsettings.json.
