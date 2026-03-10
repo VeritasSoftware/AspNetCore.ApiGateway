@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Net;
 using System.Text;
 using System.Text.Json;
 
@@ -39,36 +37,20 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         }
 
         [Function("ApiGateway-Get")]
-        public async Task<IActionResult> GetAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/Gateway/{apiKey}/{routeKey}")] 
+        public async Task<IActionResult> GetAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/Gateway/{apiKey}/{routeKey}")]
                                                             HttpRequest request, string apiKey, string routeKey, string parameters = null)
         {
-            _logger?.LogInformation("C# HTTP trigger function processed a request.");            
+            _logger?.LogInformation("C# HTTP trigger function processed a request.");
 
-            var result = new OkObjectResult(await _requestProcessor.ProcessAsync(
-                                                apiKey,
-                                                routeKey,
-                                                request,
-                                                (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}"),
-                                                null,
-                                                null,
-                                                parameters
-                                            ));
-
-            var api = _requestProcessor.ApiOrchestrator.GetApi(apiKey);
-            var route = api.Mediator.GetRoute(routeKey);
-
-            if (route != null && route.Route.ResponseCachingDurationInSeconds > 0)
-            {
-                var response = request.HttpContext.Response;
-
-                response.Headers.Append("Cache-Control", $"public, max-age={route.Route.ResponseCachingDurationInSeconds * 1000}");
-                response.Headers.Append("Pragma", "cache");
-                response.Headers.Append("Expires", DateTime.UtcNow.AddSeconds(route.Route.ResponseCachingDurationInSeconds).ToString("R"));
-
-                response.Headers.Append("X-Cache-Info", $"Cached for {route.Route.ResponseCachingDurationInSeconds} seconds");
-            }
-
-            return result;
+            return new OkObjectResult(await _requestProcessor.ProcessAsync(
+                                        apiKey,
+                                        routeKey,
+                                        request,
+                                        (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}"),
+                                        null,
+                                        null,
+                                        parameters
+                                     ));
         }
 
         [Function("ApiGateway-Post")]

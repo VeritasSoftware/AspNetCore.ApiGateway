@@ -1,3 +1,4 @@
+using AspNetCore.ApiGateway.AzureFunctions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Hosting;
@@ -18,13 +19,10 @@ var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 
-//builder.WebHost.ConfigureAppConfiguration(configBuilder =>
-//{
-//    configBuilder.SetBasePath(Environment.CurrentDirectory)
-//                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-//                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)//To specify environment
-//                 .AddEnvironmentVariables();//You can add if you need to read environment variables.
-//});
+// Register the GatewayMiddleware to handle incoming requests to the gateway
+// This should be registered before any other middleware to ensure it can process the requests correctly
+// The GatewayMiddleware will block the request if it doesn't match the gateway route pattern
+builder.UseMiddleware<GatewayMiddleware>();
 
 var startup = new Startup(builder.Configuration);
 startup.ConfigureServices(builder.Services);

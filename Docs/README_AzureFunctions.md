@@ -174,6 +174,23 @@ For **Request aggregation**, see this section.
 
 ### [Load Balancing](Docs/README_LoadBalancing.md)
 
+### Middleware
+
+You can add the `GatewayMiddleware` in the pipeline to block the request if it doesn't match the gateway route pattern.
+
+In your Functions project,
+
+```csharp
+var builder = FunctionsApplication.CreateBuilder(args);
+
+// Register the GatewayMiddleware to handle incoming requests to the gateway
+// This should be registered before any other middleware to ensure it can process the requests correctly
+// The GatewayMiddleware will block the request if it doesn't match the gateway route pattern
+builder.UseMiddleware<GatewayMiddleware>();
+```
+
+### [Middleware Service](Docs/README_Middleware_Service.md)
+
 ## Clients
 
 The Api Gateway supports a fixed set of endpoints.
