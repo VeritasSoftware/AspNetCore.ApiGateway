@@ -51,7 +51,7 @@ The API Gateway has be implemented as a Minimal API, which acts as a facade over
 
 Read [**more**](/Docs/README_MinimalAPI.md)
 
-## Gateway as a Azure Functions Facade
+## Gateway as an Azure Functions Facade
 
 The API Gateway has be implemented as Azure Functions, which acts as a facade over your backend microservices.
 

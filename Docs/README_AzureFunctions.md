@@ -1,6 +1,6 @@
 # API Gateway as Azure Functions Facade
 
-The API Gateway is engineered as a Azure Functions facade.
+The API Gateway is engineered as an Azure Functions facade.
 
 You can hook up **Authorization** etc. just like any Azure Function.
 
