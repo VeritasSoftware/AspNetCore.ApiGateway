@@ -40,6 +40,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         private bool _isPathTypeDetermined = false;
         private bool _isParameterizedRoute = false;
         private string _path = string.Empty;
+        private int _responseCachingDurationInSeconds = -1;
 
         public string Path
         {
@@ -69,7 +70,11 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         public Type RequestType { get; set; }
         public Func<ApiInfo, HttpRequest, Task<object>> Exec { get; set; }
         public HttpClientConfig HttpClientConfig { get; set; }
-        public int ResponseCachingDurationInSeconds { get; set; } = -1;
+        public int ResponseCachingDurationInSeconds 
+        {
+            get => _responseCachingDurationInSeconds;
+            set => _responseCachingDurationInSeconds = value > 0 ? value : throw new ApplicationException($"{nameof(ResponseCachingDurationInSeconds)} must be greater than 0.");
+        }
         private IEnumerable<string> Params
         {
             get
@@ -135,6 +140,11 @@ namespace AspNetCore.ApiGateway.AzureFunctions
                 Route = routeInfo
             };
 
+            if (verb != GatewayVerb.GET && routeInfo.ResponseCachingDurationInSeconds > 0)
+            {
+                throw new ApplicationException($"Only GET routes can be cached. Invalid verb {verb} for route {routeKey}.");
+            }
+
             paths.Add(routeKey.Trim().ToLower(), gatewayRouteInfo);
 
             return this;
@@ -156,10 +166,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
             {
                 Verb = verb,
                 ApiKey = MediatorHelper.CurrentApiKey,
-                Route = new RouteInfo
-                {
-                    Exec = exec
-                }
+                Route = new RouteInfo { Exec = exec }
             };
 
             paths.Add(routeKey.Trim().ToLower(), gatewayRouteInfo);
