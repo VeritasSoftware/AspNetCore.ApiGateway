@@ -72,6 +72,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.ApiGateway.Minim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.API.Minimal", "ApiGateway.API.Minimal\ApiGateway.API.Minimal.csproj", "{7238A13E-4DBD-4CAD-949C-FF4831F219FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.ApiGateway.AzureFunctions", "AspNetCore.ApiGateway.AzureFunctions\AspNetCore.ApiGateway.AzureFunctions.csproj", "{48C710DC-EA94-4E65-A4D6-0484900A867A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ApiGateway.AzureFunctions", "Sample.ApiGateway.AzureFunctions\Sample.ApiGateway.AzureFunctions.csproj", "{05D846A9-C9BC-4EE1-84EA-30FD52F82F04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +122,14 @@ Global
 		{7238A13E-4DBD-4CAD-949C-FF4831F219FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7238A13E-4DBD-4CAD-949C-FF4831F219FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7238A13E-4DBD-4CAD-949C-FF4831F219FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C710DC-EA94-4E65-A4D6-0484900A867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C710DC-EA94-4E65-A4D6-0484900A867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C710DC-EA94-4E65-A4D6-0484900A867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C710DC-EA94-4E65-A4D6-0484900A867A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05D846A9-C9BC-4EE1-84EA-30FD52F82F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05D846A9-C9BC-4EE1-84EA-30FD52F82F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05D846A9-C9BC-4EE1-84EA-30FD52F82F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05D846A9-C9BC-4EE1-84EA-30FD52F82F04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +145,8 @@ Global
 		{4EEA8028-DAB4-4A8E-B4CF-BA95A52E3028} = {09FF380F-5D8D-417E-B16A-ABB9109FE882}
 		{275933B1-2754-4584-8D93-64A9FBBACFD3} = {09FF380F-5D8D-417E-B16A-ABB9109FE882}
 		{7238A13E-4DBD-4CAD-949C-FF4831F219FA} = {042DBA12-AE6F-43F3-8BC4-1204678F90D2}
+		{48C710DC-EA94-4E65-A4D6-0484900A867A} = {09FF380F-5D8D-417E-B16A-ABB9109FE882}
+		{05D846A9-C9BC-4EE1-84EA-30FD52F82F04} = {042DBA12-AE6F-43F3-8BC4-1204678F90D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D41EFF44-6827-41B7-9F6F-62057780D65C}
