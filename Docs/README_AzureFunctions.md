@@ -6,7 +6,7 @@ You can hook up **Authorization** etc. just like any Azure Function.
 
 |Packages|Version|Downloads|
 |---------------------------|:---:|:---:|
-|*Veritas.AspNetCore.ApiGateway.Minimal*|[![Nuget Version](https://img.shields.io/nuget/v/Veritas.AspNetCore.ApiGateway.Minimal)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.Minimal)|[![Downloads count](https://img.shields.io/nuget/dt/Veritas.AspNetCore.ApiGateway.Minimal)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.Minimal)|
+|*Veritas.AspNetCore.ApiGateway.AzureFunctions*|[![Nuget Version](https://img.shields.io/nuget/v/Veritas.AspNetCore.ApiGateway.AzureFunctions)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.AzureFunctions)|[![Downloads count](https://img.shields.io/nuget/dt/Veritas.AspNetCore.ApiGateway.AzureFunctions)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.AzureFunctions)|
 |*AspNetCore.ApiGateway.Client*|[![Nuget Version](https://img.shields.io/nuget/v/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|[![Downloads count](https://img.shields.io/nuget/dt/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|
 |*ts-aspnetcore-apigateway-client*|[![NPM Version](https://img.shields.io/npm/v/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|[![Downloads count](https://img.shields.io/npm/dy/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|
 
@@ -21,7 +21,7 @@ You can hook up **Authorization** etc. just like any Azure Function.
     *   .NET
     *   Typescript
 
-### Your **Gateway API** is a minimal API host which exposes endpoints that are a **facade** over your backend API endpoints.
+### Your **Gateway API** are Azure Functions which exposes endpoints that are a **facade** over your backend API endpoints.
 
 *   HEAD
 *	GET
@@ -140,7 +140,7 @@ To call the **forecast** Route on the **weather service** Api,
 
 you can enter the **Api key** and **Route key** into Swagger as below:
 
-![API Gateway Minimal Swagger](/Docs/ApiGatewayAzureFunctionCall.png)
+![API Gateway Postman call](/Docs/ApiGatewayAzureFunctionCall.png)
 
 This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
 
