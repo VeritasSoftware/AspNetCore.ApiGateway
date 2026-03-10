@@ -1,8 +1,8 @@
-# API Gateway as a RESTful Minimal API Facade
+# API Gateway as Azure Functions Facade
 
-The API Gateway is engineered as a Minimal API facade.
+The API Gateway is engineered as a Azure Functions facade.
 
-You can hook up **Authorization**, **Swagger** etc. just like any Minimal API.
+You can hook up **Authorization** etc. just like any Azure Function.
 
 |Packages|Version|Downloads|
 |---------------------------|:---:|:---:|
@@ -12,12 +12,10 @@ You can hook up **Authorization**, **Swagger** etc. just like any Minimal API.
 
 ## Features
 
-*	Swagger
 *	Authorization
 *   Load balancing
 *   Response caching
 *   Request aggregation
-*   Middleware service
 *   Logging
 *   Clients available in
     *   .NET
@@ -68,11 +66,11 @@ So, the call to the Gateway would become:
 ```C#
 public static class ApiOrchestration
 {
-    public static void Create(IApiOrchestrator orchestrator, IApplicationBuilder app)
+    public static void Create(IApiOrchestrator orchestrator, IHost app)
     {
-        var serviceProvider = app.ApplicationServices;
+        var serviceProvider = app.Services;
 
-        var weatherService = serviceProvider.GetService<IWeatherService>();
+        var weatherService = serviceProvider.GetRequiredService<IWeatherService>();
 
         var weatherApiClientConfig = weatherService.GetClientConfig();
 
@@ -109,15 +107,6 @@ public static class ApiOrchestration
 ```C#
 public void ConfigureServices(IServiceCollection services)
 {
-    //Hook up GatewayHub using SignalR
-    services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
-    {
-        builder
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowAnyOrigin();
-    }));
-
     services.AddTransient<IWeatherService, WeatherService>();
 
     //services.AddSingleton<IApiGatewayConfigService, ApiGatewayConfigService>(); 
@@ -133,70 +122,25 @@ public void ConfigureServices(IServiceCollection services)
             //Use VaryByQueryKeys to vary the response for each apiKey & routeKey
             VaryByQueryKeys = new[] { "apiKey", "routeKey" }
         };
-    });
-
-    services.AddEndpointsApiExplorer(); // Required for Minimal APIs
-    services.AddSwaggerGen(c =>
-    {
-        c.SwaggerDoc("v1", new OpenApiInfo
-        {
-            Title = "My Minimal API Gateway",
-            Description = "A simple example of ASP.NET Core Minimal API with Swagger",
-            Version = "v1"
-        });
-    });
-
-    services.AddMvc();            
+    });                   
 }
 
-public void Configure(IApplicationBuilder app)
+public void Configure(IHost app)
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Minimal API Gateway V1");
-        // Optional: set the UI to load at the app root URL
-        // c.RoutePrefix = string.Empty; 
-    });
-
-    //webApplication.
-    app.UseCors("CorsPolicy");
-
     //Api gateway
     app.UseApiGateway(orchestrator => ApiOrchestration.Create(orchestrator, app));
-
-    app.UseHttpsRedirection();
-
-    app.UseRouting();
-
-    app.UseAuthorization();
-
-    app.UseEndpoints(endpoints =>
-    {
-        // Api Gateway Minimal API
-        endpoints.MapApiGatewayHead();
-        endpoints.MapApiGatewayGet();
-        endpoints.MapApiGatewayPost();
-        endpoints.MapApiGatewayPut();
-        endpoints.MapApiGatewayDelete();
-        endpoints.MapApiGatewayPatch();
-        endpoints.MapApiGatewayGetOrchestration();
-
-        // Maps all the endpoints
-        //endpoints.MapAllApiGatewayEndpoints();
-    });
 }
 ```
 
-The Gateway Swagger appears as shown below:
+The Functions start as shown below:
 
-![API Gateway Minimal Swagger](/Docs/APIGatewayMinimal.png)
+![API Gateway Azure Functions](/Docs/APIGatewayAzureFunctions.png)
 
 To call the **forecast** Route on the **weather service** Api,
 
 you can enter the **Api key** and **Route key** into Swagger as below:
 
-![API Gateway Minimal Swagger](/Docs/ApiGatewayMinimalCall.png)
+![API Gateway Minimal Swagger](/Docs/ApiGatewayAzureFunctionCall.png)
 
 This will hit the **weatherforecast/forecast** endpoint on the backend Weather API.
 
@@ -209,23 +153,6 @@ in the **appsettings.json**, read it using a Config Service,
 and pass it to the Api Orchestrator in the Create method. 
 
 Read [**more**](/Docs/README_ConfigSettings.md).
-
-### Deployment to Prod
-
-As with any Web API, when there is any code change, the API Gateway too is published and deployed using **Blue/Green deployment**.
-
-This is available in **Azure** & **AWS**.
-
-In Azure App Service, you use **deployment slots** etc. 
-
-*   Read [more](https://learn.microsoft.com/en-us/azure/app-service/deploy-best-practices#use-deployment-slots).
-*   Read [more](https://learn.microsoft.com/en-us/azure/container-apps/blue-green-deployment?pivots=azure-cli).
-
-Azure Kubernetes Service (AKS) also supports Blue/Green deployment. Read [more](https://learn.microsoft.com/en-us/azure/architecture/guide/aks/blue-green-deployment-for-aks).
-
-In AWS, you use **Elastic Beanstalk**. Read [more](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.CNAMESwap.html).
-
-So, there is no down time.
 
 ### Verbs usage & Routing
 
@@ -247,14 +174,6 @@ For **Request aggregation**, see this section.
 
 ### [Load Balancing](Docs/README_LoadBalancing.md)
 
-### Response Caching
-
-### [Response Caching](Docs/README_ResponseCaching.md)
-
-### Middleware Service
-
-### [Middleware Service](Docs/README_Middleware_Service.md)
-
 ## Clients
 
 The Api Gateway supports a fixed set of endpoints.
@@ -269,6 +188,6 @@ A Client library is provided for:
 
 * [**Typescript**](Docs/README_Typescript_Client.md)
 
-## Making requests to Minimal API Gateway
+## Making requests to Azure Functions Gateway
 
-These [**Tests**](/AspNetCore.ApiGateway.Tests/MinimalAPIGatewayTests.cs) show how to make calls to the Minimal API Gateway.
+These [**Tests**](/AspNetCore.ApiGateway.Tests/AzureFunctionsGatewayTests.cs) show how to make calls to the Azure Functions Gateway.

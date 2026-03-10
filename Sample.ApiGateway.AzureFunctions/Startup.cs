@@ -37,7 +37,6 @@ namespace Sample.ApiGateway.AzureFunctions
             });                   
         }
 
-        //public void Configure(IApplicationBuilder app, WebApplication webApplication)
         public void Configure(IHost app)
         {
             //Api gateway

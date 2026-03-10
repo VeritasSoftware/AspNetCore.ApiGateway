@@ -39,6 +39,7 @@ The framework is available as a
 
 * **RESTful Microservice Facade.**
 * **RESTful Minimal API Facade.**
+* **Azure Functions Facade.**
 
 ## Gateway as a RESTful Minimal API Facade
 
@@ -49,6 +50,16 @@ It uses concise syntax, top-level statements, and avoids the overhead of control
 The API Gateway has be implemented as a Minimal API, which acts as a facade over your backend microservices.
 
 Read [**more**](/Docs/README_MinimalAPI.md)
+
+## Gateway as a Azure Functions Facade
+
+The API Gateway has be implemented as Azure Functions, which acts as a facade over your backend microservices.
+
+Real easy to integrate the library into a Functions project.
+
+Seamlessly transition you Azure Functions knowledge to the Api Gateway.
+
+Read [**more**](/Docs/README_AzureFunctions.md)
 
 ## Gateway as a RESTful Microservice Facade
 

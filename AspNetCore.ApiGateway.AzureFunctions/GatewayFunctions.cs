@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -19,12 +20,12 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         }
 
         [Function("ApiGateway-Head")]
-        public async Task<IResult> HeadAsync([HttpTrigger(AuthorizationLevel.Function, "head", Route = "api/Gateway/{apiKey}/{routeKey}")]
+        public async Task<IActionResult> HeadAsync([HttpTrigger(AuthorizationLevel.Function, "head", Route = "api/Gateway/{apiKey}/{routeKey}")]
                                                             HttpRequest request, string apiKey, string routeKey, string parameters = null)
         {
             _logger?.LogInformation("C# HTTP trigger function processed a request.");
 
-            return Results.Ok(await _requestProcessor.ProcessAsync(
+            return new OkObjectResult(await _requestProcessor.ProcessAsync(
                                         apiKey,
                                         routeKey,
                                         request,
@@ -36,12 +37,12 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         }
 
         [Function("ApiGateway-Get")]
-        public async Task<IResult> GetAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/Gateway/{apiKey}/{routeKey}")] 
+        public async Task<IActionResult> GetAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/Gateway/{apiKey}/{routeKey}")] 
                                                             HttpRequest request, string apiKey, string routeKey, string parameters = null)
         {
             _logger?.LogInformation("C# HTTP trigger function processed a request.");
 
-            return Results.Ok(await _requestProcessor.ProcessAsync(
+            return new OkObjectResult(await _requestProcessor.ProcessAsync(
                                         apiKey,
                                         routeKey,
                                         request,
@@ -53,7 +54,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         }
 
         [Function("ApiGateway-Post")]
-        public async Task<IResult> PostAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = "api/Gateway/{apiKey}/{routeKey}")]
+        public async Task<IActionResult> PostAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = "api/Gateway/{apiKey}/{routeKey}")]
                                                             HttpRequest request, string apiKey, string routeKey, string parameters = null)
         {
             _logger?.LogInformation("C# HTTP trigger function processed a request.");
@@ -61,7 +62,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
             string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
             object requestObj = JsonConvert.DeserializeObject(requestBody);
 
-            return Results.Ok(await _requestProcessor.ProcessAsync(
+            return new OkObjectResult(await _requestProcessor.ProcessAsync(
                                         apiKey,
                                         routeKey,
                                         request,
@@ -73,7 +74,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         }
 
         [Function("ApiGateway-Put")]
-        public async Task<IResult> PutAsync([HttpTrigger(AuthorizationLevel.Function, "put", Route = "api/Gateway/{apiKey}/{routeKey}")]
+        public async Task<IActionResult> PutAsync([HttpTrigger(AuthorizationLevel.Function, "put", Route = "api/Gateway/{apiKey}/{routeKey}")]
                                                             HttpRequest request, string apiKey, string routeKey, string parameters = null)
         {
             _logger?.LogInformation("C# HTTP trigger function processed a request.");
@@ -81,7 +82,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
             string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
             object requestObj = JsonConvert.DeserializeObject(requestBody);
 
-            return Results.Ok(await _requestProcessor.ProcessAsync(
+            return new OkObjectResult(await _requestProcessor.ProcessAsync(
                                         apiKey,
                                         routeKey,
                                         request,
@@ -93,7 +94,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         }
 
         [Function("ApiGateway-Patch")]
-        public async Task<IResult> PatchAsync([HttpTrigger(AuthorizationLevel.Function, "patch", Route = "api/Gateway/{apiKey}/{routeKey}")]
+        public async Task<IActionResult> PatchAsync([HttpTrigger(AuthorizationLevel.Function, "patch", Route = "api/Gateway/{apiKey}/{routeKey}")]
                                                             HttpRequest request, string apiKey, string routeKey, string parameters = null)
         {
             _logger?.LogInformation("C# HTTP trigger function processed a request.");
@@ -109,7 +110,7 @@ namespace AspNetCore.ApiGateway.AzureFunctions
 
             var patch = System.Text.Json.JsonSerializer.Deserialize<PatchObj>(body, options);
 
-            return Results.Ok(await _requestProcessor.ProcessAsync(
+            return new OkObjectResult(await _requestProcessor.ProcessAsync(
                                     apiKey,
                                     routeKey,
                                     request,
@@ -126,12 +127,12 @@ namespace AspNetCore.ApiGateway.AzureFunctions
         }
 
         [Function("ApiGateway-Delete")]
-        public async Task<IResult> DeleteAsync([HttpTrigger(AuthorizationLevel.Function, "delete", Route = "api/Gateway/{apiKey}/{routeKey}")]
+        public async Task<IActionResult> DeleteAsync([HttpTrigger(AuthorizationLevel.Function, "delete", Route = "api/Gateway/{apiKey}/{routeKey}")]
                                                             HttpRequest request, string apiKey, string routeKey, string parameters = null)
         {
             _logger?.LogInformation("C# HTTP trigger function processed a request.");
 
-            return Results.Ok(await _requestProcessor.ProcessAsync(
+            return new OkObjectResult(await _requestProcessor.ProcessAsync(
                                         apiKey,
                                         routeKey,
                                         request,

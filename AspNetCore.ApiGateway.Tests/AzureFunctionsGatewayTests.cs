@@ -8,9 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
@@ -32,7 +30,7 @@ namespace AspNetCore.ApiGateway.Tests
     }
 
     // Define a collection for the FunctionFixture<FunctionStartup>
-    [CollectionDefinition("Function collection")]
+    [CollectionDefinition("Azure Functions Gateway")]
     public class FunctionCollection : ICollectionFixture<FunctionFixture<FunctionStartup>>
     {
         // This class has no code, and is never created. Its purpose is just to be the place to apply [CollectionDefinition] and all the ICollectionFixture<> interfaces.
@@ -60,17 +58,14 @@ namespace AspNetCore.ApiGateway.Tests
         }
     }
 
-    [Collection("Function collection")]
+    [Collection("Azure Functions Gateway")]
     public class AzureFunctionsGatewayTests : IClassFixture<AzureFunctionsAPIInitialize>
     {
-        //readonly AzureFunctionsAPIInitialize _apiInit;
         private readonly HttpClient _httpClient;
 
         public AzureFunctionsGatewayTests(AzureFunctionsAPIInitialize apiInit, FunctionFixture<FunctionStartup> fixture)
         {
-            //_apiInit = apiInit;
             _httpClient = fixture.Client;
-            //_httpClient.BaseAddress = new Uri("https://localhost:7055");
         }
 
         [Fact]
@@ -140,20 +135,20 @@ namespace AspNetCore.ApiGateway.Tests
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
 
-            //client = _httpClient;
+            client = _httpClient;
 
-            //gatewayUrl = "api/Gateway/weatherservice/typewithparams?parameters=index=3";
+            gatewayUrl = "api/Gateway/weatherservice/typewithparams?parameters=index=3";
 
-            //response = await client.GetAsync(gatewayUrl);
+            response = await client.GetAsync(gatewayUrl);
 
-            //response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
-            //strResponse = await response.Content.ReadAsStringAsync();
+            strResponse = await response.Content.ReadAsStringAsync();
 
-            //weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(strResponse);
+            weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(strResponse);
 
-            //Assert.NotNull(weatherType);
-            //Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+            Assert.NotNull(weatherType);
+            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
         }
 
         [Fact]
@@ -171,19 +166,6 @@ namespace AspNetCore.ApiGateway.Tests
 
             // POST JSON
             HttpResponseMessage response = await client.PostAsJsonAsync(gatewayUrl, request);
-
-            //var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-            //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            //var httprequest = new HttpRequestMessage
-            //{
-            //    //RequestUri = new Uri($"{client.BaseAddress}{gatewayUrl}"),
-            //    RequestUri = new Uri(gatewayUrl),
-            //    Content = content,
-            //    Method = HttpMethod.Post
-            //};
-
-            //var response = await client.SendAsync(httprequest);
 
             response.EnsureSuccessStatusCode();
 
@@ -208,18 +190,6 @@ namespace AspNetCore.ApiGateway.Tests
 
             // POST JSON
             HttpResponseMessage response = await client.PutAsJsonAsync(gatewayUrl, request);
-
-            //var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-            //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            //var httprequest = new HttpRequestMessage
-            //{
-            //    RequestUri = new Uri(gatewayUrl),
-            //    Content = content,
-            //    Method = HttpMethod.Put
-            //};
-
-            //var response = await client.SendAsync(httprequest);
 
             response.EnsureSuccessStatusCode();
 
