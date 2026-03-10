@@ -46,7 +46,7 @@ Let us say you have a GET endpoint like this.
 
 *	**HTTP GET - /weatherforecast/forecast**
 
-## In your Gateway API
+## In your Gateway API Azure Functions project
 
 You add a Route for the backend GET call in the **Api Orchrestrator**.
 
@@ -174,11 +174,17 @@ For **Request aggregation**, see this section.
 
 ### [Load Balancing](Docs/README_LoadBalancing.md)
 
+### Response Caching
+
+Enable response caching for your GET routes for the duration specified in the ApiOrchestrator's route property `ResponseCachingDurationInSeconds`.
+
 ### Middleware
 
-You can add the `GatewayMiddleware` in the pipeline to block the request if it doesn't match the gateway route pattern.
+Add the `GatewayMiddleware` in the pipeline to block the request if it doesn't match the gateway route pattern
 
-In your Functions project,
+and to enable response caching for the matched GET routes.
+
+In your Gateway Functions project,
 
 ```csharp
 var builder = FunctionsApplication.CreateBuilder(args);
