@@ -8,6 +8,12 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
 
 jobs:
   build:
@@ -24,3 +30,13 @@ jobs:
       run: dotnet restore ApiGateway.sln
     - name: Build
       run: dotnet build ApiGateway.sln --no-restore 
+      
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Environment: $ENVIRONMENT"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          TAGS: ${{ inputs.tags }}
+          ENVIRONMENT: ${{ inputs.environment }}
