@@ -13,7 +13,7 @@ on:
       environment:
         description: 'Environment to run tests against'
         type: environment
-        required: true
+        required: false
 
 jobs:
   build:
@@ -37,6 +37,4 @@ jobs:
       - run: |
           echo "Environment: $ENVIRONMENT"
         env:
-          LEVEL: ${{ inputs.logLevel }}
-          TAGS: ${{ inputs.tags }}
           ENVIRONMENT: ${{ inputs.environment }}
