@@ -110,24 +110,24 @@ namespace AspNetCore.ApiGateway.Tests
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
 
-            ////Arrange
-            //parameters = new ApiGatewayParameters
-            //{
-            //    ApiKey = "weatherservice",
-            //    RouteKey = "typewithparams",
-            //    Parameters = "index=3",
-            //    Headers = new Dictionary<string, string>
-            //    {
-            //        { "Authorization", "bearer wq298cjwosos==" }
-            //    }
-            //};
+            //Arrange
+            parameters = new ApiGatewayParameters
+            {
+                ApiKey = "weatherservice",
+                RouteKey = "typewithparams",
+                Parameters = "index=3",
+                Headers = new Dictionary<string, string>
+                {
+                    { "Authorization", "bearer wq298cjwosos==" }
+                }
+            };
 
-            ////Act
-            //weatherType = await client.GetAsync<WeatherTypeResponse>(parameters);
+            //Act
+            weatherType = await client.GetAsync<WeatherTypeResponse>(parameters);
 
-            ////Assert
-            //Assert.NotNull(weatherType);
-            //Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+            //Assert
+            Assert.NotNull(weatherType);
+            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
         }
 
         [Fact]

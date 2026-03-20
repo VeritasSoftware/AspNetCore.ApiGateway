@@ -69,7 +69,9 @@ namespace AspNetCore.ApiGateway.Tests
 
             response.EnsureSuccessStatusCode();
 
-            var forecasts = JsonSerializer.Deserialize<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
+            var strResponse = await response.Content.ReadAsStringAsync();
+
+            var forecasts = JsonSerializer.Deserialize<WeatherForecast[]>(strResponse);
 
             Assert.True(forecasts.Length > 0);
         }
@@ -124,20 +126,20 @@ namespace AspNetCore.ApiGateway.Tests
             Assert.NotNull(weatherType);
             Assert.True(!string.IsNullOrEmpty(weatherType.Type));
 
-            //client = _apiInit.GatewayAPI.CreateClient();
+            client = _apiInit.GatewayAPI.CreateClient();
 
-            //gatewayUrl = "https://localhost:5010/api/Gateway/weatherservice/typewithparams?parameters=index=3";
+            gatewayUrl = "https://localhost:5010/api/Gateway/weatherservice/typewithparams?parameters=index=3";
 
-            //response = await client.GetAsync(gatewayUrl);
+            response = await client.GetAsync(gatewayUrl);
 
-            //response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
-            //strResponse = await response.Content.ReadAsStringAsync();
+            strResponse = await response.Content.ReadAsStringAsync();
 
-            //weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(strResponse);
+            weatherType = JsonSerializer.Deserialize<WeatherTypeResponse>(strResponse);
 
-            //Assert.NotNull(weatherType);
-            //Assert.True(!string.IsNullOrEmpty(weatherType.Type));
+            Assert.NotNull(weatherType);
+            Assert.True(!string.IsNullOrEmpty(weatherType.Type));
         }
 
         [Fact]

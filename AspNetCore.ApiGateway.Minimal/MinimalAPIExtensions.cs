@@ -1,4 +1,5 @@
 ﻿using AspNetCore.ApiGateway.Minimal;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
 
@@ -36,15 +37,15 @@ namespace AspNetCore.ApiGateway.Minimal
         {
             return app.MapMethods("/api/Gateway/{apiKey}/{routeKey}", new[] { "HEAD" }, async (HttpRequest request, string apiKey, string routeKey, IApiGatewayRequestProcessor requestProcessor, string? parameters = null) =>
             {
-                return Results.Ok(await requestProcessor.ProcessAsync(
+                return await requestProcessor.ProcessAsync(
                                         apiKey,
                                         routeKey,
                                         request,
                                         (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}"),
-                                        null,
-                                        null,
+                                        null!,
+                                        null!,
                                         parameters
-                                     ));
+                                     );
             });
         }
 
@@ -53,15 +54,15 @@ namespace AspNetCore.ApiGateway.Minimal
 
             return app.MapGet("/api/Gateway/{apiKey}/{routeKey}", async (HttpRequest request, string apiKey, string routeKey, IApiGatewayRequestProcessor requestProcessor, string? parameters = null) =>
             {
-                return Results.Ok(await requestProcessor.ProcessAsync(
-                                        apiKey,
-                                        routeKey,
-                                        request,
-                                        (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}"),
-                                        null,
-                                        null,
-                                        parameters
-                                     ));
+                return await requestProcessor.ProcessAsync(
+                                            apiKey,
+                                            routeKey,
+                                            request,
+                                            (client, apiInfo, routeInfo, content) => client.GetAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}"),
+                                            null!,
+                                            null!,
+                                            parameters
+                                         );
             });
         }
 
@@ -70,15 +71,15 @@ namespace AspNetCore.ApiGateway.Minimal
 
             return app.MapPost("/api/Gateway/{apiKey}/{routeKey}", async (HttpRequest request, string apiKey, string routeKey, object requestObj, IApiGatewayRequestProcessor requestProcessor, string? parameters = null) =>
             {
-                return Results.Ok(await requestProcessor.ProcessAsync(
-                                        apiKey,
-                                        routeKey,
-                                        request,
-                                        (client, apiInfo, routeInfo, content) => client.PostAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}", content),
-                                        null,
-                                        requestObj,
-                                        parameters
-                                     ));
+                return await requestProcessor.ProcessAsync(
+                                            apiKey,
+                                            routeKey,
+                                            request,
+                                            (client, apiInfo, routeInfo, content) => client.PostAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}", content),
+                                            null!,
+                                            requestObj,
+                                            parameters
+                                         );
             });
         }
 
@@ -87,15 +88,15 @@ namespace AspNetCore.ApiGateway.Minimal
 
             return app.MapPut("/api/Gateway/{apiKey}/{routeKey}", async (HttpRequest request, string apiKey, string routeKey, object requestObj, IApiGatewayRequestProcessor requestProcessor, string? parameters = null) =>
             {
-                return Results.Ok(await requestProcessor.ProcessAsync(
-                                        apiKey,
-                                        routeKey,
-                                        request,
-                                        (client, apiInfo, routeInfo, content) => client.PutAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}", content),
-                                        null,
-                                        requestObj,
-                                        parameters
-                                     ));
+                return await requestProcessor.ProcessAsync(
+                                            apiKey,
+                                            routeKey,
+                                            request,
+                                            (client, apiInfo, routeInfo, content) => client.PutAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}", content),
+                                            null!,
+                                            requestObj,
+                                            parameters
+                                         );
             });
         }
         public static RouteHandlerBuilder MapApiGatewayPatch(this IEndpointRouteBuilder app)
@@ -114,20 +115,20 @@ namespace AspNetCore.ApiGateway.Minimal
 
                 var patch  = System.Text.Json.JsonSerializer.Deserialize<PatchObj>(body, options);                
 
-                return Results.Ok(await requestProcessor.ProcessAsync(
-                                        apiKey,
-                                        routeKey,
-                                        request,
-                                        (client, apiInfo, routeInfo, content) => client.PatchAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}", content),
-                                        request =>
-                                        {
-                                            var p = System.Text.Json.JsonSerializer.Serialize(request);
+                return await requestProcessor.ProcessAsync(
+                                            apiKey,
+                                            routeKey,
+                                            request,
+                                            (client, apiInfo, routeInfo, content) => client.PatchAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}", content),
+                                            request =>
+                                            {
+                                                var p = System.Text.Json.JsonSerializer.Serialize(request);
 
-                                            return new StringContent(p, Encoding.UTF8, "application/json-patch+json");
-                                        },
-                                        patch.operations,
-                                        parameters
-                                     ));
+                                                return new StringContent(p, Encoding.UTF8, "application/json-patch+json");
+                                            },
+                                            patch.operations,
+                                            parameters
+                                         );
             });
         }
 
@@ -136,15 +137,15 @@ namespace AspNetCore.ApiGateway.Minimal
 
             return app.MapDelete("/api/Gateway/{apiKey}/{routeKey}", async (HttpRequest request, string apiKey, string routeKey, IApiGatewayRequestProcessor requestProcessor, string? parameters = null) =>
             {
-                return Results.Ok(await requestProcessor.ProcessAsync(
-                                        apiKey,
-                                        routeKey,
-                                        request,
-                                        (client, apiInfo, routeInfo, content) => client.DeleteAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}"),
-                                        null,
-                                        null,
-                                        parameters
-                                     ));
+                return await requestProcessor.ProcessAsync(
+                                            apiKey,
+                                            routeKey,
+                                            request,
+                                            (client, apiInfo, routeInfo, content) => client.DeleteAsync($"{apiInfo.BaseUrl}{(routeInfo.IsParameterizedRoute ? routeInfo.GetPath(request) : routeInfo.Path + parameters)}"),
+                                            null!,
+                                            null!,
+                                            parameters
+                                         );
             });
         }
 
@@ -166,7 +167,7 @@ namespace AspNetCore.ApiGateway.Minimal
                                                     : apiOrchestrator.Orchestration?.Where(x => x.ApiKey.Contains(apiKey.Trim()))
                                                                                      .Select(x => x.FilterRoutes(routeKey)))));
 
-                return Results.Ok(orchestrations);
+                return orchestrations;
             });
         }
     }
