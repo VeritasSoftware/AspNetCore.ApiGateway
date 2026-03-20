@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="../AspNetCore.ApiGateway.AzureFunctions/AspNetCore.ApiGateway.AzureFunctions.csproj" />
+  </Folder>
+  <Project Path="../AspNetCore.ApiGateway.Tests/AspNetCore.ApiGateway.Tests.csproj" />
+  <Project Path="../Sample.ApiGateway.AzureFunctions/Sample.ApiGateway.AzureFunctions.csproj" />
+</Solution>
