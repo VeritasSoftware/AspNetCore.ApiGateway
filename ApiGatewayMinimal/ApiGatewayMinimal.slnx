@@ -1,7 +1,0 @@
-<Solution>
-  <Folder Name="/src/">
-    <Project Path="../AspNetCore.ApiGateway.Minimal/AspNetCore.ApiGateway.Minimal.csproj" />
-  </Folder>
-  <Project Path="../ApiGateway.API.Minimal/ApiGateway.API.Minimal.csproj" />
-  <Project Path="../AspNetCore.ApiGateway.Tests/AspNetCore.ApiGateway.Tests.csproj" />
-</Solution>
