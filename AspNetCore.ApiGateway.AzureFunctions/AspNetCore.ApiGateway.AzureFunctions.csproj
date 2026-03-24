@@ -5,7 +5,29 @@
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+	  <Description>Endorsed by the .NET Foundation as a revolutionary Gateway! Built in .NET 8, Azure Functions v4. Out of the box, simple Gateway as a Azure Functions facade. Seamlessly transition your Azure Functions skills to the API Gateway. A host of enhanced features.</Description>
+	  <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
+	  <PackageTags>Veritas.AspNetCore.ApiGateway.AzureFunctions Api Gateway asp net core 8 library framework Azure Functions facade freeware authorization, load balancing, response caching</PackageTags>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <IsPackable>true</IsPackable>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	  <Authors>Shantanu</Authors>
+	  <Company>Veritas Software</Company>
+	  <Version>1.0.0</Version>
+	  <PackageReleaseNotes></PackageReleaseNotes>
+	  <Title>AspNetCore.ApiGateway.AzureFunctions</Title>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageId>Veritas.AspNetCore.ApiGateway.AzureFunctions</PackageId>
   </PropertyGroup>
+	<Target Name="InjectPackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="Exists('CHANGELOG.md')">
+		<PropertyGroup>
+			<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/CHANGELOG.md"))</PackageReleaseNotes>
+		</PropertyGroup>
+	</Target>
   <ItemGroup>
     <Content Include="README.md">
       <PackagePath>\</PackagePath>

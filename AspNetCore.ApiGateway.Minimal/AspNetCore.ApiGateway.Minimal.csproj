@@ -17,7 +17,7 @@
 	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	  <Authors>Shantanu</Authors>
 	  <Company>Veritas Software</Company>
-	  <Version>1.1.0</Version>
+	  <Version>1.2.0</Version>
 	  <PackageReleaseNotes></PackageReleaseNotes>
 	  <Title>AspNetCore.ApiGateway.Minimal</Title>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
