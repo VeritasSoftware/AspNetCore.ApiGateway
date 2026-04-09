@@ -2,7 +2,7 @@
 
 ## Asp Net Core Api Gateway package.
 
-|Packages|Version|Downloads|
+|**Packages**|Version|Downloads|
 |---------------------------|:---:|:---:|
 |*AspNetCore.ApiGateway*|[![Nuget Version](https://img.shields.io/nuget/v/AspNetCore.ApiGateway)](https://www.nuget.org/packages/AspNetCore.ApiGateway)|[![Downloads count](https://img.shields.io/nuget/dt/AspNetCore.ApiGateway)](https://www.nuget.org/packages/AspNetCore.ApiGateway)|
 |*Veritas.AspNetCore.ApiGateway.Minimal*|[![Nuget Version](https://img.shields.io/nuget/v/Veritas.AspNetCore.ApiGateway.Minimal)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.Minimal)|[![Downloads count](https://img.shields.io/nuget/dt/Veritas.AspNetCore.ApiGateway.Minimal)](https://www.nuget.org/packages/Veritas.AspNetCore.ApiGateway.Minimal)|
@@ -10,7 +10,9 @@
 |*AspNetCore.ApiGateway.Client*|[![Nuget Version](https://img.shields.io/nuget/v/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|[![Downloads count](https://img.shields.io/nuget/dt/AspNetCore.ApiGateway.Client)](https://www.nuget.org/packages/AspNetCore.ApiGateway.Client)|
 |*ts-aspnetcore-apigateway-client*|[![NPM Version](https://img.shields.io/npm/v/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|[![Downloads count](https://img.shields.io/npm/dy/ts-aspnetcore-apigateway-client)](https://www.npmjs.com/package/ts-aspnetcore-apigateway-client)|
 
-[![.NET Build](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/actions/workflows/dotnet.yml/badge.svg)](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/actions/workflows/dotnet.yml)
+| **Build Status**| |
+[:---:|:---:|
+|[![.NET Build](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/actions/workflows/dotnet.yml/badge.svg)](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/actions/workflows/dotnet.yml)|[![TypeScript Build](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/actions/workflows/ts.yml/badge.svg)](https://github.com/VeritasSoftware/AspNetCore.ApiGateway/actions/workflows/ts.yml)|
 
 ```diff
 + This project has been on-boarded by the .NET Foundation, in the Seed category.
