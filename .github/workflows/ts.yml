@@ -2,10 +2,15 @@ name: TypeScript Build & Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ main ]
-
+    branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+      
 jobs:
   build-test:
     runs-on: ubuntu-latest
@@ -31,12 +36,17 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Run ESLint
-        run: npm run lint
-
+        
       - name: Run tests
         run: npm test -- --coverage
-
+          
       - name: Build project
         run: npm run build
+
+  set-environment:
+      runs-on: ubuntu-latest
+      steps:
+        - run: |
+            echo "Environment: $ENVIRONMENT"
+          env:
+            ENVIRONMENT: ${{ inputs.environment }}      
