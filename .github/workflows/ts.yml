@@ -1,0 +1,52 @@
+name: TypeScript Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+      
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    defaults:
+      run:
+        working-directory: ts-aspnetcore-apigateway-client  # 👈 Change to your project folder
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ts-aspnetcore-apigateway-client/package-lock.json # 👈 Cache inside subdir
+
+      - name: Install dependencies
+        run: npm ci
+        
+      # - name: Run tests
+        # run: npm test
+          
+      - name: Build project
+        run: npm run build
+
+  set-environment:
+      runs-on: ubuntu-latest
+      steps:
+        - run: |
+            echo "Environment: $ENVIRONMENT"
+          env:
+            ENVIRONMENT: ${{ inputs.environment }}      
